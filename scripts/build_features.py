@@ -35,9 +35,9 @@ except LookupError:
     nltk.download('vader_lexicon')
 
 try:
-    nltk.data.find('tokenizers/punkt')
+    nltk.data.find('tokenizers/punkt_tab')
 except LookupError:
-    nltk.download('punkt')
+    nltk.download('punkt_tab')
 
 # Keywords for co-occurrence scoring
 INCRIMINATING_KEYWORDS = [
@@ -194,10 +194,13 @@ def load_document_corpus(raw_data_dir: str) -> Dict[str, Dict]:
     Returns:
         Dictionary mapping doc_id to document data
     """
-    logger.info(f"Loading document corpus from {raw_data_dir}")
+    raw_path = Path(raw_data_dir)
+    if not raw_path.is_absolute():
+        raw_path = Path(__file__).resolve().parent.parent / raw_path
+
+    logger.info(f"Loading document corpus from {raw_path}")
     corpus = {}
 
-    raw_path = Path(raw_data_dir)
     json_files = list(raw_path.glob("ds*_agg.json"))
 
     logger.info(f"Found {len(json_files)} JSON files")
@@ -244,6 +247,58 @@ def fuzzy_match_names(name1: str, name2: str, threshold: int = 85) -> bool:
     return score >= threshold
 
 
+def _resolve_path(path_str: str) -> Path:
+    """Resolve a path relative to the project root."""
+    p = Path(path_str)
+    if p.is_absolute():
+        return p
+    project_root = Path(__file__).resolve().parent.parent
+    return project_root / p
+
+
+def _build_name_variants(name: str) -> List[str]:
+    """
+    Build searchable variants from a compound name.
+
+    For entries like "Oren, Alon, and Tal Alexander" we want to match
+    "Oren Alexander", "Alon Alexander", and "Tal Alexander" individually.
+    For "George H.W. Bush and George W. Bush" we want both Bush names.
+
+    Args:
+        name: Full name string from severity data
+
+    Returns:
+        List of name variants to search for
+    """
+    variants = [name]
+
+    # Handle "X and Y Z" patterns (e.g. "John and Tony Podesta")
+    and_match = re.match(r'^(.+?)\s+and\s+(.+)$', name)
+    if and_match:
+        left, right = and_match.group(1), and_match.group(2)
+        # If right side has a last name, apply it to left side names
+        right_parts = right.strip().split()
+        if len(right_parts) >= 2:
+            last_name = right_parts[-1]
+            variants.append(right.strip())
+            # Split left on commas and "and"
+            left_names = re.split(r',\s*|\s+and\s+', left)
+            for ln in left_names:
+                ln = ln.strip()
+                if ln and last_name.lower() not in ln.lower():
+                    variants.append(f"{ln} {last_name}")
+                elif ln:
+                    variants.append(ln)
+
+    # Handle "First Last" → also match just "Last" for common names
+    # (only for names with 2+ parts, skip single-word names like "Oprah")
+    parts = name.split()
+    if len(parts) == 2:
+        variants.append(parts[-1])  # Last name only
+
+    return list(set(variants))
+
+
 def build_feature_matrix(
     raw_data_dir: str = "data/raw",
     severity_path: str = "data/processed/severity_scores.csv",
@@ -262,6 +317,11 @@ def build_feature_matrix(
     """
     logger.info("Starting feature extraction")
 
+    # Resolve paths relative to project root
+    raw_data_dir = str(_resolve_path(raw_data_dir))
+    severity_path = str(_resolve_path(severity_path))
+    output_path_resolved = _resolve_path(output_path)
+
     # Load severity scores
     severity_df = pd.read_csv(severity_path)
     logger.info(f"Loaded {len(severity_df)} people from severity scores")
@@ -271,6 +331,18 @@ def build_feature_matrix(
 
     # Initialize feature extractor
     extractor = FeatureExtractor()
+
+    # Build a lookup: map name variants to canonical name
+    # This lets us match "Oren Alexander" → "Oren, Alon, and Tal Alexander"
+    variant_to_canonical = {}
+    for canonical_name in severity_df['name']:
+        for variant in _build_name_variants(canonical_name):
+            variant_to_canonical[normalize_name(variant).lower()] = canonical_name
+
+    logger.info(
+        f"Built {len(variant_to_canonical)} name variants "
+        f"for {len(severity_df)} people"
+    )
 
     # Storage for person features
     person_features = defaultdict(lambda: {
@@ -282,8 +354,23 @@ def build_feature_matrix(
         'in_subject_line': False
     })
 
+    def _match_person(person: str) -> str:
+        """Match an NER-extracted person to a known name."""
+        normed = normalize_name(person).lower()
+
+        # Exact match on variants
+        if normed in variant_to_canonical:
+            return variant_to_canonical[normed]
+
+        # Fuzzy match against variants
+        for variant_lower, canonical in variant_to_canonical.items():
+            if fuzz.ratio(normed, variant_lower) >= 85:
+                return canonical
+
+        return None
+
     # Process each document
-    logger.info("Processing documents...")
+    logger.info(f"Processing {len(corpus)} documents...")
     for doc_id, doc_data in tqdm(corpus.items(), desc="Processing documents"):
         if not doc_data.get('success', False):
             continue
@@ -300,12 +387,8 @@ def build_feature_matrix(
 
         # Process each person in the document
         for person in persons_in_doc:
-            # Match against severity score names
-            matched_name = None
-            for known_name in severity_df['name']:
-                if fuzzy_match_names(person, known_name):
-                    matched_name = known_name
-                    break
+            # Match against known names (with variant lookup)
+            matched_name = _match_person(person)
 
             if not matched_name:
                 continue
@@ -374,19 +457,48 @@ def build_feature_matrix(
     df = df.merge(severity_df[['name', 'severity_score']], on='name', how='left')
 
     # Save to CSV
-    output_file = Path(output_path)
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(output_path, index=False)
+    output_path_resolved.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_path_resolved, index=False)
 
-    logger.info(f"Saved feature matrix with {len(df)} rows to {output_path}")
+    logger.info(f"Saved feature matrix with {len(df)} rows to {output_path_resolved}")
     logger.info(f"Feature statistics:\n{df.describe()}")
+
+    # Log how many people were actually found in the corpus
+    found = sum(1 for n in severity_df['name'] if n in person_features)
+    logger.info(
+        f"Found {found}/{len(severity_df)} people in document corpus "
+        f"({len(severity_df) - found} had zero mentions)"
+    )
 
     return df
 
 
 def main() -> None:
     """Main entry point for the script."""
-    build_feature_matrix()
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Build NLP feature matrix from Epstein document corpus"
+    )
+    parser.add_argument(
+        "--raw-data-dir", default="data/raw",
+        help="Directory containing ds*_agg.json files"
+    )
+    parser.add_argument(
+        "--severity-path", default="data/processed/severity_scores.csv",
+        help="Path to severity scores CSV"
+    )
+    parser.add_argument(
+        "--output", default="data/processed/features.csv",
+        help="Output CSV file path"
+    )
+    args = parser.parse_args()
+
+    build_feature_matrix(
+        raw_data_dir=args.raw_data_dir,
+        severity_path=args.severity_path,
+        output_path=args.output
+    )
 
 
 if __name__ == "__main__":
