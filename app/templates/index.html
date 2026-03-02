@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Accountability Gap | Epstein Case Files Analysis</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">The Accountability Gap</span>
+            <span class="navbar-text text-muted">
+                Epstein Case Files Analysis
+            </span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid mt-4">
+        <!-- Search Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Person Search</h5>
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="personSearch"
+                                placeholder="Search by name..."
+                                autocomplete="off"
+                            >
+                            <button class="btn btn-primary" id="searchBtn">Search</button>
+                        </div>
+                        <div id="searchResults" class="mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Person Profile Card (initially hidden) -->
+        <div class="row mb-4" id="personProfile" style="display: none;">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" id="personName"></h5>
+
+                        <div class="row">
+                            <!-- Severity Gauge -->
+                            <div class="col-md-4">
+                                <h6>Severity Score</h6>
+                                <div id="severityGauge"></div>
+                                <p class="text-center mt-2">
+                                    Score: <strong id="severityValue"></strong>
+                                </p>
+                            </div>
+
+                            <!-- Consequence Badge -->
+                            <div class="col-md-4">
+                                <h6>Consequence Tier</h6>
+                                <div class="text-center mt-3">
+                                    <span class="badge" id="consequenceBadge"></span>
+                                </div>
+                                <p class="mt-3" id="consequenceDescription"></p>
+                            </div>
+
+                            <!-- Model Predictions -->
+                            <div class="col-md-4">
+                                <h6>Model Predictions</h6>
+                                <div id="modelPredictions"></div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Features -->
+                        <h6>Document Features</h6>
+                        <div class="row" id="features">
+                            <!-- Features will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div class="row mb-4">
+            <!-- Accountability Gap Chart -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Accountability Gap: Severity vs. Consequences</h5>
+                        <div id="scatterPlot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Performance -->
+            <div class="col-lg-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Model Performance</h5>
+                        <div id="modelPerformance">
+                            <!-- Model results will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experiment Results -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Power Tier Analysis</h5>
+                        <p class="text-muted small">
+                            Does power protect? Correlation between severity and consequences by power tier.
+                        </p>
+                        <div id="experimentChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
