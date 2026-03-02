@@ -10,7 +10,7 @@ import argparse
 import logging
 import sys
 
-from scripts.make_dataset import download_datasets
+from scripts.make_dataset import load_datasets
 from scripts.scrape_severity import scrape_severity_scores
 from scripts.scrape_consequences import scrape_consequences, load_names_from_severity_file
 from scripts.build_features import build_feature_matrix
@@ -26,14 +26,18 @@ logger = logging.getLogger(__name__)
 
 def cmd_download_data(args: argparse.Namespace) -> None:
     """
-    Download raw data from Google Drive.
+    Download raw data from Google Drive or aggregate from local EpsteinProcessor.
 
     Args:
         args: Command-line arguments
     """
-    logger.info("Downloading raw data...")
-    download_datasets(args.output_dir)
-    logger.info("Download complete")
+    logger.info("Loading raw data...")
+    load_datasets(
+        output_dir=args.output_dir,
+        local=args.local,
+        processor_dir=getattr(args, 'processor_dir', None)
+    )
+    logger.info("Data loading complete")
 
 
 def cmd_scrape_severity(args: argparse.Namespace) -> None:
@@ -122,8 +126,8 @@ def cmd_run_all(args: argparse.Namespace) -> None:
     logger.info("Running complete pipeline...")
 
     # Step 1: Download data
-    logger.info("Step 1/5: Downloading data...")
-    download_datasets()
+    logger.info("Step 1/5: Loading data...")
+    load_datasets(local=getattr(args, 'local', False))
 
     # Step 2: Scrape severity scores
     logger.info("Step 2/5: Scraping severity scores...")
@@ -179,6 +183,14 @@ For more information, see README.md
         '--output-dir',
         default='data/raw',
         help='Output directory for downloaded files'
+    )
+    parser_download.add_argument(
+        '--local', action='store_true',
+        help='Aggregate from local EpsteinProcessor output instead of Google Drive'
+    )
+    parser_download.add_argument(
+        '--processor-dir', default=None,
+        help='Path to EpsteinProcessor directory (used with --local)'
     )
     parser_download.set_defaults(func=cmd_download_data)
 
@@ -258,6 +270,10 @@ For more information, see README.md
     parser_all = subparsers.add_parser(
         'run-all',
         help='Run complete pipeline'
+    )
+    parser_all.add_argument(
+        '--local', action='store_true',
+        help='Aggregate from local EpsteinProcessor output instead of Google Drive'
     )
     parser_all.set_defaults(func=cmd_run_all)
 
