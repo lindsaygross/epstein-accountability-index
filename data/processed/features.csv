@@ -1,0 +1,67 @@
+name,mention_count,total_mentions,mean_context_sentiment,cooccurrence_score,doc_type_diversity,name_in_subject_line,severity_score
+Donald Trump,255,744,-0.10801066878980908,126,4,1,10.0
+Jes Staley,56,95,0.37445263157894737,14,3,1,10.0
+Karyna Shuliak,52,121,0.5262858407079642,8,2,0,10.0
+"Oren, Alon, and Tal Alexander",5,9,-0.19651111111111114,2,2,0,10.0
+Ramsey Elkholy,0,0,0.0,0,0,0,10.0
+Sultan Bin Sulayem,16,26,0.671656,0,2,0,10.0
+Ghislaine Maxwell,106,279,0.06988849206349207,108,4,1,10.0
+Leon Black,71,102,0.3335086021505377,17,3,1,9.9
+Prince Andrew,158,270,0.3595166666666668,57,4,1,9.9
+Eva Andersson-Dubin,2,2,0.11409999999999998,0,2,0,9.4
+Leslie Groff,125,302,0.613873476702509,3,2,0,9.4
+Peggy Siegal,25,54,0.6291954545454546,2,2,1,9.1
+Bill Richardson,8,9,0.5640888888888889,0,4,0,9.0
+William Riley,3,3,0.7584,0,1,0,9.0
+Glenn Dubin,15,36,0.12730625,11,2,0,8.9
+Michael Wolff,20,29,0.25848148148148153,6,3,0,8.9
+Bill Clinton,233,290,0.33180928571428564,61,5,1,8.9
+Ehud Barak,23,33,0.5472064516129034,0,4,0,8.8
+Peter Mandelson,20,39,0.26927058823529415,0,3,1,8.8
+Steve Bannon,2,2,0.4767,0,1,0,8.5
+Les Wexner,42,86,0.4001101265822784,1,3,1,8.4
+Sarah Ferguson,5,8,-0.2470875,1,2,0,8.1
+Ron Lauder,0,0,0.0,0,0,0,8.0
+Corina Tarnita,0,0,0.0,0,0,0,7.8
+Lana Zakocela,0,0,0.0,0,0,0,7.8
+Susan Hamblin,0,0,0.0,0,0,0,7.6
+Larry Summers,62,67,0.6386200000000003,8,4,1,7.4
+Peter Theil,26,29,0.20353793103448278,0,2,0,7.4
+Bill Gates,578,780,0.5101518309859157,58,2,1,7.2
+Elon Musk,241,434,0.49900589743589746,40,2,1,7.2
+Howard Lutnick,12,15,0.15962666666666667,4,2,0,7.1
+Francis Derby,19,23,-0.27425,0,2,0,7.0
+Leon Botstein,20,27,0.35735416666666664,1,2,1,6.9
+Casey Wasserman,0,0,0.0,0,0,0,6.9
+Kathryn Ruemmler,27,41,0.5204891891891891,1,2,1,6.8
+Peter Attia,490,1133,0.487032383665718,3,2,1,6.6
+Jess Ting,4,7,0.24265,0,1,0,6.0
+Jeff Bezos,35,36,0.6880916666666667,0,2,0,4.5
+Paolo Zampolli,0,0,0.0,0,0,0,4.5
+Chuck Schumer,7,10,0.12199,0,1,0,4.2
+Rupert Murdoch,18,18,0.7165999999999998,0,3,0,4.1
+Stefan Krause,0,0,0.0,0,0,0,4.0
+Sheikh Sultan Bin Jassim Al Thani,0,0,0.0,0,0,0,3.9
+Mark Zuckerberg,30,32,0.29431874999999996,0,2,0,3.4
+Hillary Clinton,76,202,-0.09116666666666676,56,5,1,2.9
+Kevin O'Leary,0,0,0.0,0,0,0,2.2
+Pam Bondi,14,41,-0.08163611111111105,8,2,0,2.1
+Oprah,2,4,0.7281500000000001,0,2,0,1.8
+George H.W. Bush and George W. Bush,9,9,-0.03792857142857142,0,2,0,1.6
+Stanislas Nordey,0,0,0.0,0,0,0,1.4
+Bill O'Reilly,2,3,0.02585000000000004,0,2,0,1.1
+Kash Patel,30,233,-0.11257414634146339,12,2,0,0.6
+Betsy DeVos,0,0,0.0,0,0,0,0.0
+Benjamin Netanyahu,4,27,0.445272,0,2,0,0.0
+Bill Maher,2,2,0.3066,0,2,0,0.0
+Justice Clarence Thomas,0,0,0.0,0,0,0,0.0
+Ellen DeGeneres,0,0,0.0,0,0,0,0.0
+John and Tony Podesta,0,0,0.0,0,0,0,0.0
+Justin Trudeau,1,2,-0.45845,0,1,0,0.0
+Larry Silverstein,0,0,0.0,0,0,0,0.0
+Mark Landon,0,0,0.0,0,0,0,0.0
+Barack Obama,15,63,0.11211964285714289,2,2,0,0.0
+RFK,0,0,0.0,0,0,0,0.0
+Savannah Guthrie,0,0,0.0,0,0,0,0.0
+Ted Leonsis,0,0,0.0,0,0,0,0.0
+Tom Hanks,2,7,-0.28181428571428574,1,1,0,0.0

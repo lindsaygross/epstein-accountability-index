@@ -4,137 +4,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Accountability Gap | Epstein Case Files Analysis</title>
+    <meta name="description" content="Exploring whether power protects: an ML-driven analysis of 2,849 Epstein case documents and 66 individuals.">
 
-    <!-- Bootstrap CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3.0 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Plotly.js -->
+    <!-- D3.js v7 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Plotly.js 2.26.0 -->
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+
+    <!-- GSAP 3.12.2 + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">The Accountability Gap</span>
-            <span class="navbar-text text-muted">
-                Epstein Case Files Analysis
-            </span>
-        </div>
+
+    <!-- ========================================================
+         FIXED SIDE NAVIGATION
+         ======================================================== -->
+    <nav class="side-nav" aria-label="Section navigation">
+        <ul>
+            <li>
+                <a href="#hero" class="nav-dot active" data-tooltip="Overview" aria-label="Go to Overview section">
+                    <span class="dot"></span>
+                    <span class="nav-tooltip">Overview</span>
+                </a>
+            </li>
+            <li>
+                <a href="#network" class="nav-dot" data-tooltip="Network" aria-label="Go to Network section">
+                    <span class="dot"></span>
+                    <span class="nav-tooltip">Network</span>
+                </a>
+            </li>
+            <li>
+                <a href="#people" class="nav-dot" data-tooltip="People" aria-label="Go to People section">
+                    <span class="dot"></span>
+                    <span class="nav-tooltip">People</span>
+                </a>
+            </li>
+            <li>
+                <a href="#analysis" class="nav-dot" data-tooltip="Analysis" aria-label="Go to Analysis section">
+                    <span class="dot"></span>
+                    <span class="nav-tooltip">Analysis</span>
+                </a>
+            </li>
+        </ul>
     </nav>
 
-    <!-- Main Container -->
-    <div class="container-fluid mt-4">
-        <!-- Search Section -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Person Search</h5>
-                        <div class="input-group">
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="personSearch"
-                                placeholder="Search by name..."
-                                autocomplete="off"
-                            >
-                            <button class="btn btn-primary" id="searchBtn">Search</button>
-                        </div>
-                        <div id="searchResults" class="mt-2"></div>
-                    </div>
+    <!-- ========================================================
+         SECTION 0 — HERO
+         ======================================================== -->
+    <section id="hero" class="hero-section" aria-label="Introduction">
+        <div class="hero-content">
+            <h1 class="hero-title">THE ACCOUNTABILITY GAP</h1>
+            <p class="hero-subtitle">Epstein Case Files Analysis</p>
+            <p class="hero-tagline">66 individuals. 2,849 documents. Does power protect?</p>
+        </div>
+        <a href="#network" class="scroll-indicator" aria-label="Scroll to next section">
+            <svg class="chevron" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </a>
+    </section>
+
+    <!-- ========================================================
+         SECTION 1 — NETWORK
+         ======================================================== -->
+    <section id="network" class="section network-section" aria-label="Network graph">
+        <header class="section-header">
+            <h2 class="section-title">THE NETWORK</h2>
+            <p class="section-subtitle">
+                Explore connections between individuals in the Epstein files.
+                Node size reflects severity score. Lines connect people who appear in the same documents.
+            </p>
+        </header>
+
+        <div class="network-container">
+            <div id="network-graph" role="img" aria-label="Interactive force-directed network graph of individuals"></div>
+
+            <aside class="network-legend" aria-label="Severity level legend">
+                <h3 class="legend-title">Severity</h3>
+                <ul class="legend-list">
+                    <li><span class="legend-swatch" style="background:#e74c3c;"></span> Critical</li>
+                    <li><span class="legend-swatch" style="background:#e67e22;"></span> High</li>
+                    <li><span class="legend-swatch" style="background:#f1c40f;"></span> Medium</li>
+                    <li><span class="legend-swatch" style="background:#1abc9c;"></span> Low</li>
+                    <li><span class="legend-swatch" style="background:#7f8c8d;"></span> Minimal</li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 2 — PEOPLE GRID
+         ======================================================== -->
+    <section id="people" class="section people-section" aria-label="People directory">
+        <header class="section-header">
+            <h2 class="section-title">THE INDIVIDUALS</h2>
+        </header>
+
+        <div class="people-controls">
+            <div class="search-wrapper">
+                <input
+                    type="text"
+                    id="personSearch"
+                    class="search-input"
+                    placeholder="Search by name..."
+                    autocomplete="off"
+                    aria-label="Search individuals by name"
+                >
+            </div>
+
+            <div class="filter-row">
+                <div class="filter-pills" role="group" aria-label="Filter by severity level">
+                    <button class="pill active" data-filter="all">All</button>
+                    <button class="pill" data-filter="critical">Critical</button>
+                    <button class="pill" data-filter="high">High</button>
+                    <button class="pill" data-filter="medium">Medium</button>
+                    <button class="pill" data-filter="low">Low</button>
+                </div>
+
+                <div class="sort-wrapper">
+                    <label for="sortSelect" class="sort-label">Sort by</label>
+                    <select id="sortSelect" class="sort-select" aria-label="Sort individuals">
+                        <option value="severity" selected>Severity</option>
+                        <option value="name">Name A&ndash;Z</option>
+                        <option value="consequence">Consequence</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- Person Profile Card (initially hidden) -->
-        <div class="row mb-4" id="personProfile" style="display: none;">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title" id="personName"></h5>
+        <div id="people-grid" class="people-grid" role="list" aria-label="Individuals grid">
+            <!-- Cards rendered by app.js -->
+        </div>
+    </section>
 
-                        <div class="row">
-                            <!-- Severity Gauge -->
-                            <div class="col-md-4">
-                                <h6>Severity Score</h6>
-                                <div id="severityGauge"></div>
-                                <p class="text-center mt-2">
-                                    Score: <strong id="severityValue"></strong>
-                                </p>
-                            </div>
+    <!-- ========================================================
+         SECTION 3 — ANALYSIS
+         ======================================================== -->
+    <section id="analysis" class="section analysis-section" aria-label="ML analysis results">
+        <header class="section-header">
+            <h2 class="section-title">THE ANALYSIS</h2>
+            <p class="section-subtitle">
+                Does severity of mention predict real-world consequences?
+            </p>
+        </header>
 
-                            <!-- Consequence Badge -->
-                            <div class="col-md-4">
-                                <h6>Consequence Tier</h6>
-                                <div class="text-center mt-3">
-                                    <span class="badge" id="consequenceBadge"></span>
-                                </div>
-                                <p class="mt-3" id="consequenceDescription"></p>
-                            </div>
+        <div class="analysis-grid">
+            <div class="analysis-panel panel-scatter">
+                <h3 class="panel-title">Accountability Gap: Severity vs. Consequences</h3>
+                <div id="scatterPlot" role="img" aria-label="Scatter plot of severity scores versus consequence levels"></div>
+            </div>
 
-                            <!-- Model Predictions -->
-                            <div class="col-md-4">
-                                <h6>Model Predictions</h6>
-                                <div id="modelPredictions"></div>
-                            </div>
-                        </div>
+            <div class="analysis-panel panel-model">
+                <h3 class="panel-title">Model Performance</h3>
+                <div id="modelPerformance" aria-label="Model evaluation metrics"></div>
+            </div>
 
-                        <hr>
+            <div class="analysis-panel panel-experiment">
+                <h3 class="panel-title">Power Tier Experiment</h3>
+                <p class="panel-description">
+                    Does power protect? Correlation between severity and consequences by power tier.
+                </p>
+                <div id="experimentChart" role="img" aria-label="Power tier experiment chart"></div>
+            </div>
 
-                        <!-- Features -->
-                        <h6>Document Features</h6>
-                        <div class="row" id="features">
-                            <!-- Features will be populated here -->
-                        </div>
-                    </div>
-                </div>
+            <div class="analysis-panel panel-ablation">
+                <h3 class="panel-title">Feature Ablation Study</h3>
+                <p class="panel-description">
+                    How much does each feature contribute? Bars show F1 score when each feature
+                    (or feature group) is removed. The dashed line marks the full model's F1.
+                </p>
+                <div id="ablationChart" role="img" aria-label="Feature ablation bar chart"></div>
             </div>
         </div>
+    </section>
 
-        <!-- Main Dashboard -->
-        <div class="row mb-4">
-            <!-- Accountability Gap Chart -->
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Accountability Gap: Severity vs. Consequences</h5>
-                        <div id="scatterPlot"></div>
+    <!-- ========================================================
+         PERSON MODAL OVERLAY
+         ======================================================== -->
+    <div id="person-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" hidden>
+        <div class="modal-panel">
+            <button class="modal-close" aria-label="Close person details">&times;</button>
+
+            <header class="modal-header-content">
+                <h2 id="modal-name" class="modal-person-name"></h2>
+                <span id="modal-level" class="modal-severity-badge"></span>
+            </header>
+
+            <div class="modal-body-content">
+                <div class="modal-columns">
+                    <!-- Left column -->
+                    <div class="modal-col-left">
+                        <div class="modal-gauge-wrapper">
+                            <h3 class="modal-section-title">Severity Score</h3>
+                            <div id="modal-gauge" aria-label="Severity gauge"></div>
+                        </div>
+                        <div class="modal-consequence-wrapper">
+                            <h3 class="modal-section-title">Consequence</h3>
+                            <div id="modal-consequence" aria-label="Consequence details"></div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Model Performance -->
-            <div class="col-lg-4">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Model Performance</h5>
-                        <div id="modelPerformance">
-                            <!-- Model results will be populated here -->
+                    <!-- Right column -->
+                    <div class="modal-col-right">
+                        <div class="modal-features-wrapper">
+                            <h3 class="modal-section-title">NLP Features</h3>
+                            <div id="modal-features" class="features-grid" aria-label="NLP feature values"></div>
+                        </div>
+                        <div class="modal-predictions-wrapper">
+                            <h3 class="modal-section-title">Model Predictions</h3>
+                            <div id="modal-predictions" aria-label="Model prediction outputs"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Experiment Results -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Power Tier Analysis</h5>
-                        <p class="text-muted small">
-                            Does power protect? Correlation between severity and consequences by power tier.
-                        </p>
-                        <div id="experimentChart"></div>
-                    </div>
+                <div class="modal-connections-wrapper">
+                    <h3 class="modal-section-title">Connected Individuals</h3>
+                    <div id="modal-connections" class="connections-list" role="list" aria-label="Connected individuals"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom JS -->
+    <!-- ========================================================
+         SCRIPTS (before closing body)
+         ======================================================== -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
