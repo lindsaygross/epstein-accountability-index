@@ -369,7 +369,7 @@ function displayModelResults(data) {
 
     const modelLabels = {
         'naive_baseline': 'Naive Baseline',
-        'xgboost': 'XGBoost',
+        'gradient_boosting': 'Gradient Boosting',
         'distilbert': 'DistilBERT'
     };
 

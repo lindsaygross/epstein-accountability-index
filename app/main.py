@@ -81,13 +81,13 @@ def load_models() -> None:
     base_path = Path(__file__).parent.parent
     models_path = base_path / "models"
 
-    # Load XGBoost model
-    xgb_path = models_path / "xgboost_model.pkl"
-    if xgb_path.exists():
-        MODELS['xgboost'] = joblib.load(xgb_path)
-        logger.info("Loaded XGBoost model")
+    # Load Gradient Boosting model
+    gb_path = models_path / "gradient_boosting_model.pkl"
+    if gb_path.exists():
+        MODELS['gradient_boosting'] = joblib.load(gb_path)
+        logger.info("Loaded Gradient Boosting model")
     else:
-        logger.warning("XGBoost model not found")
+        logger.warning("Gradient Boosting model not found")
 
     # Note: DistilBERT loading would require more setup
     # For demo purposes, we'll skip it in the web app
@@ -138,7 +138,8 @@ def get_person(name: str) -> Any:
 
     # Get tier badge
     tier = person.get('consequence_tier', 0)
-    badge = get_tier_badge(int(tier)) if pd.notna(tier) else get_tier_badge(0)
+    tier = int(tier) if pd.notna(tier) else 0
+    badge = get_tier_badge(tier)
 
     # Get predictions if available
     predictions = {}
@@ -200,14 +201,16 @@ def get_chart_data() -> Any:
     Returns:
         JSON response with chart data
     """
-    df = DATA['merged'].dropna(subset=['severity_score', 'consequence_tier'])
+    df = DATA['merged'].dropna(subset=['severity_score', 'consequence_tier']).copy()
 
-    # Create power tier categories
-    df['power_tier'] = pd.qcut(
+    # Create power tier categories using manual bins
+    # (consistent with model.py experiment; qcut can fail with duplicate values)
+    bins = [0, 2, 5, 8, 10.01]
+    df['power_tier'] = pd.cut(
         df['severity_score'],
-        q=4,
+        bins=bins,
         labels=['Low', 'Medium', 'High', 'Very High'],
-        duplicates='drop'
+        include_lowest=True
     )
 
     chart_data = []
@@ -232,24 +235,16 @@ def get_model_results() -> Any:
     Returns:
         JSON response with model results
     """
-    # This would typically come from saved metrics
-    # For demo, we'll return placeholder data
-    results = {
-        'naive_baseline': {
-            'accuracy': 0.45,
-            'f1_macro': 0.32
-        },
-        'xgboost': {
-            'accuracy': 0.72,
-            'f1_macro': 0.68
-        },
-        'distilbert': {
-            'accuracy': 0.78,
-            'f1_macro': 0.74
-        }
-    }
+    base_path = Path(__file__).parent.parent
+    metrics_path = base_path / "data" / "outputs" / "model_metrics.json"
 
-    return jsonify(results)
+    if metrics_path.exists():
+        with open(metrics_path, 'r') as f:
+            results = json.load(f)
+        return jsonify(results)
+
+    # Fallback: no metrics file yet
+    return jsonify({'error': 'Model metrics not available. Run training first.'}), 404
 
 
 @app.route('/api/experiment-results')
@@ -291,7 +286,7 @@ def main() -> None:
     # Run app
     app.run(
         host='0.0.0.0',
-        port=5000,
+        port=5001,
         debug=True
     )
 

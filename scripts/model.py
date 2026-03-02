@@ -1,22 +1,31 @@
 # Attribution: Scaffolded with AI assistance (Claude, Anthropic)
 
 """
-Train and evaluate all classification models.
+Train and evaluate classification models for consequence prediction.
 
-This script trains three models: a naive baseline, XGBoost, and DistilBERT
-to predict consequence tiers from NLP features.
+This script trains three models to predict whether an individual faced
+consequences (binary: 0 = none, 1 = any consequence) based on NLP features
+extracted from Epstein case documents.
+
+Models:
+    1. Naive Baseline - Most frequent class (DummyClassifier)
+    2. XGBoost - Gradient boosting with GridSearchCV
+    3. DistilBERT - Fine-tuned transformer on feature-derived text
+
+Note: With only 66 samples (51 no-consequence, 15 with consequences),
+we use binary classification and careful cross-validation. The 3-class
+tier analysis is performed separately in the experiment.
 """
 
 import json
 import logging
+import warnings
 from pathlib import Path
-from typing import Dict, Tuple, Any
+from typing import Dict, Tuple, Any, Optional
 
 import joblib
 import numpy as np
 import pandas as pd
-import torch
-import xgboost as xgb
 from scipy.stats import pearsonr
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import (
@@ -24,11 +33,6 @@ from sklearn.metrics import (
     confusion_matrix
 )
 from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold
-from transformers import (
-    DistilBertTokenizer, DistilBertForSequenceClassification,
-    Trainer, TrainingArguments
-)
-from torch.utils.data import Dataset
 
 # Configure logging
 logging.basicConfig(
@@ -38,60 +42,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class ConsequenceDataset(Dataset):
-    """PyTorch Dataset for consequence classification."""
-
-    def __init__(
-        self,
-        texts: list,
-        labels: list,
-        tokenizer: DistilBertTokenizer,
-        max_length: int = 512
-    ):
-        """
-        Initialize the dataset.
-
-        Args:
-            texts: List of text inputs
-            labels: List of labels
-            tokenizer: HuggingFace tokenizer
-            max_length: Maximum sequence length
-        """
-        self.texts = texts
-        self.labels = labels
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-
-    def __len__(self) -> int:
-        """Return dataset length."""
-        return len(self.texts)
-
-    def __getitem__(self, idx: int) -> Dict[str, torch.Tensor]:
-        """
-        Get a single item.
-
-        Args:
-            idx: Item index
-
-        Returns:
-            Dictionary with input_ids, attention_mask, and labels
-        """
-        text = self.texts[idx]
-        label = self.labels[idx]
-
-        encoding = self.tokenizer(
-            text,
-            truncation=True,
-            padding='max_length',
-            max_length=self.max_length,
-            return_tensors='pt'
-        )
-
-        return {
-            'input_ids': encoding['input_ids'].flatten(),
-            'attention_mask': encoding['attention_mask'].flatten(),
-            'labels': torch.tensor(label, dtype=torch.long)
-        }
+def _resolve_path(path_str: str) -> Path:
+    """Resolve a path relative to the project root."""
+    p = Path(path_str)
+    if p.is_absolute():
+        return p
+    return Path(__file__).resolve().parent.parent / p
 
 
 class ModelTrainer:
@@ -109,8 +65,8 @@ class ModelTrainer:
             features_path: Path to features CSV
             consequences_path: Path to consequences CSV
         """
-        self.features_path = features_path
-        self.consequences_path = consequences_path
+        self.features_path = str(_resolve_path(features_path))
+        self.consequences_path = str(_resolve_path(consequences_path))
         self.results = {}
 
         logger.info("Loading data...")
@@ -129,7 +85,17 @@ class ModelTrainer:
         )
 
         logger.info(f"Loaded {len(self.df)} records")
-        logger.info(f"Class distribution:\n{self.df['consequence_tier'].value_counts()}")
+        logger.info(
+            f"3-class distribution:\n"
+            f"{self.df['consequence_tier'].value_counts().sort_index()}"
+        )
+
+        # Create binary label: 0 = no consequence, 1 = any consequence
+        self.df['has_consequence'] = (self.df['consequence_tier'] > 0).astype(int)
+        logger.info(
+            f"Binary distribution:\n"
+            f"{self.df['has_consequence'].value_counts().sort_index()}"
+        )
 
         # Prepare feature columns
         self.feature_cols = [
@@ -138,10 +104,11 @@ class ModelTrainer:
             'name_in_subject_line', 'severity_score'
         ]
 
-        # Split data
+        # Feature matrix and binary target
         self.X = self.df[self.feature_cols].fillna(0)
-        self.y = self.df['consequence_tier']
+        self.y = self.df['has_consequence']
 
+        # Split with stratification (binary is safe: 51 vs 15)
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             self.X, self.y,
             test_size=0.2,
@@ -149,7 +116,10 @@ class ModelTrainer:
             random_state=42
         )
 
-        logger.info(f"Train size: {len(self.X_train)}, Test size: {len(self.X_test)}")
+        logger.info(
+            f"Train: {len(self.X_train)} (pos={self.y_train.sum()}), "
+            f"Test: {len(self.X_test)} (pos={self.y_test.sum()})"
+        )
 
     def train_naive_baseline(self) -> Dict[str, Any]:
         """
@@ -176,45 +146,44 @@ class ModelTrainer:
             'model': model,
             'accuracy': accuracy,
             'f1_macro': f1,
-            'confusion_matrix': conf_matrix,
+            'confusion_matrix': conf_matrix.tolist(),
             'predictions': y_pred
         }
 
-    def train_xgboost(self) -> Dict[str, Any]:
+    def train_gradient_boosting(self) -> Dict[str, Any]:
         """
-        Train XGBoost model with hyperparameter tuning.
+        Train Gradient Boosting model with hyperparameter tuning.
+
+        Uses sklearn's GradientBoostingClassifier (XGBoost-equivalent
+        that works without OpenMP/libomp).
 
         Returns:
             Dictionary with model and metrics
         """
-        logger.info("Training XGBoost with GridSearchCV...")
+        from sklearn.ensemble import GradientBoostingClassifier
 
-        # Define parameter grid
+        logger.info("Training Gradient Boosting with GridSearchCV...")
+
+        # Reduced parameter grid for small dataset
         param_grid = {
             'n_estimators': [50, 100, 200],
-            'max_depth': [3, 5, 7],
-            'learning_rate': [0.01, 0.1, 0.3],
+            'max_depth': [2, 3, 5],
+            'learning_rate': [0.05, 0.1, 0.3],
             'subsample': [0.8, 1.0],
-            'colsample_bytree': [0.8, 1.0]
         }
 
-        base_model = xgb.XGBClassifier(
-            objective='multi:softmax',
-            num_class=3,
-            random_state=42,
-            use_label_encoder=False,
-            eval_metric='mlogloss'
-        )
+        base_model = GradientBoostingClassifier(random_state=42)
 
-        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        # 3-fold CV (safe for 12 positive training samples)
+        cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
 
         grid_search = GridSearchCV(
             base_model,
             param_grid,
             cv=cv,
-            scoring='f1_macro',
+            scoring='f1',
             n_jobs=-1,
-            verbose=1
+            verbose=0
         )
 
         grid_search.fit(self.X_train, self.y_train)
@@ -232,8 +201,12 @@ class ModelTrainer:
         f1 = f1_score(self.y_test, y_pred, average='macro')
         conf_matrix = confusion_matrix(self.y_test, y_pred)
 
-        logger.info(f"XGBoost - Accuracy: {accuracy:.4f}, F1: {f1:.4f}")
+        logger.info(f"Gradient Boosting - Accuracy: {accuracy:.4f}, F1: {f1:.4f}")
         logger.info(f"Confusion Matrix:\n{conf_matrix}")
+        logger.info(
+            f"Classification Report:\n"
+            f"{classification_report(self.y_test, y_pred, target_names=['None', 'Consequence'])}"
+        )
 
         # Feature importances
         feature_importances = pd.DataFrame({
@@ -244,104 +217,128 @@ class ModelTrainer:
         logger.info(f"Feature Importances:\n{feature_importances}")
 
         # Save model
-        model_path = Path("models/xgboost_model.pkl")
+        model_path = _resolve_path("models/gradient_boosting_model.pkl")
         model_path.parent.mkdir(parents=True, exist_ok=True)
         joblib.dump(model, model_path)
-        logger.info(f"Saved XGBoost model to {model_path}")
+        logger.info(f"Saved Gradient Boosting model to {model_path}")
 
         return {
             'model': model,
             'accuracy': accuracy,
             'f1_macro': f1,
-            'confusion_matrix': conf_matrix,
+            'confusion_matrix': conf_matrix.tolist(),
             'predictions': y_pred,
             'feature_importances': feature_importances,
             'best_params': grid_search.best_params_
         }
 
-    def prepare_text_data(self) -> Tuple[list, list, list, list]:
+    def train_distilbert(self) -> Optional[Dict[str, Any]]:
         """
-        Prepare text data for DistilBERT.
+        Train DistilBERT model on feature-derived text.
+
+        For 66 samples, this is a proof-of-concept demonstrating that
+        transformer models can be applied to this task. Performance
+        likely won't exceed XGBoost on tabular features alone.
 
         Returns:
-            Tuple of (train_texts, test_texts, train_labels, test_labels)
+            Dictionary with model and metrics, or None if deps missing
         """
-        # For each person, create a text representation from their features
-        # In a real scenario, you'd use actual document excerpts
-        # Here we'll create synthetic text from features
+        try:
+            import torch
+            from torch.utils.data import Dataset
+            from transformers import (
+                DistilBertTokenizer, DistilBertForSequenceClassification,
+                Trainer, TrainingArguments
+            )
+        except ImportError as e:
+            logger.warning(f"DistilBERT dependencies not available: {e}")
+            logger.warning("Skipping DistilBERT training")
+            return None
 
-        def create_text_representation(row: pd.Series) -> str:
-            """Create text from features for demo purposes."""
+        logger.info("Training DistilBERT...")
+
+        # Create text representations from features
+        def create_text(row: pd.Series) -> str:
             parts = [
-                f"Person mentioned in {row['mention_count']} documents",
-                f"with {row['total_mentions']} total mentions.",
-                f"Sentiment score: {row['mean_context_sentiment']:.2f}.",
-                f"Co-occurrence score: {row['cooccurrence_score']}.",
-                f"Document diversity: {row['doc_type_diversity']}.",
-                f"Severity score: {row['severity_score']:.2f}."
+                f"This person was mentioned in {int(row['mention_count'])} documents",
+                f"with {int(row['total_mentions'])} total mentions.",
+                f"The average sentiment around their name was {row['mean_context_sentiment']:.2f}.",
+                f"They co-occurred with incriminating keywords {int(row['cooccurrence_score'])} times.",
+                f"They appeared across {int(row['doc_type_diversity'])} document types.",
+                f"Their severity score is {row['severity_score']:.1f} out of 10.",
             ]
+            if row['name_in_subject_line']:
+                parts.append("Their name appeared in email subject lines.")
             return " ".join(parts)
 
         train_df = pd.concat([self.X_train, self.y_train], axis=1)
         test_df = pd.concat([self.X_test, self.y_test], axis=1)
 
-        train_texts = [create_text_representation(row) for _, row in train_df.iterrows()]
-        test_texts = [create_text_representation(row) for _, row in test_df.iterrows()]
-
+        train_texts = [create_text(row) for _, row in train_df.iterrows()]
+        test_texts = [create_text(row) for _, row in test_df.iterrows()]
         train_labels = self.y_train.tolist()
         test_labels = self.y_test.tolist()
 
-        return train_texts, test_texts, train_labels, test_labels
-
-    def train_distilbert(self) -> Dict[str, Any]:
-        """
-        Train DistilBERT model.
-
-        Returns:
-            Dictionary with model and metrics
-        """
-        logger.info("Training DistilBERT...")
-
-        # Prepare text data
-        train_texts, test_texts, train_labels, test_labels = self.prepare_text_data()
-
-        # Initialize tokenizer and model
+        # Tokenizer and model
         tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
         model = DistilBertForSequenceClassification.from_pretrained(
             'distilbert-base-uncased',
-            num_labels=3
+            num_labels=2
         )
 
-        # Create datasets
-        train_dataset = ConsequenceDataset(train_texts, train_labels, tokenizer)
-        test_dataset = ConsequenceDataset(test_texts, test_labels, tokenizer)
+        # Simple PyTorch dataset
+        class TextDataset(Dataset):
+            def __init__(self, texts, labels, tok, max_len=128):
+                self.texts = texts
+                self.labels = labels
+                self.tok = tok
+                self.max_len = max_len
 
-        # Training arguments
+            def __len__(self):
+                return len(self.texts)
+
+            def __getitem__(self, idx):
+                enc = self.tok(
+                    self.texts[idx],
+                    truncation=True,
+                    padding='max_length',
+                    max_length=self.max_len,
+                    return_tensors='pt'
+                )
+                return {
+                    'input_ids': enc['input_ids'].flatten(),
+                    'attention_mask': enc['attention_mask'].flatten(),
+                    'labels': torch.tensor(self.labels[idx], dtype=torch.long)
+                }
+
+        train_dataset = TextDataset(train_texts, train_labels, tokenizer)
+        test_dataset = TextDataset(test_texts, test_labels, tokenizer)
+
+        # Training arguments (conservative for small dataset)
+        output_dir = str(_resolve_path("models/distilbert"))
         training_args = TrainingArguments(
-            output_dir='models/distilbert',
-            num_train_epochs=3,
-            per_device_train_batch_size=16,
-            per_device_eval_batch_size=16,
+            output_dir=output_dir,
+            num_train_epochs=5,
+            per_device_train_batch_size=8,
+            per_device_eval_batch_size=8,
             learning_rate=2e-5,
             weight_decay=0.01,
-            logging_dir='models/distilbert/logs',
-            logging_steps=10,
-            evaluation_strategy='epoch',
+            logging_steps=5,
+            eval_strategy='epoch',
             save_strategy='epoch',
             load_best_model_at_end=True,
             metric_for_best_model='f1',
-            seed=42
+            seed=42,
+            report_to='none',  # Disable wandb etc.
         )
 
-        # Define compute_metrics function
         def compute_metrics(eval_pred):
             predictions, labels = eval_pred
             preds = np.argmax(predictions, axis=1)
             acc = accuracy_score(labels, preds)
-            f1 = f1_score(labels, preds, average='macro')
-            return {'accuracy': acc, 'f1': f1}
+            f1_val = f1_score(labels, preds, average='macro')
+            return {'accuracy': acc, 'f1': f1_val}
 
-        # Initialize trainer
         trainer = Trainer(
             model=model,
             args=training_args,
@@ -350,36 +347,33 @@ class ModelTrainer:
             compute_metrics=compute_metrics
         )
 
-        # Train
-        trainer.train()
+        # Suppress excessive logging
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            trainer.train()
 
         # Evaluate
-        eval_results = trainer.evaluate()
-        logger.info(f"DistilBERT evaluation results: {eval_results}")
-
-        # Get predictions
         predictions = trainer.predict(test_dataset)
         y_pred = np.argmax(predictions.predictions, axis=1)
 
         accuracy = accuracy_score(test_labels, y_pred)
-        f1 = f1_score(test_labels, y_pred, average='macro')
+        f1_val = f1_score(test_labels, y_pred, average='macro')
         conf_matrix = confusion_matrix(test_labels, y_pred)
 
-        logger.info(f"DistilBERT - Accuracy: {accuracy:.4f}, F1: {f1:.4f}")
+        logger.info(f"DistilBERT - Accuracy: {accuracy:.4f}, F1: {f1_val:.4f}")
         logger.info(f"Confusion Matrix:\n{conf_matrix}")
 
         # Save model
-        model_path = Path("models/distilbert")
-        model.save_pretrained(model_path)
-        tokenizer.save_pretrained(model_path)
-        logger.info(f"Saved DistilBERT model to {model_path}")
+        model.save_pretrained(output_dir)
+        tokenizer.save_pretrained(output_dir)
+        logger.info(f"Saved DistilBERT model to {output_dir}")
 
         return {
             'model': model,
             'tokenizer': tokenizer,
             'accuracy': accuracy,
-            'f1_macro': f1,
-            'confusion_matrix': conf_matrix,
+            'f1_macro': f1_val,
+            'confusion_matrix': conf_matrix.tolist(),
             'predictions': y_pred
         }
 
@@ -387,33 +381,45 @@ class ModelTrainer:
         """
         Run stratified experiment: Does power protect?
 
+        Bins people by severity score into power tiers and checks whether
+        higher severity correlates with (or protects from) consequences.
+
         Returns:
             DataFrame with experiment results
         """
         logger.info("Running power tier experiment...")
 
-        # Define public figure tiers based on severity score quartiles
-        # This is a simplified approach; ideally you'd have explicit categories
-        self.df['power_tier'] = pd.qcut(
-            self.df['severity_score'],
-            q=4,
-            labels=['low', 'medium', 'high', 'very_high']
+        # Use the full dataset (not train/test split) for the experiment
+        exp_df = self.df.copy()
+
+        # Create power tiers using severity score thresholds
+        # (qcut can fail with duplicates, so use manual bins)
+        bins = [0, 2, 5, 8, 10.01]
+        labels = ['low', 'medium', 'high', 'very_high']
+        exp_df['power_tier'] = pd.cut(
+            exp_df['severity_score'],
+            bins=bins,
+            labels=labels,
+            include_lowest=True
         )
 
         results = []
 
-        for tier in ['low', 'medium', 'high', 'very_high']:
-            tier_df = self.df[self.df['power_tier'] == tier]
+        for tier in labels:
+            tier_df = exp_df[exp_df['power_tier'] == tier]
 
             if len(tier_df) < 3:
-                logger.warning(f"Not enough data for tier {tier}")
+                logger.warning(f"Not enough data for tier {tier} (n={len(tier_df)})")
                 continue
 
-            # Compute correlation
-            corr, p_value = pearsonr(
-                tier_df['severity_score'],
-                tier_df['consequence_tier']
-            )
+            # Check if there's variance in both columns
+            if tier_df['severity_score'].std() == 0 or tier_df['consequence_tier'].std() == 0:
+                corr, p_value = 0.0, 1.0
+            else:
+                corr, p_value = pearsonr(
+                    tier_df['severity_score'],
+                    tier_df['consequence_tier']
+                )
 
             results.append({
                 'power_tier': tier,
@@ -421,22 +427,33 @@ class ModelTrainer:
                 'correlation': corr,
                 'p_value': p_value,
                 'mean_severity': tier_df['severity_score'].mean(),
-                'mean_consequence': tier_df['consequence_tier'].mean()
+                'mean_consequence': tier_df['consequence_tier'].mean(),
+                'pct_with_consequence': (tier_df['consequence_tier'] > 0).mean()
             })
 
             logger.info(
                 f"Tier {tier}: n={len(tier_df)}, "
-                f"correlation={corr:.3f}, p={p_value:.3f}"
+                f"corr={corr:.3f}, p={p_value:.3f}, "
+                f"pct_consequence={results[-1]['pct_with_consequence']:.1%}"
             )
 
         results_df = pd.DataFrame(results)
 
         # Save results
-        output_path = Path("data/outputs/experiment_results.csv")
+        output_path = _resolve_path("data/outputs/experiment_results.csv")
         output_path.parent.mkdir(parents=True, exist_ok=True)
         results_df.to_csv(output_path, index=False)
-
         logger.info(f"Saved experiment results to {output_path}")
+
+        # Also compute overall correlation
+        overall_corr, overall_p = pearsonr(
+            exp_df['severity_score'],
+            exp_df['consequence_tier']
+        )
+        logger.info(
+            f"\nOverall severity-consequence correlation: "
+            f"{overall_corr:.3f} (p={overall_p:.4f})"
+        )
 
         return results_df
 
@@ -449,23 +466,25 @@ class ModelTrainer:
         """
         logger.info("Training all models...")
 
-        results = {
-            'naive_baseline': self.train_naive_baseline(),
-            'xgboost': self.train_xgboost(),
-            'distilbert': self.train_distilbert()
-        }
+        results = {}
+        results['naive_baseline'] = self.train_naive_baseline()
+        results['gradient_boosting'] = self.train_gradient_boosting()
+
+        distilbert_result = self.train_distilbert()
+        if distilbert_result is not None:
+            results['distilbert'] = distilbert_result
 
         self.results = results
         return results
 
     def evaluate_all_models(self) -> None:
-        """Print comparison table of all models."""
+        """Print comparison table and save predictions."""
         if not self.results:
             logger.error("No results available. Run train_all_models() first.")
             return
 
         logger.info("\n" + "=" * 60)
-        logger.info("MODEL COMPARISON")
+        logger.info("MODEL COMPARISON (Binary: Consequence vs None)")
         logger.info("=" * 60)
 
         comparison_data = []
@@ -479,33 +498,75 @@ class ModelTrainer:
         comparison_df = pd.DataFrame(comparison_data)
         logger.info(f"\n{comparison_df.to_string(index=False)}")
 
+        # Save model metrics JSON
+        metrics = {}
+        for model_name, result in self.results.items():
+            metrics[model_name] = {
+                'accuracy': result['accuracy'],
+                'f1_macro': result['f1_macro'],
+                'confusion_matrix': result['confusion_matrix']
+            }
+
+        metrics_path = _resolve_path("data/outputs/model_metrics.json")
+        metrics_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(metrics_path, 'w') as f:
+            json.dump(metrics, f, indent=2)
+        logger.info(f"Saved model metrics to {metrics_path}")
+
         # Save predictions
-        predictions_df = self.df[['name', 'consequence_tier']].copy()
-        predictions_df['actual'] = self.y_test
+        predictions_df = self.df[['name', 'consequence_tier', 'has_consequence']].copy()
 
         for model_name, result in self.results.items():
-            # Align predictions with test set
             pred_col = f'{model_name}_pred'
             predictions_df[pred_col] = None
             predictions_df.loc[self.X_test.index, pred_col] = result['predictions']
 
-        output_path = Path("data/outputs/predictions.csv")
+        output_path = _resolve_path("data/outputs/predictions.csv")
         predictions_df.to_csv(output_path, index=False)
-        logger.info(f"\nSaved predictions to {output_path}")
+        logger.info(f"Saved predictions to {output_path}")
 
 
 def main() -> None:
     """Main entry point for the script."""
-    trainer = ModelTrainer()
+    import argparse
 
-    # Train all models
-    trainer.train_all_models()
+    parser = argparse.ArgumentParser(
+        description="Train consequence prediction models"
+    )
+    parser.add_argument(
+        "--features-path", default="data/processed/features.csv",
+        help="Path to features CSV"
+    )
+    parser.add_argument(
+        "--consequences-path", default="data/processed/consequences.csv",
+        help="Path to consequences CSV"
+    )
+    parser.add_argument(
+        "--run-experiment", action="store_true",
+        help="Run power tier experiment after training"
+    )
+    parser.add_argument(
+        "--skip-distilbert", action="store_true",
+        help="Skip DistilBERT training (faster)"
+    )
+    args = parser.parse_args()
 
-    # Evaluate and compare
+    trainer = ModelTrainer(
+        features_path=args.features_path,
+        consequences_path=args.consequences_path
+    )
+
+    if args.skip_distilbert:
+        # Train only baseline and Gradient Boosting
+        trainer.results['naive_baseline'] = trainer.train_naive_baseline()
+        trainer.results['gradient_boosting'] = trainer.train_gradient_boosting()
+    else:
+        trainer.train_all_models()
+
     trainer.evaluate_all_models()
 
-    # Run experiment
-    trainer.run_experiment()
+    if args.run_experiment:
+        trainer.run_experiment()
 
 
 if __name__ == "__main__":

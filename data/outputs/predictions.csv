@@ -1,0 +1,67 @@
+name,consequence_tier,has_consequence,naive_baseline_pred,gradient_boosting_pred,distilbert_pred
+Donald Trump,0,0,,,
+Jes Staley,1,1,,,
+Karyna Shuliak,0,0,,,
+"Oren, Alon, and Tal Alexander",2,1,0,1,0
+Ramsey Elkholy,2,1,,,
+Sultan Bin Sulayem,0,0,,,
+Ghislaine Maxwell,2,1,0,0,0
+Leon Black,1,1,0,1,0
+Prince Andrew,1,1,,,
+Eva Andersson-Dubin,1,1,,,
+Leslie Groff,1,1,,,
+Peggy Siegal,1,1,,,
+Bill Richardson,0,0,,,
+William Riley,0,0,,,
+Glenn Dubin,1,1,,,
+Michael Wolff,0,0,,,
+Bill Clinton,0,0,,,
+Ehud Barak,0,0,0,0,0
+Peter Mandelson,0,0,,,
+Steve Bannon,0,0,,,
+Les Wexner,1,1,,,
+Sarah Ferguson,1,1,,,
+Ron Lauder,0,0,0,0,0
+Corina Tarnita,0,0,,,
+Lana Zakocela,0,0,,,
+Susan Hamblin,0,0,,,
+Larry Summers,0,0,0,0,0
+Peter Theil,0,0,,,
+Bill Gates,1,1,,,
+Elon Musk,0,0,,,
+Howard Lutnick,0,0,,,
+Francis Derby,0,0,0,1,0
+Leon Botstein,0,0,,,
+Casey Wasserman,1,1,,,
+Kathryn Ruemmler,0,0,0,0,0
+Peter Attia,1,1,,,
+Jess Ting,0,0,,,
+Jeff Bezos,0,0,0,0,0
+Paolo Zampolli,0,0,,,
+Chuck Schumer,0,0,,,
+Rupert Murdoch,0,0,,,
+Stefan Krause,0,0,,,
+Sheikh Sultan Bin Jassim Al Thani,0,0,,,
+Mark Zuckerberg,0,0,0,0,0
+Hillary Clinton,0,0,,,
+Kevin O'Leary,0,0,,,
+Pam Bondi,0,0,,,
+Oprah,0,0,,,
+George H.W. Bush and George W. Bush,0,0,,,
+Stanislas Nordey,0,0,,,
+Bill O'Reilly,0,0,,,
+Kash Patel,0,0,,,
+Betsy DeVos,0,0,,,
+Benjamin Netanyahu,0,0,0,0,0
+Bill Maher,0,0,,,
+Justice Clarence Thomas,0,0,,,
+Ellen DeGeneres,0,0,0,0,0
+John and Tony Podesta,0,0,0,0,0
+Justin Trudeau,0,0,,,
+Larry Silverstein,0,0,,,
+Mark Landon,0,0,,,
+Barack Obama,0,0,,,
+RFK,0,0,,,
+Savannah Guthrie,0,0,,,
+Ted Leonsis,0,0,,,
+Tom Hanks,0,0,0,0,0

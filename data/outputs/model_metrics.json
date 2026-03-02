@@ -1,0 +1,44 @@
+{
+  "naive_baseline": {
+    "accuracy": 0.7857142857142857,
+    "f1_macro": 0.44,
+    "confusion_matrix": [
+      [
+        11,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  },
+  "gradient_boosting": {
+    "accuracy": 0.8571428571428571,
+    "f1_macro": 0.7878787878787878,
+    "confusion_matrix": [
+      [
+        10,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  "distilbert": {
+    "accuracy": 0.7857142857142857,
+    "f1_macro": 0.44,
+    "confusion_matrix": [
+      [
+        11,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  }
+}
