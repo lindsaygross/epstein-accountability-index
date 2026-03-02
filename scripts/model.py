@@ -457,6 +457,110 @@ class ModelTrainer:
 
         return results_df
 
+    def run_ablation_study(self) -> pd.DataFrame:
+        """
+        Run feature ablation study on the Gradient Boosting model.
+
+        Systematically removes each feature (and feature groups) to measure
+        how much each contributes to prediction performance. This answers:
+        "Do NLP features add value beyond the severity score alone?"
+
+        Returns:
+            DataFrame with ablation results
+        """
+        from sklearn.ensemble import GradientBoostingClassifier
+
+        logger.info("\n" + "=" * 60)
+        logger.info("ABLATION STUDY: Feature Importance by Removal")
+        logger.info("=" * 60)
+
+        # Define the runs: (label, features_to_use)
+        nlp_features = [
+            'mention_count', 'total_mentions', 'mean_context_sentiment',
+            'cooccurrence_score', 'doc_type_diversity', 'name_in_subject_line'
+        ]
+
+        ablation_runs = [
+            ('All Features', self.feature_cols),
+            ('Severity Score Only', ['severity_score']),
+            ('NLP Features Only', nlp_features),
+        ]
+
+        # Add "drop one feature at a time" runs
+        for feat in self.feature_cols:
+            remaining = [f for f in self.feature_cols if f != feat]
+            ablation_runs.append((f'Without {feat}', remaining))
+
+        results = []
+
+        for run_name, features in ablation_runs:
+            X_train_sub = self.X_train[features]
+            X_test_sub = self.X_test[features]
+
+            # Use best params from full model if available, otherwise defaults
+            model = GradientBoostingClassifier(
+                n_estimators=50,
+                max_depth=3,
+                learning_rate=0.05,
+                subsample=0.8,
+                random_state=42
+            )
+
+            model.fit(X_train_sub, self.y_train)
+            y_pred = model.predict(X_test_sub)
+
+            accuracy = accuracy_score(self.y_test, y_pred)
+            f1 = f1_score(self.y_test, y_pred, average='macro')
+
+            results.append({
+                'run': run_name,
+                'n_features': len(features),
+                'features': ', '.join(features),
+                'accuracy': accuracy,
+                'f1_macro': f1
+            })
+
+            logger.info(f"  {run_name:30s} | Acc: {accuracy:.4f} | F1: {f1:.4f}")
+
+        results_df = pd.DataFrame(results)
+
+        # Compute delta from "All Features" baseline
+        baseline_f1 = results_df.loc[
+            results_df['run'] == 'All Features', 'f1_macro'
+        ].values[0]
+        results_df['f1_delta'] = results_df['f1_macro'] - baseline_f1
+
+        # Log key findings
+        logger.info("\n--- Key Findings ---")
+        severity_only = results_df[results_df['run'] == 'Severity Score Only']
+        nlp_only = results_df[results_df['run'] == 'NLP Features Only']
+        logger.info(
+            f"Severity alone: F1={severity_only['f1_macro'].values[0]:.4f} "
+            f"(delta={severity_only['f1_delta'].values[0]:+.4f})"
+        )
+        logger.info(
+            f"NLP features alone: F1={nlp_only['f1_macro'].values[0]:.4f} "
+            f"(delta={nlp_only['f1_delta'].values[0]:+.4f})"
+        )
+
+        # Find the feature whose removal hurts most
+        drop_runs = results_df[results_df['run'].str.startswith('Without')]
+        if not drop_runs.empty:
+            worst_drop = drop_runs.loc[drop_runs['f1_macro'].idxmin()]
+            logger.info(
+                f"Most important feature: {worst_drop['run']} → "
+                f"F1={worst_drop['f1_macro']:.4f} "
+                f"(delta={worst_drop['f1_delta']:+.4f})"
+            )
+
+        # Save results
+        output_path = _resolve_path("data/outputs/ablation_results.csv")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        results_df.to_csv(output_path, index=False)
+        logger.info(f"\nSaved ablation results to {output_path}")
+
+        return results_df
+
     def train_all_models(self) -> Dict[str, Dict]:
         """
         Train all models and return results.
@@ -549,6 +653,10 @@ def main() -> None:
         "--skip-distilbert", action="store_true",
         help="Skip DistilBERT training (faster)"
     )
+    parser.add_argument(
+        "--run-ablation", action="store_true",
+        help="Run feature ablation study"
+    )
     args = parser.parse_args()
 
     trainer = ModelTrainer(
@@ -567,6 +675,9 @@ def main() -> None:
 
     if args.run_experiment:
         trainer.run_experiment()
+
+    if args.run_ablation:
+        trainer.run_ablation_study()
 
 
 if __name__ == "__main__":

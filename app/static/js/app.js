@@ -8,6 +8,7 @@
 let chartData = [];
 let modelResults = {};
 let experimentResults = [];
+let ablationResults = [];
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadChartData();
     loadModelResults();
     loadExperimentResults();
+    loadAblationResults();
 
     // Setup event listeners
     setupEventListeners();
@@ -455,4 +457,104 @@ function createExperimentChart(data) {
     };
 
     Plotly.newPlot('experimentChart', [trace], layout, config);
+}
+
+/**
+ * Load ablation study results.
+ */
+function loadAblationResults() {
+    fetch('/api/ablation-results')
+        .then(response => response.json())
+        .then(data => {
+            ablationResults = data;
+            createAblationChart(data);
+        })
+        .catch(error => {
+            console.error('Error loading ablation results:', error);
+        });
+}
+
+/**
+ * Create ablation study bar chart.
+ */
+function createAblationChart(data) {
+    // Friendly labels for each run
+    const labelMap = {
+        'All Features': 'All Features',
+        'Severity Score Only': 'Severity Only',
+        'NLP Features Only': 'NLP Only',
+        'Without mention_count': '− Documents',
+        'Without total_mentions': '− Total Mentions',
+        'Without mean_context_sentiment': '− Sentiment',
+        'Without cooccurrence_score': '− Co-occurrence',
+        'Without doc_type_diversity': '− Doc Types',
+        'Without name_in_subject_line': '− In Subject',
+        'Without severity_score': '− Severity Score'
+    };
+
+    const labels = data.map(d => labelMap[d.run] || d.run);
+    const f1Scores = data.map(d => d.f1_macro);
+    const baselineF1 = data.length > 0 ? data[0].f1_macro : 0;
+
+    // Color bars: green for full model, blue for groups, orange/red for drops
+    const colors = data.map(d => {
+        if (d.run === 'All Features') return '#28a745';
+        if (d.run === 'Severity Score Only' || d.run === 'NLP Features Only') return '#0d6efd';
+        if (d.f1_macro < baselineF1) return '#dc3545';
+        if (d.f1_macro > baselineF1) return '#28a745';
+        return '#ffc107';
+    });
+
+    const trace = {
+        x: labels,
+        y: f1Scores,
+        type: 'bar',
+        marker: {
+            color: colors,
+            line: { color: '#ffffff', width: 1 }
+        },
+        text: f1Scores.map(v => v.toFixed(3)),
+        textposition: 'outside',
+        hovertemplate: '<b>%{x}</b><br>' +
+                      'F1: %{y:.3f}<br>' +
+                      '<extra></extra>'
+    };
+
+    // Dashed line at baseline
+    const baselineLine = {
+        x: labels,
+        y: Array(labels.length).fill(baselineF1),
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#ffffff', width: 1.5, dash: 'dash' },
+        name: 'All Features Baseline',
+        showlegend: false,
+        hoverinfo: 'skip'
+    };
+
+    const layout = {
+        yaxis: {
+            title: 'F1 Score (Macro)',
+            color: '#e0e0e0',
+            gridcolor: '#404040',
+            range: [0, 1.05]
+        },
+        xaxis: {
+            color: '#e0e0e0',
+            tickangle: -35
+        },
+        paper_bgcolor: '#2d2d2d',
+        plot_bgcolor: '#2d2d2d',
+        font: { color: '#e0e0e0', size: 10 },
+        height: 400,
+        margin: { t: 20, b: 100, l: 50, r: 20 },
+        showlegend: false
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+
+    Plotly.newPlot('ablationChart', [trace, baselineLine], layout, config);
 }

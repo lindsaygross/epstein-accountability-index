@@ -64,6 +64,13 @@ def load_data() -> None:
     else:
         logger.warning("Experiment results file not found")
 
+    # Load ablation results
+    ablation_path = base_path / "data" / "outputs" / "ablation_results.csv"
+    if ablation_path.exists():
+        DATA['ablation_results'] = pd.read_csv(ablation_path)
+    else:
+        logger.warning("Ablation results file not found")
+
     # Merge features and consequences
     DATA['merged'] = DATA['features'].merge(
         DATA['consequences'][['name', 'consequence_tier', 'consequence_description']],
@@ -259,6 +266,21 @@ def get_experiment_results() -> Any:
         return jsonify({'error': 'Experiment results not available'}), 404
 
     results = DATA['experiment_results'].to_dict('records')
+    return jsonify(results)
+
+
+@app.route('/api/ablation-results')
+def get_ablation_results() -> Any:
+    """
+    Get feature ablation study results.
+
+    Returns:
+        JSON response with ablation data
+    """
+    if 'ablation_results' not in DATA:
+        return jsonify({'error': 'Ablation results not available'}), 404
+
+    results = DATA['ablation_results'].to_dict('records')
     return jsonify(results)
 
 
