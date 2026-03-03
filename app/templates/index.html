@@ -3,254 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Accountability Gap | Epstein Case Files Analysis</title>
-    <meta name="description" content="Exploring whether power protects: an ML-driven analysis of 2,849 Epstein case documents and 66 individuals.">
+    <title>The Accountability Index | Epstein Case NLP Analysis</title>
+    <meta name="description" content="NLP-driven analysis of 2,849 Epstein case documents measuring accountability gaps across 66 individuals.">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Space Grotesk + DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5.3.0 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- D3.js v7 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-
-    <!-- Plotly.js 2.26.0 -->
+    <!-- Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
-
-    <!-- GSAP 3.12.2 + ScrollTrigger -->
+    <!-- GSAP + ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <!-- ========================================================
-         FIXED SIDE NAVIGATION
-         ======================================================== -->
+    <!-- SIDE NAVIGATION -->
     <nav class="side-nav" aria-label="Section navigation">
         <ul>
-            <li>
-                <a href="#hero" class="nav-dot active" data-tooltip="Overview" aria-label="Go to Overview section">
-                    <span class="dot"></span>
-                    <span class="nav-tooltip">Overview</span>
-                </a>
-            </li>
-            <li>
-                <a href="#network" class="nav-dot" data-tooltip="Network" aria-label="Go to Network section">
-                    <span class="dot"></span>
-                    <span class="nav-tooltip">Network</span>
-                </a>
-            </li>
-            <li>
-                <a href="#people" class="nav-dot" data-tooltip="People" aria-label="Go to People section">
-                    <span class="dot"></span>
-                    <span class="nav-tooltip">People</span>
-                </a>
-            </li>
-            <li>
-                <a href="#analysis" class="nav-dot" data-tooltip="Analysis" aria-label="Go to Analysis section">
-                    <span class="dot"></span>
-                    <span class="nav-tooltip">Analysis</span>
-                </a>
-            </li>
+            <li><a href="#hero" class="nav-dot active" aria-label="Overview"><span class="dot"></span><span class="nav-tooltip">Overview</span></a></li>
+            <li><a href="#stats" class="nav-dot" aria-label="Key Stats"><span class="dot"></span><span class="nav-tooltip">Stats</span></a></li>
+            <li><a href="#network" class="nav-dot" aria-label="Network"><span class="dot"></span><span class="nav-tooltip">Network</span></a></li>
+            <li><a href="#people" class="nav-dot" aria-label="People"><span class="dot"></span><span class="nav-tooltip">People</span></a></li>
+            <li><a href="#models" class="nav-dot" aria-label="Models"><span class="dot"></span><span class="nav-tooltip">Models</span></a></li>
+            <li><a href="#analysis" class="nav-dot" aria-label="Analysis"><span class="dot"></span><span class="nav-tooltip">Analysis</span></a></li>
         </ul>
     </nav>
 
-    <!-- ========================================================
-         SECTION 0 — HERO
-         ======================================================== -->
-    <section id="hero" class="hero-section" aria-label="Introduction">
+    <!-- SECTION 0: HERO -->
+    <section id="hero" class="hero-section">
+        <div class="hero-grid-bg"></div>
         <div class="hero-content">
-            <h1 class="hero-title">THE ACCOUNTABILITY GAP</h1>
-            <p class="hero-subtitle">Epstein Case Files Analysis</p>
-            <p class="hero-tagline">66 individuals. 2,849 documents. Does power protect?</p>
+            <div class="hero-badge">NLP-Driven Investigation</div>
+            <h1 class="hero-title">THE ACCOUNTABILITY<br><span class="hero-accent">INDEX</span></h1>
+            <p class="hero-tagline">Analyzing 2,849 Epstein case documents with machine learning to measure the gap between evidence and justice across 66 individuals.</p>
+            <div class="hero-cta-row">
+                <a href="#models" class="hero-btn primary">Explore Models</a>
+                <a href="#people" class="hero-btn secondary">View Individuals</a>
+            </div>
         </div>
-        <a href="#network" class="scroll-indicator" aria-label="Scroll to next section">
-            <svg class="chevron" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
+        <a href="#stats" class="scroll-indicator" aria-label="Scroll down">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </a>
     </section>
 
-    <!-- ========================================================
-         SECTION 1 — NETWORK
-         ======================================================== -->
-    <section id="network" class="section network-section" aria-label="Network graph">
+    <!-- SECTION 1: KEY STATS -->
+    <section id="stats" class="section stats-section">
+        <div class="stats-grid">
+            <div class="stat-card" data-count="2849" data-suffix="">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Documents Analyzed</div>
+            </div>
+            <div class="stat-card" data-count="66" data-suffix="">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Individuals Tracked</div>
+            </div>
+            <div class="stat-card" data-count="3" data-suffix=" Models">
+                <div class="stat-number">0</div>
+                <div class="stat-label">ML Models Trained</div>
+            </div>
+            <div class="stat-card" data-count="77" data-suffix="%">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Face No Consequences</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: NETWORK -->
+    <section id="network" class="section network-section">
         <header class="section-header">
-            <h2 class="section-title">THE NETWORK</h2>
-            <p class="section-subtitle">
-                Explore connections between individuals in the Epstein files.
-                Node size reflects severity score. Lines connect people who appear in the same documents.
-            </p>
+            <h2 class="section-title">Connection <span class="title-accent">Network</span></h2>
+            <p class="section-subtitle">Co-occurrence relationships between individuals across case documents. Node size reflects accountability score. Click any node for details.</p>
         </header>
-
         <div class="network-container">
-            <div id="network-graph" role="img" aria-label="Interactive force-directed network graph of individuals"></div>
-
-            <aside class="network-legend" aria-label="Severity level legend">
-                <h3 class="legend-title">Severity</h3>
+            <div id="network-graph" role="img" aria-label="Interactive network graph"></div>
+            <aside class="network-legend">
+                <h3 class="legend-title">Accountability Level</h3>
                 <ul class="legend-list">
-                    <li><span class="legend-swatch" style="background:#e74c3c;"></span> Critical</li>
-                    <li><span class="legend-swatch" style="background:#e67e22;"></span> High</li>
-                    <li><span class="legend-swatch" style="background:#f1c40f;"></span> Medium</li>
-                    <li><span class="legend-swatch" style="background:#1abc9c;"></span> Low</li>
-                    <li><span class="legend-swatch" style="background:#7f8c8d;"></span> Minimal</li>
+                    <li><span class="legend-swatch" style="background:var(--color-critical)"></span> Critical</li>
+                    <li><span class="legend-swatch" style="background:var(--color-high)"></span> High</li>
+                    <li><span class="legend-swatch" style="background:var(--color-moderate)"></span> Moderate</li>
+                    <li><span class="legend-swatch" style="background:var(--color-low)"></span> Low</li>
+                    <li><span class="legend-swatch" style="background:var(--color-minimal)"></span> Minimal</li>
                 </ul>
             </aside>
         </div>
     </section>
 
-    <!-- ========================================================
-         SECTION 2 — PEOPLE GRID
-         ======================================================== -->
-    <section id="people" class="section people-section" aria-label="People directory">
+    <!-- SECTION 3: PEOPLE GRID -->
+    <section id="people" class="section people-section">
         <header class="section-header">
-            <h2 class="section-title">THE INDIVIDUALS</h2>
+            <h2 class="section-title">The <span class="title-accent">Individuals</span></h2>
         </header>
-
         <div class="people-controls">
             <div class="search-wrapper">
-                <input
-                    type="text"
-                    id="personSearch"
-                    class="search-input"
-                    placeholder="Search by name..."
-                    autocomplete="off"
-                    aria-label="Search individuals by name"
-                >
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="personSearch" class="search-input" placeholder="Search by name..." autocomplete="off">
             </div>
-
             <div class="filter-row">
-                <div class="filter-pills" role="group" aria-label="Filter by severity level">
+                <div class="filter-pills" role="group" aria-label="Filter by accountability level">
                     <button class="pill active" data-filter="all">All</button>
                     <button class="pill" data-filter="critical">Critical</button>
                     <button class="pill" data-filter="high">High</button>
-                    <button class="pill" data-filter="medium">Medium</button>
+                    <button class="pill" data-filter="moderate">Moderate</button>
                     <button class="pill" data-filter="low">Low</button>
                 </div>
-
                 <div class="sort-wrapper">
-                    <label for="sortSelect" class="sort-label">Sort by</label>
-                    <select id="sortSelect" class="sort-select" aria-label="Sort individuals">
-                        <option value="severity" selected>Severity</option>
+                    <label for="sortSelect" class="sort-label">Sort</label>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="accountability" selected>Accountability</option>
                         <option value="name">Name A&ndash;Z</option>
                         <option value="consequence">Consequence</option>
+                        <option value="evidence">Evidence</option>
                     </select>
                 </div>
             </div>
         </div>
-
-        <div id="people-grid" class="people-grid" role="list" aria-label="Individuals grid">
-            <!-- Cards rendered by app.js -->
-        </div>
+        <div id="people-grid" class="people-grid" role="list"></div>
     </section>
 
-    <!-- ========================================================
-         SECTION 3 — ANALYSIS
-         ======================================================== -->
-    <section id="analysis" class="section analysis-section" aria-label="ML analysis results">
+    <!-- SECTION 4: MODELS & EVALUATION -->
+    <section id="models" class="section models-section">
         <header class="section-header">
-            <h2 class="section-title">THE ANALYSIS</h2>
-            <p class="section-subtitle">
-                Does severity of mention predict real-world consequences?
-            </p>
+            <h2 class="section-title">Models & <span class="title-accent">Evaluation</span></h2>
+            <p class="section-subtitle">Three complementary ML approaches evaluated with multiple metrics and stress tests to understand model limitations and guide improvement.</p>
         </header>
 
-        <div class="analysis-grid">
-            <div class="analysis-panel panel-scatter">
-                <h3 class="panel-title">Accountability Gap: Severity vs. Consequences</h3>
-                <div id="scatterPlot" role="img" aria-label="Scatter plot of severity scores versus consequence levels"></div>
+        <!-- NLP Approach -->
+        <div class="approach-panel">
+            <h3 class="panel-heading">NLP Approach</h3>
+            <div class="approach-grid">
+                <div class="approach-step">
+                    <div class="step-number">01</div>
+                    <h4>Feature Extraction</h4>
+                    <p>spaCy NER identifies person mentions across 2,849 documents. VADER sentiment analysis scores surrounding context. Co-occurrence with incriminating terms (trafficking, minor, abuse) is computed per person.</p>
+                </div>
+                <div class="approach-step">
+                    <div class="step-number">02</div>
+                    <h4>Text Representation</h4>
+                    <p>TF-IDF vectorization with bigrams (max 500 features) creates document-level text features. Combined with 7 tabular NLP features for a hybrid feature space.</p>
+                </div>
+                <div class="approach-step">
+                    <div class="step-number">03</div>
+                    <h4>Classification</h4>
+                    <p>Binary task: predict if an individual faces consequences. Three models: Logistic Regression (baseline), Random Forest + TF-IDF (best), Legal-BERT (transformer).</p>
+                </div>
+                <div class="approach-step">
+                    <div class="step-number">04</div>
+                    <h4>Evaluation</h4>
+                    <p>Accuracy, F1 Macro, MCC, and precision/recall assessed. Feature ablation study and power tier stress test reveal model limitations and improvement paths.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Tabs -->
+        <div class="model-tabs-container">
+            <div class="tab-bar" role="tablist">
+                <button class="tab active" data-tab="comparison" role="tab">Model Comparison</button>
+                <button class="tab" data-tab="confusion" role="tab">Confusion Matrices</button>
+                <button class="tab" data-tab="stress" role="tab">Stress Tests</button>
+                <button class="tab" data-tab="limitations" role="tab">Limitations & Insights</button>
             </div>
 
-            <div class="analysis-panel panel-model">
-                <h3 class="panel-title">Model Performance</h3>
-                <div id="modelPerformance" aria-label="Model evaluation metrics"></div>
+            <div class="tab-content active" id="tab-comparison">
+                <div class="models-comparison-grid">
+                    <div id="modelCards"></div>
+                </div>
+                <div class="metrics-chart-row">
+                    <div id="metricsBarChart" class="chart-container"></div>
+                </div>
             </div>
 
-            <div class="analysis-panel panel-experiment">
-                <h3 class="panel-title">Power Tier Experiment</h3>
-                <p class="panel-description">
-                    Does power protect? Correlation between severity and consequences by power tier.
-                </p>
-                <div id="experimentChart" role="img" aria-label="Power tier experiment chart"></div>
+            <div class="tab-content" id="tab-confusion">
+                <div class="confusion-grid" id="confusionMatrices"></div>
             </div>
 
-            <div class="analysis-panel panel-ablation">
-                <h3 class="panel-title">Feature Ablation Study</h3>
-                <p class="panel-description">
-                    How much does each feature contribute? Bars show F1 score when each feature
-                    (or feature group) is removed. The dashed line marks the full model's F1.
-                </p>
-                <div id="ablationChart" role="img" aria-label="Feature ablation bar chart"></div>
+            <div class="tab-content" id="tab-stress">
+                <div class="stress-grid">
+                    <div class="stress-panel">
+                        <h4>Feature Ablation Study</h4>
+                        <p class="panel-desc">How much does each feature contribute? Bars show F1 score when each feature is removed. Dashed line = full model baseline.</p>
+                        <div id="ablationChart" class="chart-container"></div>
+                    </div>
+                    <div class="stress-panel">
+                        <h4>Power Tier Analysis</h4>
+                        <p class="panel-desc">Correlation between accountability score and consequences, segmented by score tier. Tests whether high-profile individuals are protected from justice.</p>
+                        <div id="experimentChart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-limitations">
+                <div class="limitations-grid" id="limitationsContent"></div>
             </div>
         </div>
     </section>
 
-    <!-- ========================================================
-         PERSON MODAL OVERLAY
-         ======================================================== -->
-    <div id="person-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" hidden>
-        <div class="modal-panel">
-            <button class="modal-close" aria-label="Close person details">&times;</button>
+    <!-- SECTION 5: ANALYSIS -->
+    <section id="analysis" class="section analysis-section">
+        <header class="section-header">
+            <h2 class="section-title">The <span class="title-accent">Gap</span></h2>
+            <p class="section-subtitle">Does evidence of involvement predict real-world consequences?</p>
+        </header>
+        <div class="analysis-grid">
+            <div class="analysis-panel panel-scatter">
+                <h3 class="panel-heading">Accountability Gap: Evidence vs. Consequences</h3>
+                <div id="scatterPlot" class="chart-container"></div>
+            </div>
+        </div>
+    </section>
 
+    <!-- PERSON MODAL -->
+    <div id="person-modal" class="modal-overlay" role="dialog" aria-modal="true" hidden>
+        <div class="modal-panel">
+            <button class="modal-close" aria-label="Close">&times;</button>
             <header class="modal-header-content">
                 <img id="modal-image" class="modal-person-image" src="" alt="" />
                 <div>
                     <h2 id="modal-name" class="modal-person-name"></h2>
-                    <span id="modal-level" class="modal-severity-badge"></span>
+                    <span id="modal-level" class="modal-accountability-badge"></span>
                 </div>
             </header>
-
             <div class="modal-body-content">
                 <div class="modal-columns">
-                    <!-- Left column -->
                     <div class="modal-col-left">
                         <div class="modal-gauge-wrapper">
-                            <h3 class="modal-section-title">Severity Score</h3>
-                            <div id="modal-gauge" aria-label="Severity gauge"></div>
+                            <h3 class="modal-section-title">Accountability Score</h3>
+                            <div id="modal-gauge"></div>
                         </div>
                         <div class="modal-consequence-wrapper">
                             <h3 class="modal-section-title">Consequence</h3>
-                            <div id="modal-consequence" aria-label="Consequence details"></div>
+                            <div id="modal-consequence"></div>
                         </div>
                     </div>
-
-                    <!-- Right column -->
                     <div class="modal-col-right">
                         <div class="modal-features-wrapper">
                             <h3 class="modal-section-title">NLP Features</h3>
-                            <div id="modal-features" class="features-grid" aria-label="NLP feature values"></div>
+                            <div id="modal-features" class="features-grid"></div>
                         </div>
                         <div class="modal-predictions-wrapper">
                             <h3 class="modal-section-title">Model Predictions</h3>
-                            <div id="modal-predictions" aria-label="Model prediction outputs"></div>
+                            <div id="modal-predictions"></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- File Summary (lazy-loaded) -->
                 <div class="modal-summary-wrapper" id="modal-summary-section" style="display:none;">
-                    <h3 class="modal-section-title">File Summary</h3>
+                    <h3 class="modal-section-title">Document Summary & Citations</h3>
                     <p id="modal-summary-text" class="summary-text"></p>
                     <div id="modal-citations" class="citations-list"></div>
                 </div>
-
                 <div class="modal-connections-wrapper">
                     <h3 class="modal-section-title">Connected Individuals</h3>
-                    <div id="modal-connections" class="connections-list" role="list" aria-label="Connected individuals"></div>
+                    <div id="modal-connections" class="connections-list" role="list"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========================================================
-         SCRIPTS (before closing body)
-         ======================================================== -->
+    <footer class="site-footer">
+        <p>Data sourced from publicly released DOJ documents. Built with Python, Flask, scikit-learn, and Legal-BERT.</p>
+    </footer>
+
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
