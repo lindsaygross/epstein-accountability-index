@@ -80,6 +80,20 @@ def load_data() -> None:
     if ablation_path.exists():
         DATA['ablation_results'] = pd.read_csv(ablation_path)
 
+    # Load images manifest
+    images_manifest_path = base_path / "app" / "static" / "images" / "people" / "images_manifest.json"
+    if images_manifest_path.exists():
+        with open(images_manifest_path, 'r') as f:
+            DATA['images'] = json.load(f)
+        logger.info(f"Loaded {len(DATA['images'])} image mappings")
+
+    # Load summaries
+    summaries_path = base_path / "data" / "processed" / "summaries.json"
+    if summaries_path.exists():
+        with open(summaries_path, 'r') as f:
+            DATA['summaries'] = json.load(f)
+        logger.info(f"Loaded {len(DATA['summaries'])} person summaries")
+
     # Merge features and consequences
     if 'features' in DATA and 'consequences' in DATA:
         DATA['merged'] = DATA['features'].merge(
@@ -185,6 +199,10 @@ def get_all_people() -> Any:
                 if not f_row.empty:
                     mention_count = int(f_row.iloc[0].get('mention_count', 0))
 
+            # Get image URL
+            image_file = DATA.get('images', {}).get(name, 'placeholder.png')
+            image_url = f"/static/images/people/{image_file}"
+
             people.append({
                 'name': name,
                 'severity_score': score,
@@ -192,7 +210,8 @@ def get_all_people() -> Any:
                 'consequence_tier': consequence_tier,
                 'consequence_description': consequence_desc,
                 'badge': get_tier_badge(consequence_tier),
-                'mention_count': mention_count
+                'mention_count': mention_count,
+                'image_url': image_url
             })
 
     return jsonify(people)
@@ -258,6 +277,10 @@ def get_person(name: str) -> Any:
                 'weight': int(row['weight'])
             })
 
+    # Get image URL
+    image_file = DATA.get('images', {}).get(name, 'placeholder.png')
+    image_url = f"/static/images/people/{image_file}"
+
     response = {
         'name': person['name'],
         'severity_score': score,
@@ -269,6 +292,8 @@ def get_person(name: str) -> Any:
         'badge': badge,
         'predictions': predictions,
         'connections': connections,
+        'image_url': image_url,
+        'has_summary': name in DATA.get('summaries', {}),
         'features': {
             'mention_count': int(person.get('mention_count', 0)),
             'total_mentions': int(person.get('total_mentions', 0)),
@@ -280,6 +305,19 @@ def get_person(name: str) -> Any:
     }
 
     return jsonify(response)
+
+
+@app.route('/api/person/<name>/summary')
+def get_person_summary(name: str) -> Any:
+    """Get AI-generated summary with DOJ file citations for a person."""
+    if 'summaries' not in DATA:
+        return jsonify({'error': 'Summaries not available'}), 404
+
+    summary = DATA['summaries'].get(name)
+    if not summary:
+        return jsonify({'error': f'Summary not found for {name}'}), 404
+
+    return jsonify(summary)
 
 
 @app.route('/api/search')

@@ -1,25 +1,11 @@
 {
-  "naive_baseline": {
-    "accuracy": 0.7857142857142857,
-    "f1_macro": 0.44,
+  "logistic_baseline": {
+    "accuracy": 0.7142857142857143,
+    "f1_macro": 0.65,
     "confusion_matrix": [
       [
-        11,
-        0
-      ],
-      [
-        3,
-        0
-      ]
-    ]
-  },
-  "gradient_boosting": {
-    "accuracy": 0.8571428571428571,
-    "f1_macro": 0.7878787878787878,
-    "confusion_matrix": [
-      [
-        10,
-        1
+        8,
+        3
       ],
       [
         1,
@@ -27,17 +13,31 @@
       ]
     ]
   },
-  "distilbert": {
+  "random_forest_tfidf": {
     "accuracy": 0.7857142857142857,
-    "f1_macro": 0.44,
+    "f1_macro": 0.6347826086956522,
     "confusion_matrix": [
       [
-        11,
-        0
+        10,
+        1
       ],
       [
-        3,
-        0
+        2,
+        1
+      ]
+    ]
+  },
+  "legal_bert": {
+    "accuracy": 0.45695364238410596,
+    "f1_macro": 0.41813909774436087,
+    "confusion_matrix": [
+      [
+        15,
+        78
+      ],
+      [
+        4,
+        54
       ]
     ]
   }

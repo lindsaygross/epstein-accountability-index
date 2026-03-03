@@ -199,8 +199,11 @@
             <button class="modal-close" aria-label="Close person details">&times;</button>
 
             <header class="modal-header-content">
-                <h2 id="modal-name" class="modal-person-name"></h2>
-                <span id="modal-level" class="modal-severity-badge"></span>
+                <img id="modal-image" class="modal-person-image" src="" alt="" />
+                <div>
+                    <h2 id="modal-name" class="modal-person-name"></h2>
+                    <span id="modal-level" class="modal-severity-badge"></span>
+                </div>
             </header>
 
             <div class="modal-body-content">
@@ -228,6 +231,13 @@
                             <div id="modal-predictions" aria-label="Model prediction outputs"></div>
                         </div>
                     </div>
+                </div>
+
+                <!-- File Summary (lazy-loaded) -->
+                <div class="modal-summary-wrapper" id="modal-summary-section" style="display:none;">
+                    <h3 class="modal-section-title">File Summary</h3>
+                    <p id="modal-summary-text" class="summary-text"></p>
+                    <div id="modal-citations" class="citations-list"></div>
                 </div>
 
                 <div class="modal-connections-wrapper">

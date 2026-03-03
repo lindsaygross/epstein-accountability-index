@@ -124,8 +124,11 @@ dmypy.json
 
 # Project-specific
 data/raw/*.json
+data/jmail_cache/
 models/*.pkl
 models/distilbert/
+models/legal_bert/
 *.pt
 *.pth
 .DS_Store
+.claude/

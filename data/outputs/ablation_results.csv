@@ -1,11 +1,13 @@
 run,n_features,features,accuracy,f1_macro,f1_delta
 All Features,7,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line, severity_score",0.8571428571428571,0.7878787878787878,0.0
-Severity Score Only,1,severity_score,0.7857142857142857,0.6347826086956522,-0.15309617918313567
-NLP Features Only,6,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line",0.7142857142857143,0.65,-0.13787878787878782
+Severity Score Only,1,severity_score,0.7857142857142857,0.7543859649122806,-0.03349282296650724
+NLP Features Only,6,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line",0.7857142857142857,0.7142857142857142,-0.07359307359307365
 Without mention_count,6,"total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line, severity_score",0.8571428571428571,0.7878787878787878,0.0
 Without total_mentions,6,"mention_count, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line, severity_score",0.8571428571428571,0.7878787878787878,0.0
-Without mean_context_sentiment,6,"mention_count, total_mentions, cooccurrence_score, doc_type_diversity, name_in_subject_line, severity_score",0.9285714285714286,0.8782608695652174,0.09038208168642958
+Without mean_context_sentiment,6,"mention_count, total_mentions, cooccurrence_score, doc_type_diversity, name_in_subject_line, severity_score",0.8571428571428571,0.7878787878787878,0.0
 Without cooccurrence_score,6,"mention_count, total_mentions, mean_context_sentiment, doc_type_diversity, name_in_subject_line, severity_score",0.8571428571428571,0.7878787878787878,0.0
 Without doc_type_diversity,6,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, name_in_subject_line, severity_score",0.8571428571428571,0.7878787878787878,0.0
 Without name_in_subject_line,6,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, severity_score",0.8571428571428571,0.7878787878787878,0.0
-Without severity_score,6,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line",0.7142857142857143,0.65,-0.13787878787878782
+Without severity_score,6,"mention_count, total_mentions, mean_context_sentiment, cooccurrence_score, doc_type_diversity, name_in_subject_line",0.7857142857142857,0.7142857142857142,-0.07359307359307365
+TF-IDF Only (no tabular),500,tfidf_500,0.8571428571428571,0.7083333333333333,-0.07954545454545459
+Tabular + TF-IDF Combined,507,tabular + tfidf_500,0.8571428571428571,0.7083333333333333,-0.07954545454545459
