@@ -1,458 +1,961 @@
 // Attribution: Scaffolded with AI assistance (Claude, Anthropic)
 
 /**
- * Main application JavaScript for The Accountability Gap dashboard.
+ * The Impunity Index — Main Application JavaScript
  */
 
-// Global state
-let chartData = [];
-let modelResults = {};
-let experimentResults = [];
+/* ============================================================
+   1. GLOBAL STATE & CONSTANTS
+   ============================================================ */
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing dashboard...');
+const STATE = {
+    people: [],
+    edges: [],
+    chartData: [],
+    modelResults: {},
+    experimentResults: [],
+    ablationResults: [],
+    activeFilter: 'all',
+    activeSort: 'impunity',
+    searchQuery: ''
+};
 
-    // Load initial data
-    loadChartData();
-    loadModelResults();
-    loadExperimentResults();
+const LEVEL_COLORS = {
+    Critical: '#ef4444',
+    High:     '#f59e0b',
+    Moderate: '#3b82f6',
+    Low:      '#06b6d4',
+    Minimal:  '#475569'
+};
 
-    // Setup event listeners
-    setupEventListeners();
-});
+function getPlotlyTheme() {
+    const isLight = document.documentElement.dataset.theme === 'light';
+    return {
+        paper_bgcolor: isLight ? '#ffffff' : '#111827',
+        plot_bgcolor:  isLight ? '#ffffff' : '#111827',
+        font: { color: isLight ? '#475569' : '#94a3b8', family: 'DM Sans, sans-serif', size: 11 }
+    };
+}
 
-/**
- * Setup event listeners for interactive elements.
- */
-function setupEventListeners() {
-    const searchInput = document.getElementById('personSearch');
-    const searchBtn = document.getElementById('searchBtn');
+// Default (will be overridden by getPlotlyTheme() in each chart call)
+const PLOTLY_THEME = {
+    paper_bgcolor: '#111827',
+    plot_bgcolor:  '#111827',
+    font: { color: '#94a3b8', family: 'DM Sans, sans-serif', size: 11 }
+};
 
-    // Search button click
-    searchBtn.addEventListener('click', function() {
-        const query = searchInput.value.trim();
-        if (query) {
-            searchPerson(query);
-        }
-    });
+/* ============================================================
+   2. DATA LOADING
+   ============================================================ */
 
-    // Search on Enter key
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const query = searchInput.value.trim();
-            if (query) {
-                searchPerson(query);
+async function loadAllData() {
+    try {
+        const [people, edges, chartData, modelResults, experimentResults, ablationResults] =
+            await Promise.all([
+                fetch('/api/people').then(r => r.json()),
+                fetch('/api/edges').then(r => r.json()),
+                fetch('/api/chart-data').then(r => r.json()),
+                fetch('/api/model-results').then(r => r.json()).catch(() => ({})),
+                fetch('/api/experiment-results').then(r => r.json()).catch(() => []),
+                fetch('/api/ablation-results').then(r => r.json()).catch(() => [])
+            ]);
+
+        STATE.people = people;
+        STATE.edges = edges;
+        STATE.chartData = chartData;
+        STATE.modelResults = modelResults;
+        STATE.experimentResults = Array.isArray(experimentResults) ? experimentResults : [];
+        STATE.ablationResults = Array.isArray(ablationResults) ? ablationResults : [];
+
+        initNetworkGraph();
+        renderPeopleGrid();
+        renderModelCards();
+        createMetricsBarChart();
+        createConfusionMatrices();
+        createAblationChart();
+        createExperimentChart();
+        renderLimitations();
+        createScatterPlot();
+
+    } catch (err) {
+        console.error('Failed to load data:', err);
+    }
+}
+
+/* ============================================================
+   3. ANIMATED STAT COUNTERS
+   ============================================================ */
+
+function initStatCounters() {
+    const cards = document.querySelectorAll('.stat-card');
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
             }
-        }
-    });
-
-    // Live search suggestions
-    searchInput.addEventListener('input', function() {
-        const query = searchInput.value.trim();
-        if (query.length >= 2) {
-            fetchSearchSuggestions(query);
-        } else {
-            document.getElementById('searchResults').innerHTML = '';
-        }
-    });
-}
-
-/**
- * Fetch search suggestions from API.
- */
-function fetchSearchSuggestions(query) {
-    fetch(`/api/search?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(names => {
-            displaySearchSuggestions(names);
-        })
-        .catch(error => {
-            console.error('Search error:', error);
         });
+    }, { threshold: 0.5 });
+
+    cards.forEach(c => observer.observe(c));
 }
 
-/**
- * Display search suggestions.
- */
-function displaySearchSuggestions(names) {
-    const resultsDiv = document.getElementById('searchResults');
+function animateCounter(card) {
+    const target = parseInt(card.dataset.count) || 0;
+    const suffix = card.dataset.suffix || '';
+    const el = card.querySelector('.stat-number');
+    if (!el) return;
 
-    if (names.length === 0) {
-        resultsDiv.innerHTML = '<div class="p-2 text-muted">No results found</div>';
+    const duration = 1500;
+    const start = performance.now();
+
+    function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.round(eased * target);
+        el.textContent = val.toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+/* ============================================================
+   4. D3.js NETWORK GRAPH
+   ============================================================ */
+
+function initNetworkGraph() {
+    const container = document.getElementById('network-graph');
+    if (!container || !STATE.people.length) return;
+
+    const width = container.clientWidth || 900;
+    const height = container.clientHeight || Math.max(600, window.innerHeight * 0.7);
+    container.innerHTML = '';
+
+    const nameSet = new Set(STATE.people.map(p => p.name));
+
+    const nodes = STATE.people.map(p => ({
+        id:          p.name,
+        score:       p.impunity_index,
+        level:       p.level,
+        consequence: p.consequence_tier,
+        radius:      Math.max(10, Math.sqrt(Math.max(1, p.impunity_index)) * 5.5),
+        image_url:   p.image_url || ''
+    }));
+
+    const links = STATE.edges
+        .filter(e => nameSet.has(e.source) && nameSet.has(e.target))
+        .map(e => ({ source: e.source, target: e.target, weight: e.weight }));
+
+    const maxWeight = d3.max(links, d => d.weight) || 1;
+
+    const svg = d3.select(container).append('svg').attr('width', width).attr('height', height);
+    const g = svg.append('g');
+    svg.call(d3.zoom().scaleExtent([0.25, 5]).on('zoom', e => g.attr('transform', e.transform)));
+
+    const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(90).strength(0.4))
+        .force('charge', d3.forceManyBody().strength(-180))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => d.radius + 3));
+
+    const edgeColor = document.documentElement.dataset.theme === 'light' ? '#94a3b8' : '#475569';
+    const link = g.append('g').selectAll('line').data(links).join('line')
+        .attr('stroke', edgeColor)
+        .attr('stroke-opacity', d => 0.3 + (d.weight / maxWeight) * 0.5)
+        .attr('stroke-width', d => 0.8 + (d.weight / maxWeight) * 3);
+
+    const defs = svg.append('defs');
+    nodes.forEach((d, i) => {
+        defs.append('clipPath').attr('id', `nc-${i}`)
+            .append('circle').attr('cx', 0).attr('cy', 0).attr('r', d.radius - 1.5);
+    });
+
+    const node = g.append('g').selectAll('g').data(nodes).join('g')
+        .attr('cursor', 'pointer').call(makeDrag(simulation));
+
+    node.append('circle')
+        .attr('r', d => d.radius)
+        .attr('fill', '#0f172a')
+        .attr('stroke', d => LEVEL_COLORS[d.level] || '#475569')
+        .attr('stroke-width', 2);
+
+    node.append('image')
+        .attr('href', d => d.image_url)
+        .attr('x', d => -d.radius + 1.5).attr('y', d => -d.radius + 1.5)
+        .attr('width', d => (d.radius - 1.5) * 2).attr('height', d => (d.radius - 1.5) * 2)
+        .attr('clip-path', (d, i) => `url(#nc-${i})`)
+        .attr('preserveAspectRatio', 'xMidYMid slice');
+
+    const label = g.append('g').selectAll('text').data(nodes).join('text')
+        .text(d => d.id)
+        .attr('font-size', d => Math.max(8, d.radius * 0.7))
+        .attr('fill', '#94a3b8').attr('text-anchor', 'middle')
+        .attr('dy', d => d.radius + 12)
+        .attr('pointer-events', 'none')
+        .style('font-family', 'DM Sans, sans-serif')
+        .style('opacity', d => d.score >= 4 ? 1 : 0);
+
+    node.on('mouseover', function (event, d) {
+        const connected = new Set([d.id]);
+        links.forEach(l => {
+            const s = typeof l.source === 'object' ? l.source.id : l.source;
+            const t = typeof l.target === 'object' ? l.target.id : l.target;
+            if (s === d.id) connected.add(t);
+            if (t === d.id) connected.add(s);
+        });
+        node.attr('opacity', n => connected.has(n.__data__.id) ? 1 : 0.1);
+        link.attr('opacity', l => {
+            const s = typeof l.source === 'object' ? l.source.id : l.source;
+            const t = typeof l.target === 'object' ? l.target.id : l.target;
+            return (s === d.id || t === d.id) ? 0.85 : 0.02;
+        });
+        label.style('opacity', n => connected.has(n.id) ? 1 : 0);
+        d3.select(this).select('circle').attr('stroke', '#fff').attr('stroke-width', 3);
+    })
+    .on('mouseout', function () {
+        node.attr('opacity', 1);
+        link.attr('stroke-opacity', d => 0.3 + (d.weight / maxWeight) * 0.5).attr('opacity', null);
+        label.style('opacity', d => d.score >= 4 ? 1 : 0);
+        d3.select(this).select('circle').attr('stroke', d => LEVEL_COLORS[d.level] || '#475569').attr('stroke-width', 2);
+    })
+    .on('click', (event, d) => openPersonModal(d.id));
+
+    simulation.on('tick', () => {
+        link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+        label.attr('x', d => d.x).attr('y', d => d.y);
+    });
+}
+
+function makeDrag(sim) {
+    return d3.drag()
+        .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+        .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+        .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; });
+}
+
+/* ============================================================
+   5. PEOPLE GRID
+   ============================================================ */
+
+function renderPeopleGrid() {
+    const container = document.getElementById('people-grid');
+    if (!container) return;
+
+    let list = [...STATE.people];
+
+    if (STATE.searchQuery) {
+        const q = STATE.searchQuery.toLowerCase();
+        list = list.filter(p => p.name.toLowerCase().includes(q));
+    }
+
+    if (STATE.activeFilter !== 'all') {
+        list = list.filter(p => p.level.toLowerCase() === STATE.activeFilter);
+    }
+
+    switch (STATE.activeSort) {
+        case 'impunity':
+            list.sort((a, b) => b.impunity_index - a.impunity_index);
+            break;
+        case 'name':
+            list.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'consequence':
+            list.sort((a, b) => (b.consequence_tier - a.consequence_tier) || (b.impunity_index - a.impunity_index));
+            break;
+        case 'evidence':
+            list.sort((a, b) => b.evidence_index - a.evidence_index);
+            break;
+    }
+
+    if (!list.length) {
+        container.innerHTML = '<p style="text-align:center;color:#475569;grid-column:1/-1;padding:3rem;">No individuals match your criteria.</p>';
         return;
     }
 
-    resultsDiv.innerHTML = names.map(name =>
-        `<div class="search-result-item" onclick="loadPerson('${name}')">${name}</div>`
-    ).join('');
+    container.innerHTML = list.map(p => {
+        const lvl = p.level.toLowerCase();
+        const color = LEVEL_COLORS[p.level] || '#475569';
+        const cLabel = p.badge ? p.badge.label : '';
+        const safeName = p.name.replace(/'/g, "\\'");
+        const imgUrl = p.image_url || '/static/images/people/placeholder.png';
+
+        return `
+            <div class="person-card level-${lvl}" role="listitem"
+                 onclick="openPersonModal('${safeName}')" tabindex="0"
+                 aria-label="${p.name}, impunity ${p.impunity_index.toFixed(1)}">
+                <img src="${imgUrl}" alt="" class="card-avatar"
+                     onerror="this.style.display='none'" loading="lazy" />
+                <div class="name">${p.name}</div>
+                <div class="score" style="color:${color}">${p.impunity_index.toFixed(1)}</div>
+                <span class="level-badge" style="color:${color}">${p.level}</span>
+                <span class="consequence-badge">${cLabel}</span>
+            </div>`;
+    }).join('');
 }
 
-/**
- * Search for a person and load their profile.
- */
-function searchPerson(query) {
-    // For simplicity, we'll search and load the first result
-    fetch(`/api/search?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(names => {
-            if (names.length > 0) {
-                loadPerson(names[0]);
-            } else {
-                alert('No person found with that name.');
-            }
-        })
-        .catch(error => {
-            console.error('Search error:', error);
-            alert('Error searching for person.');
+function setupPeopleControls() {
+    const searchInput = document.getElementById('personSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            STATE.searchQuery = searchInput.value.trim();
+            renderPeopleGrid();
         });
-}
-
-/**
- * Load and display person profile.
- */
-function loadPerson(name) {
-    fetch(`/api/person/${encodeURIComponent(name)}`)
-        .then(response => response.json())
-        .then(data => {
-            displayPersonProfile(data);
-            // Clear search
-            document.getElementById('personSearch').value = '';
-            document.getElementById('searchResults').innerHTML = '';
-        })
-        .catch(error => {
-            console.error('Error loading person:', error);
-            alert('Error loading person profile.');
-        });
-}
-
-/**
- * Display person profile data.
- */
-function displayPersonProfile(data) {
-    // Show profile card
-    document.getElementById('personProfile').style.display = 'block';
-
-    // Set name
-    document.getElementById('personName').textContent = data.name;
-
-    // Create severity gauge
-    createSeverityGauge(data.severity_score);
-    document.getElementById('severityValue').textContent = data.severity_score.toFixed(2);
-
-    // Set consequence badge
-    const badge = document.getElementById('consequenceBadge');
-    badge.className = `badge bg-${data.badge.color}`;
-    badge.textContent = data.badge.label;
-
-    // Set consequence description
-    document.getElementById('consequenceDescription').textContent = data.consequence_description;
-
-    // Display model predictions
-    displayModelPredictions(data.predictions, data.consequence_tier);
-
-    // Display features
-    displayFeatures(data.features);
-}
-
-/**
- * Create severity score gauge chart.
- */
-function createSeverityGauge(score) {
-    const data = [{
-        type: 'indicator',
-        mode: 'gauge+number',
-        value: score,
-        gauge: {
-            axis: { range: [0, 10], tickcolor: '#e0e0e0' },
-            bar: { color: '#0d6efd' },
-            bgcolor: '#3d3d3d',
-            borderwidth: 2,
-            bordercolor: '#505050',
-            steps: [
-                { range: [0, 3], color: '#28a745' },
-                { range: [3, 7], color: '#ffc107' },
-                { range: [7, 10], color: '#dc3545' }
-            ],
-            threshold: {
-                line: { color: 'white', width: 4 },
-                thickness: 0.75,
-                value: score
-            }
-        }
-    }];
-
-    const layout = {
-        height: 200,
-        margin: { t: 0, b: 0, l: 20, r: 20 },
-        paper_bgcolor: '#2d2d2d',
-        plot_bgcolor: '#2d2d2d',
-        font: { color: '#e0e0e0' }
-    };
-
-    Plotly.newPlot('severityGauge', data, layout, {displayModeBar: false});
-}
-
-/**
- * Display model predictions.
- */
-function displayModelPredictions(predictions, actualTier) {
-    const container = document.getElementById('modelPredictions');
-
-    const tierLabels = ['No Consequence', 'Soft', 'Hard'];
-
-    let html = '<table class="table table-sm table-dark">';
-    html += '<thead><tr><th>Model</th><th>Predicted</th><th>Actual</th></tr></thead>';
-    html += '<tbody>';
-
-    for (const [model, pred] of Object.entries(predictions)) {
-        const predLabel = pred !== null ? tierLabels[pred] : 'N/A';
-        const actualLabel = tierLabels[actualTier];
-        const match = pred === actualTier;
-
-        html += `<tr>
-            <td>${model}</td>
-            <td class="${match ? 'text-success' : 'text-danger'}">${predLabel}</td>
-            <td>${actualLabel}</td>
-        </tr>`;
     }
 
-    html += '</tbody></table>';
-    container.innerHTML = html;
-}
-
-/**
- * Display feature values.
- */
-function displayFeatures(features) {
-    const container = document.getElementById('features');
-
-    const featureLabels = {
-        'mention_count': 'Documents',
-        'total_mentions': 'Total Mentions',
-        'mean_sentiment': 'Avg Sentiment',
-        'cooccurrence_score': 'Co-occurrence',
-        'doc_type_diversity': 'Doc Types',
-        'in_subject_line': 'In Subject'
-    };
-
-    let html = '';
-    for (const [key, value] of Object.entries(features)) {
-        const label = featureLabels[key] || key;
-        const displayValue = typeof value === 'boolean'
-            ? (value ? 'Yes' : 'No')
-            : typeof value === 'number'
-            ? value.toFixed(2)
-            : value;
-
-        html += `
-            <div class="col-md-4 mb-2">
-                <div class="feature-item">
-                    <div class="feature-label">${label}</div>
-                    <div class="feature-value">${displayValue}</div>
-                </div>
-            </div>
-        `;
-    }
-
-    container.innerHTML = html;
-}
-
-/**
- * Load accountability gap chart data.
- */
-function loadChartData() {
-    fetch('/api/chart-data')
-        .then(response => response.json())
-        .then(data => {
-            chartData = data;
-            createScatterPlot(data);
-        })
-        .catch(error => {
-            console.error('Error loading chart data:', error);
+    document.querySelectorAll('.pill[data-filter]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            STATE.activeFilter = btn.dataset.filter;
+            renderPeopleGrid();
         });
-}
-
-/**
- * Create accountability gap scatter plot.
- */
-function createScatterPlot(data) {
-    // Group by power tier
-    const tiers = ['Low', 'Medium', 'High', 'Very High'];
-    const colors = ['#28a745', '#ffc107', '#fd7e14', '#dc3545'];
-
-    const traces = tiers.map((tier, idx) => {
-        const tierData = data.filter(d => d.power_tier === tier);
-
-        return {
-            x: tierData.map(d => d.severity_score),
-            y: tierData.map(d => d.consequence_tier + (Math.random() - 0.5) * 0.2), // Add jitter
-            mode: 'markers',
-            type: 'scatter',
-            name: tier,
-            marker: {
-                size: 10,
-                color: colors[idx],
-                opacity: 0.7,
-                line: {
-                    color: '#ffffff',
-                    width: 1
-                }
-            },
-            text: tierData.map(d => d.name),
-            hovertemplate: '<b>%{text}</b><br>' +
-                          'Severity: %{x:.2f}<br>' +
-                          'Consequence: %{y:.0f}<br>' +
-                          '<extra></extra>'
-        };
     });
 
-    const layout = {
-        title: {
-            text: 'Does Severity Predict Consequences?',
-            font: { color: '#e0e0e0' }
-        },
-        xaxis: {
-            title: 'Severity Score',
-            color: '#e0e0e0',
-            gridcolor: '#404040'
-        },
-        yaxis: {
-            title: 'Consequence Tier',
-            color: '#e0e0e0',
-            gridcolor: '#404040',
-            tickvals: [0, 1, 2],
-            ticktext: ['None', 'Soft', 'Hard']
-        },
-        paper_bgcolor: '#2d2d2d',
-        plot_bgcolor: '#2d2d2d',
-        font: { color: '#e0e0e0' },
-        hovermode: 'closest',
-        height: 500,
-        margin: { t: 50, b: 50, l: 60, r: 20 },
-        legend: {
-            bgcolor: '#3d3d3d',
-            bordercolor: '#505050',
-            borderwidth: 1
-        }
-    };
-
-    const config = {
-        responsive: true,
-        displayModeBar: true,
-        displaylogo: false
-    };
-
-    Plotly.newPlot('scatterPlot', traces, layout, config);
-}
-
-/**
- * Load model performance results.
- */
-function loadModelResults() {
-    fetch('/api/model-results')
-        .then(response => response.json())
-        .then(data => {
-            modelResults = data;
-            displayModelResults(data);
-        })
-        .catch(error => {
-            console.error('Error loading model results:', error);
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            STATE.activeSort = sortSelect.value;
+            renderPeopleGrid();
         });
+    }
 }
 
-/**
- * Display model performance metrics.
- */
-function displayModelResults(data) {
-    const container = document.getElementById('modelPerformance');
+/* ============================================================
+   6. PERSON MODAL
+   ============================================================ */
 
-    const modelLabels = {
-        'naive_baseline': 'Naive Baseline',
-        'xgboost': 'XGBoost',
-        'distilbert': 'DistilBERT'
-    };
+function openPersonModal(name) {
+    fetch(`/api/person/${encodeURIComponent(name)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) return;
+            populateModal(data);
+        })
+        .catch(err => console.error('Error loading person:', err));
+}
 
-    let html = '<div class="performance-table">';
+function populateModal(data) {
+    const modal = document.getElementById('person-modal');
+    if (!modal) return;
 
-    for (const [model, metrics] of Object.entries(data)) {
-        const label = modelLabels[model] || model;
-        html += `
-            <div class="performance-row">
-                <div>
-                    <div class="model-name">${label}</div>
-                    <small class="text-muted">F1: ${(metrics.f1_macro * 100).toFixed(1)}%</small>
-                </div>
-                <div class="model-metric">${(metrics.accuracy * 100).toFixed(1)}%</div>
-            </div>
-        `;
+    const imgEl = document.getElementById('modal-image');
+    if (imgEl) {
+        imgEl.src = data.image_url || '/static/images/people/placeholder.png';
+        imgEl.alt = data.name;
+        imgEl.onerror = function() { this.src = '/static/images/people/placeholder.png'; };
     }
 
-    html += '</div>';
-    container.innerHTML = html;
+    document.getElementById('modal-name').textContent = data.name;
+    const badge = document.getElementById('modal-level');
+    badge.textContent = data.level;
+    badge.style.color = LEVEL_COLORS[data.level] || '#475569';
+
+    createModalGauge(data.impunity_index);
+    createEvidenceBar(data.evidence_index || 0);
+
+    // Show internal score breakdown
+    const breakdownEl = document.getElementById('modal-score-breakdown');
+    if (breakdownEl) {
+        const modifier = data.consequence_tier === 0 ? 1.3 : data.consequence_tier === 1 ? 1.0 : 0.7;
+        const modifierLabel = data.consequence_tier === 0 ? '×1.3 (no consequence)' : data.consequence_tier === 1 ? '×1.0 (soft consequence)' : '×0.7 (convicted)';
+        breakdownEl.innerHTML = `
+            <div class="breakdown-row">
+                <span class="breakdown-label">Evidence Index</span>
+                <span class="breakdown-value">${(data.evidence_index || 0).toFixed(1)}</span>
+            </div>
+            <div class="breakdown-row">
+                <span class="breakdown-label">Consequence Modifier</span>
+                <span class="breakdown-value">${modifierLabel}</span>
+            </div>
+            <div class="breakdown-formula">${(data.evidence_index || 0).toFixed(1)} × ${modifier} = <strong>${(data.impunity_index || 0).toFixed(1)}</strong></div>
+            <div class="breakdown-explain">Higher impunity = more evidence, less consequence</div>`;
+    }
+
+    const cEl = document.getElementById('modal-consequence');
+    const cColor = data.badge?.color === 'hard' ? '#ef4444' : data.badge?.color === 'soft' ? '#f59e0b' : '#475569';
+    const sourceLink = data.source_url ? `<a href="${data.source_url}" target="_blank" rel="noopener noreferrer" class="citation-link" style="display:inline-block;margin-top:0.4rem;">Source &rarr;</a>` : '';
+    cEl.innerHTML = `
+        <div style="margin-bottom:0.5rem;">
+            <span style="font-size:0.82rem;padding:0.25rem 0.7rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};">${data.badge?.label || 'Unknown'}</span>
+        </div>
+        <p style="font-size:0.85rem;color:#94a3b8;line-height:1.65;">${data.consequence_description || 'No information available'}</p>
+        ${sourceLink}`;
+
+    const fEl = document.getElementById('modal-features');
+    const fLabels = {
+        mention_count: 'Documents', total_mentions: 'Total Mentions',
+        mean_sentiment: 'Avg Sentiment', cooccurrence_score: 'Co-occurrence',
+        doc_type_diversity: 'Doc Types', in_subject_line: 'In Subject'
+    };
+    if (data.features) {
+        fEl.innerHTML = Object.entries(data.features).map(([k, v]) => {
+            let display = v;
+            if (typeof v === 'boolean') display = v ? 'Yes' : 'No';
+            else if (typeof v === 'number') display = Number.isInteger(v) ? v : v.toFixed(3);
+            return `<div class="feature-item"><div class="feature-label">${fLabels[k] || k}</div><div class="feature-value">${display}</div></div>`;
+        }).join('');
+    }
+
+    const pEl = document.getElementById('modal-predictions');
+    const tierText = { 0: 'No Consequence', 1: 'Consequence' };
+    const mLabels = {
+        logistic_baseline: 'Logistic Regression',
+        random_forest_tfidf: 'Random Forest + TF-IDF',
+        legal_bert: 'Legal-BERT'
+    };
+    if (data.predictions && Object.keys(data.predictions).length) {
+        const actual = data.consequence_tier > 0 ? 1 : 0;
+        pEl.innerHTML = `<table class="predictions-table">
+            <thead><tr><th>Model</th><th style="text-align:right">Predicted</th><th style="text-align:right">Actual</th></tr></thead>
+            <tbody>${Object.entries(data.predictions).map(([m, pred]) => {
+                if (pred === null || pred === undefined) {
+                    return `<tr><td>${mLabels[m] || m}</td>
+                        <td style="text-align:right;color:var(--text-secondary);font-style:italic;">Not in test set</td>
+                        <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
+                }
+                const match = pred === actual;
+                return `<tr><td>${mLabels[m] || m}</td>
+                    <td style="text-align:right;color:${match ? '#10b981' : '#ef4444'}">${tierText[pred] ?? pred}</td>
+                    <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
+            }).join('')}</tbody></table>`;
+    } else {
+        pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No prediction data for this individual (not in test set).</p>';
+    }
+
+    const connEl = document.getElementById('modal-connections');
+    if (data.connections && data.connections.length) {
+        connEl.innerHTML = data.connections.map(c => {
+            const safe = c.name.replace(/'/g, "\\'");
+            return `<span class="person-pill" onclick="openPersonModal('${safe}')" title="${c.weight} shared documents">${c.name} <small style="opacity:0.5">(${c.weight})</small></span>`;
+        }).join('');
+    } else {
+        connEl.innerHTML = '<p style="color:#475569;font-size:0.82rem;">No co-occurrence connections found.</p>';
+    }
+
+    // Summary & Citations from DOJ documents
+    const summarySection = document.getElementById('modal-summary-section');
+    const summaryText = document.getElementById('modal-summary-text');
+    const citationsEl = document.getElementById('modal-citations');
+
+    if (data.has_summary) {
+        summarySection.style.display = '';
+        summaryText.textContent = 'Loading summary...';
+        citationsEl.innerHTML = '';
+
+        fetch(`/api/person/${encodeURIComponent(data.name)}/summary`)
+            .then(r => r.json())
+            .then(summary => {
+                summaryText.textContent = summary.summary_text || 'No summary available.';
+
+                // Show document type breakdown
+                if (summary.document_types) {
+                    const typeBreakdown = Object.entries(summary.document_types)
+                        .map(([type, count]) => `${count} ${type}${count > 1 ? 's' : ''}`)
+                        .join(', ');
+                    const docsTotal = summary.total_documents || Object.values(summary.document_types).reduce((a, b) => a + b, 0);
+                    summaryText.textContent = summary.summary_text || 'No summary available.';
+                }
+
+                // Filter citations: only show those with readable snippets
+                if (summary.citations && summary.citations.length) {
+                    const readable = summary.citations.filter(c => {
+                        if (!c.snippet) return false;
+                        const s = c.snippet;
+                        if (s.length < 40) return false;
+                        // Reject if too many non-alpha characters
+                        const alpha = s.replace(/[^a-zA-Z\s]/g, '').length;
+                        if (alpha / s.length < 0.55) return false;
+                        // Reject if too many bullet/special chars
+                        if ((s.match(/[•\|;:{}=\[\]]/g) || []).length > 3) return false;
+                        // Check word quality: real words have vowels; garbled OCR doesn't
+                        const words = s.match(/\b[a-zA-Z]{3,}\b/g) || [];
+                        if (words.length < 8) return false;
+                        const vowelWords = words.filter(w => /[aeiou]/i.test(w) && !/[A-Z]{3,}/.test(w));
+                        // At least 70% of words should have vowels (real English)
+                        if (vowelWords.length / words.length < 0.7) return false;
+                        // Reject if many unusual capitalization patterns (garbled OCR artifact)
+                        const oddCaps = words.filter(w => /[a-z][A-Z]/.test(w) || /^[A-Z][a-z]+[A-Z]/.test(w));
+                        if (oddCaps.length > 3) return false;
+                        return true;
+                    });
+
+                    citationsEl.innerHTML = readable.slice(0, 8).map(c => {
+                        const batesId = c.doc_id ? c.doc_id.split('_').slice(-1)[0] : '';
+                        return `
+                            <div class="citation-item">
+                                <span class="citation-type">${c.doc_type || 'document'}</span>
+                                <span class="citation-id">${batesId || c.doc_id || ''}</span>
+                                <p class="citation-snippet">${c.snippet}</p>
+                                <span style="font-size:0.65rem;color:#64748b;">DOJ Case File ${c.source_volume ? '(' + c.source_volume + ')' : ''}</span>
+                            </div>`;
+                    }).join('');
+
+                    if (!readable.length) {
+                        citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.8rem;">Document references available but text is from OCR-scanned files.</p>';
+                    }
+                }
+            })
+            .catch(() => { summaryText.textContent = 'Summary could not be loaded.'; });
+    } else {
+        summarySection.style.display = 'none';
+    }
+
+    modal.removeAttribute('hidden');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-/**
- * Load experiment results.
- */
-function loadExperimentResults() {
-    fetch('/api/experiment-results')
-        .then(response => response.json())
-        .then(data => {
-            experimentResults = data;
-            createExperimentChart(data);
-        })
-        .catch(error => {
-            console.error('Error loading experiment results:', error);
+function createEvidenceBar(score) {
+    const container = document.getElementById('modal-evidence-bar');
+    if (!container) return;
+
+    const pct = Math.min(100, (score / 10) * 100);
+    const level = score >= 7.5 ? 'critical' : score >= 5.0 ? 'high' : score >= 2.5 ? 'moderate' : score >= 1.0 ? 'low' : 'minimal';
+    const levelColors = { critical: '#ef4444', high: '#f59e0b', moderate: '#3b82f6', low: '#06b6d4', minimal: '#475569' };
+    const color = levelColors[level];
+
+    container.innerHTML = `
+        <div class="evidence-bar-header">
+            <span class="evidence-bar-label">Evidence Index</span>
+            <span class="evidence-bar-score" style="color:${color}">${score.toFixed(1)} <small style="opacity:0.5">/ 10</small></span>
+        </div>
+        <div class="evidence-bar-track">
+            <div class="evidence-bar-fill" style="width:${pct}%;background:${color}"></div>
+            <div class="evidence-bar-markers">
+                <span style="left:25%"></span>
+                <span style="left:50%"></span>
+                <span style="left:75%"></span>
+            </div>
+        </div>
+        <div class="evidence-bar-labels">
+            <span>0</span><span>2.5</span><span>5.0</span><span>7.5</span><span>10</span>
+        </div>`;
+}
+
+function createModalGauge(score) {
+    const level = getLevel(score);
+    Plotly.newPlot('modal-gauge', [{
+        type: 'indicator', mode: 'gauge+number', value: score,
+        number: { suffix: ' / 10', font: { size: 22, color: document.documentElement.dataset.theme === 'light' ? '#0f172a' : '#f8fafc' } },
+        gauge: {
+            axis: { range: [0, 10], tickcolor: document.documentElement.dataset.theme === 'light' ? '#cbd5e1' : '#1e293b', dtick: 2 },
+            bar: { color: LEVEL_COLORS[level] || '#475569' },
+            bgcolor: document.documentElement.dataset.theme === 'light' ? '#f1f5f9' : '#0f172a', borderwidth: 0,
+            steps: [
+                { range: [0, 1],   color: 'rgba(71,85,105,0.15)' },
+                { range: [1, 2.5], color: 'rgba(6,182,212,0.08)' },
+                { range: [2.5, 5], color: 'rgba(59,130,246,0.08)' },
+                { range: [5, 7.5], color: 'rgba(245,158,11,0.08)' },
+                { range: [7.5, 10], color: 'rgba(239,68,68,0.08)' }
+            ]
+        }
+    }], { ...getPlotlyTheme(), height: 165, margin: { t: 10, b: 0, l: 20, r: 20 } },
+    { displayModeBar: false, responsive: true });
+}
+
+function getLevel(score) {
+    if (score >= 7.5) return 'Critical';
+    if (score >= 5.0) return 'High';
+    if (score >= 2.5) return 'Moderate';
+    if (score >= 1.0) return 'Low';
+    return 'Minimal';
+}
+
+function closeModal() {
+    const modal = document.getElementById('person-modal');
+    if (!modal) return;
+    modal.classList.remove('active');
+    modal.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+}
+
+function setupModal() {
+    const modal = document.getElementById('person-modal');
+    if (!modal) return;
+    modal.querySelector('.modal-close')?.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+}
+
+/* ============================================================
+   7. MODELS & EVALUATION
+   ============================================================ */
+
+function setupModelTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            const target = document.getElementById(`tab-${tab.dataset.tab}`);
+            if (target) target.classList.add('active');
         });
+    });
 }
 
-/**
- * Create experiment results bar chart.
- */
-function createExperimentChart(data) {
-    const trace = {
+function renderModelCards() {
+    const data = STATE.modelResults;
+    if (!data || data.error) return;
+    const container = document.getElementById('modelCards');
+    if (!container) return;
+
+    const models = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert'];
+    const labels = {
+        logistic_baseline: 'Logistic Regression',
+        random_forest_tfidf: 'Random Forest + TF-IDF',
+        legal_bert: 'Legal-BERT (Fine-tuned)'
+    };
+
+    container.innerHTML = models.filter(m => data[m]).map(m => {
+        const met = data[m];
+        const acc = (met.accuracy * 100).toFixed(1);
+        const f1 = (met.f1_macro * 100).toFixed(1);
+        const mcc = (met.mcc || 0).toFixed(3);
+        const prec = ((met.precision_positive || 0) * 100).toFixed(1);
+        const rec = ((met.recall_positive || 0) * 100).toFixed(1);
+        const best = m === 'random_forest_tfidf';
+
+        return `<div class="model-card${best ? ' best' : ''}">
+            <div class="model-card-header">
+                <span class="model-card-name">${labels[m]}${best ? ' (Best)' : ''}</span>
+                <span class="model-card-acc">${acc}%</span>
+            </div>
+            <div class="model-card-desc">${met.description || ''}</div>
+            <div class="model-metrics-row">
+                <span class="metric-chip">F1 <span class="metric-val">${f1}%</span></span>
+                <span class="metric-chip">MCC <span class="metric-val">${mcc}</span></span>
+                <span class="metric-chip">Precision <span class="metric-val">${prec}%</span></span>
+                <span class="metric-chip">Recall <span class="metric-val">${rec}%</span></span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function createMetricsBarChart() {
+    const data = STATE.modelResults;
+    if (!data || data.error) return;
+
+    const models = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert'].filter(m => data[m]);
+    const labels = { logistic_baseline: 'Logistic', random_forest_tfidf: 'RF+TF-IDF', legal_bert: 'Legal-BERT' };
+
+    const metrics = ['accuracy', 'f1_macro', 'mcc', 'precision_positive', 'recall_positive'];
+    const metricLabels = { accuracy: 'Accuracy', f1_macro: 'F1 Macro', mcc: 'MCC', precision_positive: 'Precision', recall_positive: 'Recall' };
+    const colors = ['#3b82f6', '#06b6d4', '#6366f1', '#f59e0b', '#10b981'];
+
+    const traces = metrics.map((metric, i) => ({
+        x: models.map(m => labels[m]),
+        y: models.map(m => data[m][metric] || 0),
+        name: metricLabels[metric],
+        type: 'bar',
+        marker: { color: colors[i], line: { color: '#0f172a', width: 1 } }
+    }));
+
+    const theme = getPlotlyTheme();
+    const gridColor = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
+    Plotly.newPlot('metricsBarChart', traces, {
+        ...theme,
+        barmode: 'group',
+        xaxis: { color: theme.font.color },
+        yaxis: { title: 'Score', color: theme.font.color, gridcolor: gridColor, range: [0, 1.05] },
+        height: 380,
+        margin: { t: 20, b: 50, l: 50, r: 20 },
+        legend: { bgcolor: 'transparent', font: { size: 10, color: theme.font.color }, orientation: 'h', y: -0.2 }
+    }, { responsive: true, displaylogo: false });
+}
+
+function createConfusionMatrices() {
+    const data = STATE.modelResults;
+    if (!data || data.error) return;
+    const container = document.getElementById('confusionMatrices');
+    if (!container) return;
+
+    const models = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert'].filter(m => data[m] && data[m].confusion_matrix);
+    const labels = { logistic_baseline: 'Logistic Regression', random_forest_tfidf: 'Random Forest + TF-IDF', legal_bert: 'Legal-BERT' };
+
+    container.innerHTML = models.map(m => {
+        return `<div class="confusion-panel">
+            <h4>${labels[m]}</h4>
+            <div id="cm-${m}" style="width:100%;height:280px;"></div>
+        </div>`;
+    }).join('');
+
+    const cmTheme = getPlotlyTheme();
+    const isLightCM = document.documentElement.dataset.theme === 'light';
+    models.forEach(m => {
+        const cm = data[m].confusion_matrix;
+        const z = [[cm[0][0], cm[0][1]], [cm[1][0], cm[1][1]]];
+
+        Plotly.newPlot(`cm-${m}`, [{
+            z: z, type: 'heatmap',
+            colorscale: isLightCM ? [[0, '#e0f2fe'], [0.5, '#3b82f6'], [1, '#1e40af']] : [[0, '#0f172a'], [0.5, '#1e40af'], [1, '#3b82f6']],
+            showscale: false, xgap: 2, ygap: 2,
+            hovertemplate: 'Predicted: %{x}<br>Actual: %{y}<br>Count: %{z}<extra></extra>'
+        }], {
+            ...cmTheme,
+            xaxis: { title: 'Predicted', tickvals: [0, 1], ticktext: ['No Cons.', 'Cons.'], color: cmTheme.font.color, side: 'bottom' },
+            yaxis: { title: 'Actual', tickvals: [0, 1], ticktext: ['No Cons.', 'Cons.'], color: cmTheme.font.color, autorange: 'reversed' },
+            height: 260, margin: { t: 10, b: 50, l: 60, r: 10 },
+            annotations: z.flatMap((row, i) => row.map((val, j) => ({
+                x: j, y: i, text: String(val), showarrow: false,
+                font: { color: val > 10 ? '#fff' : (isLightCM ? '#0f172a' : '#e2e8f0'), size: 16, family: 'Space Grotesk' }
+            })))
+        }, { displayModeBar: false, responsive: true });
+    });
+}
+
+function createAblationChart() {
+    if (!STATE.ablationResults.length) return;
+    const data = STATE.ablationResults;
+
+    const labelMap = {
+        'All Features': 'All Features', 'Severity Score Only': 'Severity Only',
+        'NLP Features Only': 'NLP Only', 'Without mention_count': '\u2212 Documents',
+        'Without total_mentions': '\u2212 Total Mentions', 'Without mean_context_sentiment': '\u2212 Sentiment',
+        'Without cooccurrence_score': '\u2212 Co-occurrence', 'Without doc_type_diversity': '\u2212 Doc Types',
+        'Without name_in_subject_line': '\u2212 In Subject', 'Without severity_score': '\u2212 Severity Score',
+        'TF-IDF Only (no tabular)': 'TF-IDF Only', 'Tabular + TF-IDF Combined': 'Tabular+TF-IDF'
+    };
+
+    const labels = data.map(d => labelMap[d.run] || d.run);
+    const f1s = data.map(d => d.f1_macro);
+    const baseF1 = f1s[0] || 0;
+
+    const colors = data.map(d => {
+        if (d.run === 'All Features') return '#3b82f6';
+        if (d.run.includes('Only') || d.run.includes('Combined')) return '#06b6d4';
+        return d.f1_macro < baseF1 ? '#ef4444' : '#10b981';
+    });
+
+    const ablTheme = getPlotlyTheme();
+    const ablGrid = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
+    Plotly.newPlot('ablationChart', [
+        {
+            x: labels, y: f1s, type: 'bar',
+            marker: { color: colors, line: { color: ablTheme.paper_bgcolor, width: 1 } },
+            text: f1s.map(v => v.toFixed(3)), textposition: 'outside',
+            textfont: { color: ablTheme.font.color, size: 10 },
+            hovertemplate: '<b>%{x}</b><br>F1: %{y:.3f}<extra></extra>'
+        },
+        {
+            x: labels, y: Array(labels.length).fill(baseF1),
+            type: 'scatter', mode: 'lines',
+            line: { color: 'rgba(59,130,246,0.4)', width: 1.5, dash: 'dash' },
+            showlegend: false, hoverinfo: 'skip'
+        }
+    ], {
+        ...ablTheme,
+        xaxis: { color: ablTheme.font.color, tickangle: -35 },
+        yaxis: { title: 'F1 Score (Macro)', color: ablTheme.font.color, gridcolor: ablGrid, range: [0, 1.05] },
+        height: 380, margin: { t: 20, b: 110, l: 50, r: 20 }, showlegend: false
+    }, { responsive: true, displayModeBar: false });
+}
+
+function createExperimentChart() {
+    if (!STATE.experimentResults.length) return;
+    const data = STATE.experimentResults;
+
+    const colors = data.map(d =>
+        d.correlation > 0.3 ? '#10b981' : d.correlation > 0 ? '#f59e0b' : '#ef4444'
+    );
+
+    const expTheme = getPlotlyTheme();
+    const expGrid = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
+    Plotly.newPlot('experimentChart', [{
         x: data.map(d => d.power_tier),
         y: data.map(d => d.correlation),
         type: 'bar',
-        marker: {
-            color: data.map(d => d.correlation > 0.5 ? '#28a745' : d.correlation > 0.3 ? '#ffc107' : '#dc3545'),
-            line: {
-                color: '#ffffff',
-                width: 1
-            }
-        },
+        marker: { color: colors, line: { color: expTheme.paper_bgcolor, width: 1 } },
         text: data.map(d => d.correlation.toFixed(3)),
         textposition: 'outside',
-        hovertemplate: '<b>%{x}</b><br>' +
-                      'Correlation: %{y:.3f}<br>' +
-                      'N: %{customdata}<br>' +
-                      '<extra></extra>',
+        textfont: { color: expTheme.font.color, size: 10 },
+        hovertemplate: '<b>%{x}</b><br>Correlation: %{y:.3f}<br>N=%{customdata}<extra></extra>',
         customdata: data.map(d => d.n_people)
-    };
-
-    const layout = {
-        yaxis: {
-            title: 'Correlation',
-            color: '#e0e0e0',
-            gridcolor: '#404040',
-            range: [-0.2, 1.0]
-        },
-        xaxis: {
-            color: '#e0e0e0'
-        },
-        paper_bgcolor: '#2d2d2d',
-        plot_bgcolor: '#2d2d2d',
-        font: { color: '#e0e0e0', size: 10 },
-        height: 300,
-        margin: { t: 20, b: 40, l: 50, r: 20 },
-        showlegend: false
-    };
-
-    const config = {
-        responsive: true,
-        displayModeBar: false
-    };
-
-    Plotly.newPlot('experimentChart', [trace], layout, config);
+    }], {
+        ...expTheme,
+        xaxis: { color: expTheme.font.color },
+        yaxis: { title: 'Correlation', color: expTheme.font.color, gridcolor: expGrid, range: [-0.4, 0.5] },
+        height: 340, margin: { t: 20, b: 50, l: 50, r: 20 }, showlegend: false
+    }, { responsive: true, displayModeBar: false });
 }
+
+function renderLimitations() {
+    const container = document.getElementById('limitationsContent');
+    if (!container) return;
+
+    const st = STATE.modelResults?.stress_test || {};
+
+    container.innerHTML = `
+        <div class="limitation-card">
+            <h4>Class Imbalance (${st.imbalance_ratio || 3.4}:1 ratio)</h4>
+            <p>${st.class_distribution ? st.class_distribution.no_consequence : 51} individuals face no consequences vs only ${st.class_distribution ? st.class_distribution.has_consequence : 15} with consequences. A naive majority-class baseline achieves ${((st.baseline_majority_accuracy || 0.773) * 100).toFixed(1)}% accuracy.</p>
+            <div class="improvement">
+                <strong>Improvement path:</strong>
+                <p>SMOTE oversampling or collecting more positive examples through expanded document sources.</p>
+            </div>
+        </div>
+        <div class="limitation-card">
+            <h4>Small Sample Size (66 individuals)</h4>
+            <p>${st.cross_val_note || 'With 66 total samples, cross-validation folds have very few positive examples.'} Single misclassifications cause large metric swings.</p>
+            <div class="improvement">
+                <strong>Improvement path:</strong>
+                <p>Document-level predictions (2,800+ samples) increase statistical power, as shown by Legal-BERT's approach.</p>
+            </div>
+        </div>
+        <div class="limitation-card">
+            <h4>Legal-BERT Underperformance (45.7% acc)</h4>
+            <p>Despite domain-specific pretraining, Legal-BERT underperforms simpler models due to person-level aggregation noise and limited fine-tuning data.</p>
+            <div class="improvement">
+                <strong>Improvement path:</strong>
+                <p>More fine-tuning data, attention-weighted person-level aggregation, and longer training could improve results.</p>
+            </div>
+        </div>
+        <div class="limitation-card">
+            <h4>Feature Dependency on Severity Score</h4>
+            <p>Removing severity score drops F1 by ${Math.abs(st.ablation_severity_drop || -0.074).toFixed(3)}. NLP-only features achieve F1=${(st.ablation_nlp_only_f1 || 0.714).toFixed(3)}.</p>
+            <div class="improvement">
+                <strong>Improvement path:</strong>
+                <p>Stronger NLP features (entity embeddings, relationship extraction, temporal analysis) could reduce external dependency.</p>
+            </div>
+        </div>`;
+}
+
+/* ============================================================
+   8. ANALYSIS CHARTS
+   ============================================================ */
+
+function createScatterPlot() {
+    if (!STATE.chartData.length) return;
+
+    const tiers = ['Low', 'Moderate', 'High', 'Critical'];
+    const colors = ['#06b6d4', '#3b82f6', '#f59e0b', '#ef4444'];
+
+    const traces = tiers.map((tier, i) => {
+        const td = STATE.chartData.filter(d => d.power_tier === tier);
+        return {
+            x: td.map(d => d.evidence_index),
+            y: td.map(d => d.consequence_tier + (Math.random() - 0.5) * 0.15),
+            mode: 'markers', type: 'scatter', name: tier,
+            marker: { size: 10, color: colors[i], opacity: 0.85, line: { color: document.documentElement.dataset.theme === 'light' ? '#ffffff' : '#0f172a', width: 1 } },
+            text: td.map(d => d.name),
+            hovertemplate: '<b>%{text}</b><br>Evidence: %{x:.1f}<br>Consequence: %{y:.0f}<extra></extra>'
+        };
+    });
+
+    const scTheme = getPlotlyTheme();
+    const scGrid = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
+    Plotly.newPlot('scatterPlot', traces, {
+        ...scTheme,
+        xaxis: { title: 'Evidence Index (NLP-derived)', color: scTheme.font.color, gridcolor: scGrid, zeroline: false },
+        yaxis: { title: 'Consequence Tier', color: scTheme.font.color, gridcolor: scGrid, zeroline: false,
+                 tickvals: [0, 1, 2], ticktext: ['None', 'Soft', 'Hard'] },
+        height: 420, margin: { t: 20, b: 60, l: 70, r: 20 },
+        hovermode: 'closest',
+        legend: { bgcolor: 'transparent', font: { size: 10, color: scTheme.font.color } }
+    }, { responsive: true, displaylogo: false });
+}
+
+/* ============================================================
+   9. SIDE NAVIGATION
+   ============================================================ */
+
+function setupSideNav() {
+    const sections = document.querySelectorAll('section[id]');
+    const dots = document.querySelectorAll('.nav-dot');
+    if (!sections.length || !dots.length) return;
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                dots.forEach(d => d.classList.remove('active'));
+                const active = document.querySelector(`.nav-dot[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25, rootMargin: '-10% 0px -10% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+}
+
+/* ============================================================
+   10. GSAP SCROLL ANIMATIONS
+   ============================================================ */
+
+function setupAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, ease: 'power3.out' });
+    gsap.from('.hero-title', { opacity: 0, y: 40, duration: 1.2, delay: 0.15, ease: 'power3.out' });
+    gsap.from('.hero-tagline', { opacity: 0, y: 20, duration: 0.8, delay: 0.4, ease: 'power3.out' });
+    gsap.from('.hero-cta-row', { opacity: 0, y: 15, duration: 0.6, delay: 0.6, ease: 'power3.out' });
+
+    gsap.utils.toArray('.section-header').forEach(el => {
+        gsap.from(el, {
+            opacity: 0, y: 30, duration: 0.8, ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 82%', toggleActions: 'play none none none' }
+        });
+    });
+
+    gsap.utils.toArray('.approach-step').forEach((el, i) => {
+        gsap.from(el, {
+            opacity: 0, y: 20, duration: 0.5, delay: i * 0.1, ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+        });
+    });
+
+    gsap.utils.toArray('.stat-card').forEach((el, i) => {
+        gsap.from(el, {
+            opacity: 0, scale: 0.9, duration: 0.5, delay: i * 0.08, ease: 'back.out(1.5)',
+            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+    });
+}
+
+/* ============================================================
+   11. INITIALIZATION
+   ============================================================ */
+
+function setupThemeToggle() {
+    const saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.dataset.theme = saved;
+
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme;
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+
+        // Re-render charts with new theme colors
+        if (STATE.people.length) {
+            initNetworkGraph();
+            createMetricsBarChart();
+            createConfusionMatrices();
+            createAblationChart();
+            createExperimentChart();
+            createScatterPlot();
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
+    setupPeopleControls();
+    setupModal();
+    setupModelTabs();
+    setupSideNav();
+    setupAnimations();
+    initStatCounters();
+    loadAllData();
+});
+
+let _resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(() => { if (STATE.people.length) initNetworkGraph(); }, 400);
+});
