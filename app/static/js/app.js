@@ -1,7 +1,7 @@
 // Attribution: Scaffolded with AI assistance (Claude, Anthropic)
 
 /**
- * The Accountability Index — Main Application JavaScript
+ * The Impunity Index — Main Application JavaScript
  */
 
 /* ============================================================
@@ -16,7 +16,7 @@ const STATE = {
     experimentResults: [],
     ablationResults: [],
     activeFilter: 'all',
-    activeSort: 'accountability',
+    activeSort: 'impunity',
     searchQuery: ''
 };
 
@@ -28,6 +28,16 @@ const LEVEL_COLORS = {
     Minimal:  '#475569'
 };
 
+function getPlotlyTheme() {
+    const isLight = document.documentElement.dataset.theme === 'light';
+    return {
+        paper_bgcolor: isLight ? '#ffffff' : '#111827',
+        plot_bgcolor:  isLight ? '#ffffff' : '#111827',
+        font: { color: isLight ? '#475569' : '#94a3b8', family: 'DM Sans, sans-serif', size: 11 }
+    };
+}
+
+// Default (will be overridden by getPlotlyTheme() in each chart call)
 const PLOTLY_THEME = {
     paper_bgcolor: '#111827',
     plot_bgcolor:  '#111827',
@@ -127,10 +137,10 @@ function initNetworkGraph() {
 
     const nodes = STATE.people.map(p => ({
         id:          p.name,
-        score:       p.accountability_score,
+        score:       p.impunity_index,
         level:       p.level,
         consequence: p.consequence_tier,
-        radius:      Math.max(10, Math.sqrt(Math.max(1, p.accountability_score)) * 5.5),
+        radius:      Math.max(10, Math.sqrt(Math.max(1, p.impunity_index)) * 5.5),
         image_url:   p.image_url || ''
     }));
 
@@ -150,10 +160,11 @@ function initNetworkGraph() {
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('collision', d3.forceCollide().radius(d => d.radius + 3));
 
+    const edgeColor = document.documentElement.dataset.theme === 'light' ? '#94a3b8' : '#475569';
     const link = g.append('g').selectAll('line').data(links).join('line')
-        .attr('stroke', '#1e293b')
-        .attr('stroke-opacity', d => 0.1 + (d.weight / maxWeight) * 0.5)
-        .attr('stroke-width', d => 0.4 + (d.weight / maxWeight) * 3);
+        .attr('stroke', edgeColor)
+        .attr('stroke-opacity', d => 0.3 + (d.weight / maxWeight) * 0.5)
+        .attr('stroke-width', d => 0.8 + (d.weight / maxWeight) * 3);
 
     const defs = svg.append('defs');
     nodes.forEach((d, i) => {
@@ -205,7 +216,7 @@ function initNetworkGraph() {
     })
     .on('mouseout', function () {
         node.attr('opacity', 1);
-        link.attr('stroke-opacity', d => 0.1 + (d.weight / maxWeight) * 0.5).attr('opacity', null);
+        link.attr('stroke-opacity', d => 0.3 + (d.weight / maxWeight) * 0.5).attr('opacity', null);
         label.style('opacity', d => d.score >= 4 ? 1 : 0);
         d3.select(this).select('circle').attr('stroke', d => LEVEL_COLORS[d.level] || '#475569').attr('stroke-width', 2);
     })
@@ -246,14 +257,14 @@ function renderPeopleGrid() {
     }
 
     switch (STATE.activeSort) {
-        case 'accountability':
-            list.sort((a, b) => b.accountability_score - a.accountability_score);
+        case 'impunity':
+            list.sort((a, b) => b.impunity_index - a.impunity_index);
             break;
         case 'name':
             list.sort((a, b) => a.name.localeCompare(b.name));
             break;
         case 'consequence':
-            list.sort((a, b) => (b.consequence_tier - a.consequence_tier) || (b.accountability_score - a.accountability_score));
+            list.sort((a, b) => (b.consequence_tier - a.consequence_tier) || (b.impunity_index - a.impunity_index));
             break;
         case 'evidence':
             list.sort((a, b) => b.evidence_index - a.evidence_index);
@@ -275,11 +286,11 @@ function renderPeopleGrid() {
         return `
             <div class="person-card level-${lvl}" role="listitem"
                  onclick="openPersonModal('${safeName}')" tabindex="0"
-                 aria-label="${p.name}, accountability ${p.accountability_score.toFixed(1)}">
+                 aria-label="${p.name}, impunity ${p.impunity_index.toFixed(1)}">
                 <img src="${imgUrl}" alt="" class="card-avatar"
                      onerror="this.style.display='none'" loading="lazy" />
                 <div class="name">${p.name}</div>
-                <div class="score" style="color:${color}">${p.accountability_score.toFixed(1)}</div>
+                <div class="score" style="color:${color}">${p.impunity_index.toFixed(1)}</div>
                 <span class="level-badge" style="color:${color}">${p.level}</span>
                 <span class="consequence-badge">${cLabel}</span>
             </div>`;
@@ -343,7 +354,25 @@ function populateModal(data) {
     badge.textContent = data.level;
     badge.style.color = LEVEL_COLORS[data.level] || '#475569';
 
-    createModalGauge(data.accountability_score);
+    createModalGauge(data.impunity_index);
+
+    // Show internal score breakdown
+    const breakdownEl = document.getElementById('modal-score-breakdown');
+    if (breakdownEl) {
+        const modifier = data.consequence_tier === 0 ? 1.3 : data.consequence_tier === 1 ? 1.0 : 0.7;
+        const modifierLabel = data.consequence_tier === 0 ? '×1.3 (no consequence)' : data.consequence_tier === 1 ? '×1.0 (soft consequence)' : '×0.7 (convicted)';
+        breakdownEl.innerHTML = `
+            <div class="breakdown-row">
+                <span class="breakdown-label">Evidence Index</span>
+                <span class="breakdown-value">${(data.evidence_index || 0).toFixed(1)}</span>
+            </div>
+            <div class="breakdown-row">
+                <span class="breakdown-label">Consequence Modifier</span>
+                <span class="breakdown-value">${modifierLabel}</span>
+            </div>
+            <div class="breakdown-formula">${(data.evidence_index || 0).toFixed(1)} × ${modifier} = <strong>${(data.impunity_index || 0).toFixed(1)}</strong></div>
+            <div class="breakdown-explain">Higher impunity = more evidence, less consequence</div>`;
+    }
 
     const cEl = document.getElementById('modal-consequence');
     const cColor = data.badge?.color === 'hard' ? '#ef4444' : data.badge?.color === 'soft' ? '#f59e0b' : '#475569';
@@ -376,17 +405,22 @@ function populateModal(data) {
         legal_bert: 'Legal-BERT'
     };
     if (data.predictions && Object.keys(data.predictions).length) {
+        const actual = data.consequence_tier > 0 ? 1 : 0;
         pEl.innerHTML = `<table class="predictions-table">
             <thead><tr><th>Model</th><th style="text-align:right">Predicted</th><th style="text-align:right">Actual</th></tr></thead>
             <tbody>${Object.entries(data.predictions).map(([m, pred]) => {
-                const actual = data.consequence_tier > 0 ? 1 : 0;
+                if (pred === null || pred === undefined) {
+                    return `<tr><td>${mLabels[m] || m}</td>
+                        <td style="text-align:right;color:var(--text-secondary);font-style:italic;">Not in test set</td>
+                        <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
+                }
                 const match = pred === actual;
                 return `<tr><td>${mLabels[m] || m}</td>
                     <td style="text-align:right;color:${match ? '#10b981' : '#ef4444'}">${tierText[pred] ?? pred}</td>
                     <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
             }).join('')}</tbody></table>`;
     } else {
-        pEl.innerHTML = '<p style="color:#475569;font-size:0.82rem;">No prediction data for this individual (not in test set).</p>';
+        pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No prediction data for this individual (not in test set).</p>';
     }
 
     const connEl = document.getElementById('modal-connections');
@@ -453,11 +487,11 @@ function createModalGauge(score) {
     const level = getLevel(score);
     Plotly.newPlot('modal-gauge', [{
         type: 'indicator', mode: 'gauge+number', value: score,
-        number: { suffix: ' / 10', font: { size: 22, color: '#f8fafc' } },
+        number: { suffix: ' / 10', font: { size: 22, color: document.documentElement.dataset.theme === 'light' ? '#0f172a' : '#f8fafc' } },
         gauge: {
-            axis: { range: [0, 10], tickcolor: '#1e293b', dtick: 2 },
+            axis: { range: [0, 10], tickcolor: document.documentElement.dataset.theme === 'light' ? '#cbd5e1' : '#1e293b', dtick: 2 },
             bar: { color: LEVEL_COLORS[level] || '#475569' },
-            bgcolor: '#0f172a', borderwidth: 0,
+            bgcolor: document.documentElement.dataset.theme === 'light' ? '#f1f5f9' : '#0f172a', borderwidth: 0,
             steps: [
                 { range: [0, 1],   color: 'rgba(71,85,105,0.15)' },
                 { range: [1, 2.5], color: 'rgba(6,182,212,0.08)' },
@@ -466,7 +500,7 @@ function createModalGauge(score) {
                 { range: [7.5, 10], color: 'rgba(239,68,68,0.08)' }
             ]
         }
-    }], { ...PLOTLY_THEME, height: 165, margin: { t: 10, b: 0, l: 20, r: 20 } },
+    }], { ...getPlotlyTheme(), height: 165, margin: { t: 10, b: 0, l: 20, r: 20 } },
     { displayModeBar: false, responsive: true });
 }
 
@@ -567,14 +601,16 @@ function createMetricsBarChart() {
         marker: { color: colors[i], line: { color: '#0f172a', width: 1 } }
     }));
 
+    const theme = getPlotlyTheme();
+    const gridColor = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
     Plotly.newPlot('metricsBarChart', traces, {
-        ...PLOTLY_THEME,
+        ...theme,
         barmode: 'group',
-        xaxis: { color: '#94a3b8' },
-        yaxis: { title: 'Score', color: '#94a3b8', gridcolor: '#1e293b', range: [0, 1.05] },
+        xaxis: { color: theme.font.color },
+        yaxis: { title: 'Score', color: theme.font.color, gridcolor: gridColor, range: [0, 1.05] },
         height: 380,
         margin: { t: 20, b: 50, l: 50, r: 20 },
-        legend: { bgcolor: 'transparent', font: { size: 10, color: '#94a3b8' }, orientation: 'h', y: -0.2 }
+        legend: { bgcolor: 'transparent', font: { size: 10, color: theme.font.color }, orientation: 'h', y: -0.2 }
     }, { responsive: true, displaylogo: false });
 }
 
@@ -594,23 +630,25 @@ function createConfusionMatrices() {
         </div>`;
     }).join('');
 
+    const cmTheme = getPlotlyTheme();
+    const isLightCM = document.documentElement.dataset.theme === 'light';
     models.forEach(m => {
         const cm = data[m].confusion_matrix;
         const z = [[cm[0][0], cm[0][1]], [cm[1][0], cm[1][1]]];
 
         Plotly.newPlot(`cm-${m}`, [{
             z: z, type: 'heatmap',
-            colorscale: [[0, '#0f172a'], [0.5, '#1e40af'], [1, '#3b82f6']],
+            colorscale: isLightCM ? [[0, '#e0f2fe'], [0.5, '#3b82f6'], [1, '#1e40af']] : [[0, '#0f172a'], [0.5, '#1e40af'], [1, '#3b82f6']],
             showscale: false, xgap: 2, ygap: 2,
             hovertemplate: 'Predicted: %{x}<br>Actual: %{y}<br>Count: %{z}<extra></extra>'
         }], {
-            ...PLOTLY_THEME,
-            xaxis: { title: 'Predicted', tickvals: [0, 1], ticktext: ['No Cons.', 'Cons.'], color: '#94a3b8', side: 'bottom' },
-            yaxis: { title: 'Actual', tickvals: [0, 1], ticktext: ['No Cons.', 'Cons.'], color: '#94a3b8', autorange: 'reversed' },
+            ...cmTheme,
+            xaxis: { title: 'Predicted', tickvals: [0, 1], ticktext: ['No Cons.', 'Cons.'], color: cmTheme.font.color, side: 'bottom' },
+            yaxis: { title: 'Actual', tickvals: [0, 1], ticktext: ['No Cons.', 'Cons.'], color: cmTheme.font.color, autorange: 'reversed' },
             height: 260, margin: { t: 10, b: 50, l: 60, r: 10 },
             annotations: z.flatMap((row, i) => row.map((val, j) => ({
                 x: j, y: i, text: String(val), showarrow: false,
-                font: { color: val > 10 ? '#fff' : '#e2e8f0', size: 16, family: 'Space Grotesk' }
+                font: { color: val > 10 ? '#fff' : (isLightCM ? '#0f172a' : '#e2e8f0'), size: 16, family: 'Space Grotesk' }
             })))
         }, { displayModeBar: false, responsive: true });
     });
@@ -639,12 +677,14 @@ function createAblationChart() {
         return d.f1_macro < baseF1 ? '#ef4444' : '#10b981';
     });
 
+    const ablTheme = getPlotlyTheme();
+    const ablGrid = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
     Plotly.newPlot('ablationChart', [
         {
             x: labels, y: f1s, type: 'bar',
-            marker: { color: colors, line: { color: '#0f172a', width: 1 } },
+            marker: { color: colors, line: { color: ablTheme.paper_bgcolor, width: 1 } },
             text: f1s.map(v => v.toFixed(3)), textposition: 'outside',
-            textfont: { color: '#94a3b8', size: 10 },
+            textfont: { color: ablTheme.font.color, size: 10 },
             hovertemplate: '<b>%{x}</b><br>F1: %{y:.3f}<extra></extra>'
         },
         {
@@ -654,9 +694,9 @@ function createAblationChart() {
             showlegend: false, hoverinfo: 'skip'
         }
     ], {
-        ...PLOTLY_THEME,
-        xaxis: { color: '#94a3b8', tickangle: -35 },
-        yaxis: { title: 'F1 Score (Macro)', color: '#94a3b8', gridcolor: '#1e293b', range: [0, 1.05] },
+        ...ablTheme,
+        xaxis: { color: ablTheme.font.color, tickangle: -35 },
+        yaxis: { title: 'F1 Score (Macro)', color: ablTheme.font.color, gridcolor: ablGrid, range: [0, 1.05] },
         height: 380, margin: { t: 20, b: 110, l: 50, r: 20 }, showlegend: false
     }, { responsive: true, displayModeBar: false });
 }
@@ -669,20 +709,22 @@ function createExperimentChart() {
         d.correlation > 0.3 ? '#10b981' : d.correlation > 0 ? '#f59e0b' : '#ef4444'
     );
 
+    const expTheme = getPlotlyTheme();
+    const expGrid = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
     Plotly.newPlot('experimentChart', [{
         x: data.map(d => d.power_tier),
         y: data.map(d => d.correlation),
         type: 'bar',
-        marker: { color: colors, line: { color: '#0f172a', width: 1 } },
+        marker: { color: colors, line: { color: expTheme.paper_bgcolor, width: 1 } },
         text: data.map(d => d.correlation.toFixed(3)),
         textposition: 'outside',
-        textfont: { color: '#94a3b8', size: 10 },
+        textfont: { color: expTheme.font.color, size: 10 },
         hovertemplate: '<b>%{x}</b><br>Correlation: %{y:.3f}<br>N=%{customdata}<extra></extra>',
         customdata: data.map(d => d.n_people)
     }], {
-        ...PLOTLY_THEME,
-        xaxis: { color: '#94a3b8' },
-        yaxis: { title: 'Correlation', color: '#94a3b8', gridcolor: '#1e293b', range: [-0.4, 0.5] },
+        ...expTheme,
+        xaxis: { color: expTheme.font.color },
+        yaxis: { title: 'Correlation', color: expTheme.font.color, gridcolor: expGrid, range: [-0.4, 0.5] },
         height: 340, margin: { t: 20, b: 50, l: 50, r: 20 }, showlegend: false
     }, { responsive: true, displayModeBar: false });
 }
@@ -744,20 +786,22 @@ function createScatterPlot() {
             x: td.map(d => d.evidence_index),
             y: td.map(d => d.consequence_tier + (Math.random() - 0.5) * 0.15),
             mode: 'markers', type: 'scatter', name: tier,
-            marker: { size: 10, color: colors[i], opacity: 0.85, line: { color: '#0f172a', width: 1 } },
+            marker: { size: 10, color: colors[i], opacity: 0.85, line: { color: document.documentElement.dataset.theme === 'light' ? '#ffffff' : '#0f172a', width: 1 } },
             text: td.map(d => d.name),
             hovertemplate: '<b>%{text}</b><br>Evidence: %{x:.1f}<br>Consequence: %{y:.0f}<extra></extra>'
         };
     });
 
+    const scTheme = getPlotlyTheme();
+    const scGrid = document.documentElement.dataset.theme === 'light' ? '#e2e8f0' : '#1e293b';
     Plotly.newPlot('scatterPlot', traces, {
-        ...PLOTLY_THEME,
-        xaxis: { title: 'Evidence Index (NLP-derived)', color: '#94a3b8', gridcolor: '#1e293b', zeroline: false },
-        yaxis: { title: 'Consequence Tier', color: '#94a3b8', gridcolor: '#1e293b', zeroline: false,
+        ...scTheme,
+        xaxis: { title: 'Evidence Index (NLP-derived)', color: scTheme.font.color, gridcolor: scGrid, zeroline: false },
+        yaxis: { title: 'Consequence Tier', color: scTheme.font.color, gridcolor: scGrid, zeroline: false,
                  tickvals: [0, 1, 2], ticktext: ['None', 'Soft', 'Hard'] },
         height: 420, margin: { t: 20, b: 60, l: 70, r: 20 },
         hovermode: 'closest',
-        legend: { bgcolor: 'transparent', font: { size: 10, color: '#94a3b8' } }
+        legend: { bgcolor: 'transparent', font: { size: 10, color: scTheme.font.color } }
     }, { responsive: true, displaylogo: false });
 }
 
@@ -822,7 +866,32 @@ function setupAnimations() {
    11. INITIALIZATION
    ============================================================ */
 
+function setupThemeToggle() {
+    const saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.dataset.theme = saved;
+
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme;
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+
+        // Re-render charts with new theme colors
+        if (STATE.people.length) {
+            initNetworkGraph();
+            createMetricsBarChart();
+            createConfusionMatrices();
+            createAblationChart();
+            createExperimentChart();
+            createScatterPlot();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
     setupPeopleControls();
     setupModal();
     setupModelTabs();

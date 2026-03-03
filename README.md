@@ -1,4 +1,4 @@
-# The Accountability Index
+# The Impunity Index
 
 An NLP-driven investigation analyzing 2,849 Epstein case documents with machine learning to measure the gap between documentary evidence and real-world consequences across 66 individuals.
 
@@ -38,9 +38,9 @@ Binary classification task: predict whether an individual faced real-world conse
 2. **Random Forest + TF-IDF** (best) — Combines 7 tabular features with TF-IDF bigrams (500 features) from document text
 3. **Legal-BERT** (transformer) — Fine-tuned `nlpaueb/legal-bert-base-uncased` on document-level text classification with per-person aggregation
 
-### Step 3 — Accountability Scoring
+### Step 3 — Impunity Scoring
 
-The **Accountability Score** replaces the previously scraped severity score from epsteinoverview.com. It is computed entirely from our NLP features and consequence data:
+The **Impunity Index** replaces the previously scraped severity score from epsteinoverview.com. It is computed entirely from our NLP features and consequence data:
 
 #### Evidence Index (0–10)
 
@@ -65,28 +65,28 @@ The evidence index is then adjusted based on what actually happened to the perso
 
 | Consequence Tier | Modifier | Rationale |
 |-----------------|----------|-----------|
-| **Tier 0** — No consequence | × 1.3 (capped at 10) | *Gap boost*: high evidence + no accountability = higher score |
-| **Tier 1** — Soft consequence (resigned, sued, reputational damage) | × 1.0 | Neutral: partial accountability |
-| **Tier 2** — Hard consequence (arrested, convicted, imprisoned) | × 0.7 | *Justice served*: system worked, lower accountability gap |
+| **Tier 0** — No consequence | × 1.3 (capped at 10) | *High impunity*: strong evidence but no justice = higher score |
+| **Tier 1** — Soft consequence (resigned, sued, reputational damage) | × 1.0 | Neutral: partial consequence |
+| **Tier 2** — Hard consequence (arrested, convicted, imprisoned) | × 0.7 | *Low impunity*: justice served, system worked |
 
 #### Final Score
 
 ```
-accountability_score = evidence_index × consequence_modifier
+impunity_index = evidence_index × consequence_modifier
 ```
 
-**Interpretation**: A high accountability score means strong documentary evidence with little consequence — the person "got away with it." A low score means either minimal evidence or the justice system responded appropriately.
+**Interpretation**: A high impunity index means strong documentary evidence with little consequence — the person "got away with it." A low score means either minimal evidence or the justice system responded appropriately.
 
 #### Examples
 
-| Individual | Evidence Index | Consequence Tier | Modifier | Accountability Score | Level |
+| Individual | Evidence Index | Consequence Tier | Modifier | Impunity Index | Level |
 |-----------|---------------|-----------------|----------|---------------------|-------|
 | Donald Trump | 7.2 | 0 (None) | ×1.3 | **9.4** | Critical |
 | Ghislaine Maxwell | 5.5 | 2 (Convicted) | ×0.7 | **3.8** | Moderate |
 | Bill Gates | 3.4 | 1 (Soft) | ×1.0 | **3.4** | Moderate |
 | Bill Clinton | 5.4 | 0 (None) | ×1.3 | **7.0** | High |
 
-#### Accountability Levels
+#### Impunity Levels
 
 | Level | Score Range | Color |
 |-------|-----------|-------|
@@ -167,7 +167,7 @@ epstein-accountability-index/
 ├── models/                          <- Trained models (on GDrive, not in git)
 ├── notebooks/                       <- Exploratory analysis
 └── app/                             <- Flask web application
-    ├── main.py                      <- API endpoints + accountability score computation
+    ├── main.py                      <- API endpoints + impunity score computation
     ├── templates/index.html         <- Single-page app
     └── static/
         ├── css/style.css
@@ -212,11 +212,11 @@ python3 app/main.py
 ```
 
 The web app provides:
-- **Connection Network**: D3.js force graph showing co-occurrence relationships (node size = accountability score)
+- **Connection Network**: D3.js force graph showing co-occurrence relationships (node size = impunity index)
 - **People Grid**: Searchable, filterable, sortable cards for all 66 individuals
-- **Person Modal**: Accountability gauge, NLP features, model predictions, document citations with Bates numbers
+- **Person Modal**: Impunity gauge with score breakdown, NLP features, model predictions, document citations with Bates numbers
 - **Models & Evaluation**: 4-tab interface with model comparison, confusion matrices, stress tests, limitations
-- **Accountability Gap Analysis**: Scatter plot of evidence index vs. consequence tier
+- **Impunity Gap Analysis**: Scatter plot of evidence index vs. consequence tier
 
 ## Data Sources
 
@@ -228,7 +228,7 @@ The web app provides:
 
 > **Does power protect?** Does the correlation between documentary evidence and real-world consequences weaken for high-power individuals?
 
-The Accountability Score quantifies this gap: individuals with high evidence indices but no consequences receive boosted scores, making the disparity visible and measurable.
+The Impunity Index quantifies this gap: individuals with high evidence indices but no consequences receive boosted scores, making the disparity visible and measurable.
 
 ## License
 

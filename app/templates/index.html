@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Accountability Index | Epstein Case NLP Analysis</title>
-    <meta name="description" content="NLP-driven analysis of 2,849 Epstein case documents measuring accountability gaps across 66 individuals.">
+    <title>The Impunity Index | Epstein Case NLP Analysis</title>
+    <meta name="description" content="NLP-driven analysis of 2,849 Epstein case documents measuring impunity gaps across 66 individuals.">
 
     <!-- Google Fonts: Space Grotesk + DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,12 +35,18 @@
         </ul>
     </nav>
 
+    <!-- THEME TOGGLE -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+
     <!-- SECTION 0: HERO -->
     <section id="hero" class="hero-section">
         <div class="hero-grid-bg"></div>
         <div class="hero-content">
             <div class="hero-badge">NLP-Driven Investigation</div>
-            <h1 class="hero-title">THE ACCOUNTABILITY<br><span class="hero-accent">INDEX</span></h1>
+            <h1 class="hero-title">THE IMPUNITY<br><span class="hero-accent">INDEX</span></h1>
             <p class="hero-tagline">Analyzing 2,849 Epstein case documents with machine learning to measure the gap between evidence and justice across 66 individuals.</p>
             <div class="hero-cta-row">
                 <a href="#models" class="hero-btn primary">Explore Models</a>
@@ -78,12 +84,12 @@
     <section id="network" class="section network-section">
         <header class="section-header">
             <h2 class="section-title">Connection <span class="title-accent">Network</span></h2>
-            <p class="section-subtitle">Co-occurrence relationships between individuals across case documents. Node size reflects accountability score. Click any node for details.</p>
+            <p class="section-subtitle">Co-occurrence relationships between individuals across case documents. Node size reflects impunity index. Click any node for details.</p>
         </header>
         <div class="network-container">
             <div id="network-graph" role="img" aria-label="Interactive network graph"></div>
             <aside class="network-legend">
-                <h3 class="legend-title">Accountability Level</h3>
+                <h3 class="legend-title">Impunity Level</h3>
                 <ul class="legend-list">
                     <li><span class="legend-swatch" style="background:var(--color-critical)"></span> Critical</li>
                     <li><span class="legend-swatch" style="background:var(--color-high)"></span> High</li>
@@ -106,7 +112,7 @@
                 <input type="text" id="personSearch" class="search-input" placeholder="Search by name..." autocomplete="off">
             </div>
             <div class="filter-row">
-                <div class="filter-pills" role="group" aria-label="Filter by accountability level">
+                <div class="filter-pills" role="group" aria-label="Filter by impunity level">
                     <button class="pill active" data-filter="all">All</button>
                     <button class="pill" data-filter="critical">Critical</button>
                     <button class="pill" data-filter="high">High</button>
@@ -116,7 +122,7 @@
                 <div class="sort-wrapper">
                     <label for="sortSelect" class="sort-label">Sort</label>
                     <select id="sortSelect" class="sort-select">
-                        <option value="accountability" selected>Accountability</option>
+                        <option value="impunity" selected>Impunity</option>
                         <option value="name">Name A&ndash;Z</option>
                         <option value="consequence">Consequence</option>
                         <option value="evidence">Evidence</option>
@@ -192,7 +198,7 @@
                     </div>
                     <div class="stress-panel">
                         <h4>Power Tier Analysis</h4>
-                        <p class="panel-desc">Correlation between accountability score and consequences, segmented by score tier. Tests whether high-profile individuals are protected from justice.</p>
+                        <p class="panel-desc">Correlation between impunity index and consequences, segmented by score tier. Tests whether high-profile individuals are protected from justice.</p>
                         <div id="experimentChart" class="chart-container"></div>
                     </div>
                 </div>
@@ -212,7 +218,7 @@
         </header>
         <div class="analysis-grid">
             <div class="analysis-panel panel-scatter">
-                <h3 class="panel-heading">Accountability Gap: Evidence vs. Consequences</h3>
+                <h3 class="panel-heading">Impunity Gap: Evidence vs. Consequences</h3>
                 <div id="scatterPlot" class="chart-container"></div>
             </div>
         </div>
@@ -226,15 +232,16 @@
                 <img id="modal-image" class="modal-person-image" src="" alt="" />
                 <div>
                     <h2 id="modal-name" class="modal-person-name"></h2>
-                    <span id="modal-level" class="modal-accountability-badge"></span>
+                    <span id="modal-level" class="modal-impunity-badge"></span>
                 </div>
             </header>
             <div class="modal-body-content">
                 <div class="modal-columns">
                     <div class="modal-col-left">
                         <div class="modal-gauge-wrapper">
-                            <h3 class="modal-section-title">Accountability Score</h3>
+                            <h3 class="modal-section-title">Impunity Index</h3>
                             <div id="modal-gauge"></div>
+                            <div id="modal-score-breakdown" class="score-breakdown"></div>
                         </div>
                         <div class="modal-consequence-wrapper">
                             <h3 class="modal-section-title">Consequence</h3>

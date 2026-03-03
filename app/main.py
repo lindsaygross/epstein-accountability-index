@@ -1,10 +1,10 @@
 # Attribution: Scaffolded with AI assistance (Claude, Anthropic)
 
 """
-Flask web application for The Accountability Index.
+Flask web application for The Impunity Index.
 
 This app provides an interactive dashboard for exploring the relationship
-between Epstein file evidence and real-world accountability outcomes,
+between Epstein file evidence and real-world consequences,
 using NLP-derived features and ML classification.
 """
 
@@ -31,18 +31,18 @@ CORS(app)
 DATA = {}
 
 
-def compute_accountability_scores(features_df: pd.DataFrame, consequences_df: pd.DataFrame) -> pd.DataFrame:
+def compute_impunity_scores(features_df: pd.DataFrame, consequences_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Compute accountability scores from NLP features and consequence outcomes.
+    Compute impunity index from NLP features and consequence outcomes.
 
-    The accountability score is our own metric derived from:
+    The impunity index is our own metric derived from:
     1. Evidence Index (0-10): Weighted combination of NLP-extracted features
        - Document mention frequency, co-occurrence with incriminating terms,
          context sentiment, document type diversity, subject line presence
-    2. Consequence modifier: Adjusts based on whether accountability has been served
-       - No consequence: +30% (gap exists)
+    2. Consequence modifier: Adjusts based on whether justice has been served
+       - No consequence: +30% (high impunity — gap exists)
        - Soft consequence: neutral
-       - Hard consequence (convicted): -30% (partially addressed)
+       - Hard consequence (convicted): -30% (low impunity — justice served)
     """
     merged = features_df.merge(
         consequences_df[['name', 'consequence_tier']],
@@ -96,14 +96,14 @@ def compute_accountability_scores(features_df: pd.DataFrame, consequences_df: pd
         else:
             return ev * 0.7
 
-    merged['accountability_score'] = merged.apply(_score, axis=1).round(1)
+    merged['impunity_index'] = merged.apply(_score, axis=1).round(1)
     merged['evidence_index'] = merged['evidence_index'].round(1)
 
-    return merged[['name', 'accountability_score', 'evidence_index']]
+    return merged[['name', 'impunity_index', 'evidence_index']]
 
 
-def get_accountability_level(score: float) -> str:
-    """Map accountability score to a named level."""
+def get_impunity_level(score: float) -> str:
+    """Map impunity index to a named level."""
     if score >= 7.5:
         return 'Critical'
     elif score >= 5.0:
@@ -148,12 +148,12 @@ def load_data() -> None:
     if consequences_path.exists():
         DATA['consequences'] = pd.read_csv(consequences_path)
 
-    # Compute accountability scores from NLP features + consequences
+    # Compute impunity scores from NLP features + consequences
     if 'features' in DATA and 'consequences' in DATA:
-        DATA['accountability'] = compute_accountability_scores(
+        DATA['impunity'] = compute_impunity_scores(
             DATA['features'], DATA['consequences']
         )
-        logger.info(f"Computed accountability scores for {len(DATA['accountability'])} people")
+        logger.info(f"Computed impunity scores for {len(DATA['impunity'])} people")
 
     # Load edges
     edges_path = base_path / "data" / "processed" / "edges.csv"
@@ -193,10 +193,10 @@ def load_data() -> None:
             DATA['consequences'][['name', 'consequence_tier', 'consequence_description']],
             on='name', how='left'
         )
-        # Also merge accountability scores
-        if 'accountability' in DATA:
+        # Also merge impunity scores
+        if 'impunity' in DATA:
             DATA['merged'] = DATA['merged'].merge(
-                DATA['accountability'], on='name', how='left'
+                DATA['impunity'], on='name', how='left'
             )
 
 
@@ -211,7 +211,7 @@ def index() -> str:
 
 @app.route('/api/people')
 def get_all_people() -> Any:
-    """Get all people with accountability scores for grid and network."""
+    """Get all people with impunity scores for grid and network."""
     non_person_topics = {
         "dentist", "gynecologist", "pregnant", "whoops",
         "beef jerky", "pizza", "cream cheese",
@@ -229,16 +229,16 @@ def get_all_people() -> Any:
             if name.lower().strip() in non_person_topics:
                 continue
 
-            # Get accountability score (our derived metric)
-            acc_score = 0.0
+            # Get impunity index (our derived metric)
+            imp_score = 0.0
             evidence_idx = 0.0
-            if 'accountability' in DATA:
-                a_row = DATA['accountability'][DATA['accountability']['name'] == name]
+            if 'impunity' in DATA:
+                a_row = DATA['impunity'][DATA['impunity']['name'] == name]
                 if not a_row.empty:
-                    acc_score = float(a_row.iloc[0]['accountability_score'])
+                    imp_score = float(a_row.iloc[0]['impunity_index'])
                     evidence_idx = float(a_row.iloc[0]['evidence_index'])
 
-            level = get_accountability_level(acc_score)
+            level = get_impunity_level(imp_score)
 
             # Get consequence info
             consequence_tier = 0
@@ -262,7 +262,7 @@ def get_all_people() -> Any:
 
             people.append({
                 'name': name,
-                'accountability_score': acc_score,
+                'impunity_index': imp_score,
                 'evidence_index': evidence_idx,
                 'level': level,
                 'consequence_tier': consequence_tier,
@@ -284,7 +284,7 @@ def get_edges() -> Any:
 
 @app.route('/api/person/<name>')
 def get_person(name: str) -> Any:
-    """Get person profile with accountability score and NLP features."""
+    """Get person profile with impunity index and NLP features."""
     if 'merged' not in DATA:
         return jsonify({'error': 'Data not loaded'}), 500
 
@@ -298,7 +298,7 @@ def get_person(name: str) -> Any:
     tier = int(tier) if pd.notna(tier) else 0
     badge = get_tier_badge(tier)
 
-    acc_score = float(person.get('accountability_score', 0))
+    imp_score = float(person.get('impunity_index', 0))
     evidence_idx = float(person.get('evidence_index', 0))
 
     # Get predictions
@@ -330,9 +330,9 @@ def get_person(name: str) -> Any:
 
     return jsonify({
         'name': person['name'],
-        'accountability_score': acc_score,
+        'impunity_index': imp_score,
         'evidence_index': evidence_idx,
-        'level': get_accountability_level(acc_score),
+        'level': get_impunity_level(imp_score),
         'consequence_tier': tier,
         'consequence_description': person.get('consequence_description', 'No information available'),
         'badge': badge,
@@ -378,13 +378,15 @@ def search_person() -> Any:
 
 @app.route('/api/chart-data')
 def get_chart_data() -> Any:
-    """Get data for accountability gap scatter plot."""
+    """Get data for impunity gap scatter plot."""
     if 'merged' not in DATA:
         return jsonify([])
 
     df = DATA['merged'].dropna(subset=['consequence_tier']).copy()
 
-    if 'accountability_score' in df.columns:
+    if 'impunity_index' in df.columns:
+        score_col = 'impunity_index'
+    elif 'accountability_score' in df.columns:
         score_col = 'accountability_score'
     else:
         score_col = 'severity_score'
@@ -400,7 +402,7 @@ def get_chart_data() -> Any:
     for _, row in df.iterrows():
         chart_data.append({
             'name': row['name'],
-            'accountability_score': float(row.get('accountability_score', 0)),
+            'impunity_index': float(row.get('impunity_index', 0)),
             'evidence_index': float(row.get('evidence_index', 0)),
             'consequence_tier': int(row['consequence_tier']),
             'power_tier': str(row['power_tier']) if pd.notna(row['power_tier']) else 'Unknown',
