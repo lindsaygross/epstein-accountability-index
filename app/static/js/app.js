@@ -105,7 +105,8 @@ function initNetworkGraph() {
         severity:    p.severity_score,
         level:       p.level,
         consequence: p.consequence_tier,
-        radius:      Math.max(5, Math.sqrt(p.severity_score) * 5.5)
+        radius:      Math.max(12, Math.sqrt(p.severity_score) * 6),
+        image_url:   p.image_url || ''
     }));
 
     const links = STATE.edges
@@ -145,18 +146,41 @@ function initNetworkGraph() {
         .attr('stroke-opacity', d => 0.12 + (d.weight / maxWeight) * 0.5)
         .attr('stroke-width', d => 0.4 + (d.weight / maxWeight) * 3);
 
-    // Nodes
+    // Defs: circular clip paths for images
+    const defs = svg.append('defs');
+    nodes.forEach((d, i) => {
+        defs.append('clipPath')
+            .attr('id', `node-clip-${i}`)
+            .append('circle')
+            .attr('cx', 0).attr('cy', 0)
+            .attr('r', d.radius - 1.5);
+    });
+
+    // Node groups (g) with image + ring
     const node = g.append('g')
         .attr('class', 'nodes')
-        .selectAll('circle')
+        .selectAll('g')
         .data(nodes)
-        .join('circle')
-        .attr('r', d => d.radius)
-        .attr('fill', d => SEVERITY_COLORS[d.level] || '#555')
-        .attr('stroke', 'rgba(0,0,0,0.6)')
-        .attr('stroke-width', 1)
+        .join('g')
         .attr('cursor', 'pointer')
         .call(makeDrag(simulation));
+
+    // Severity-colored ring
+    node.append('circle')
+        .attr('r', d => d.radius)
+        .attr('fill', '#111')
+        .attr('stroke', d => SEVERITY_COLORS[d.level] || '#555')
+        .attr('stroke-width', 2);
+
+    // Person image inside clip
+    node.append('image')
+        .attr('href', d => d.image_url)
+        .attr('x', d => -d.radius + 1.5)
+        .attr('y', d => -d.radius + 1.5)
+        .attr('width', d => (d.radius - 1.5) * 2)
+        .attr('height', d => (d.radius - 1.5) * 2)
+        .attr('clip-path', (d, i) => `url(#node-clip-${i})`)
+        .attr('preserveAspectRatio', 'xMidYMid slice');
 
     // Labels — only show for higher-severity or larger nodes
     const label = g.append('g')
@@ -183,21 +207,21 @@ function initNetworkGraph() {
             if (tgt === d.id) connected.add(src);
         });
 
-        node.attr('opacity', n => connected.has(n.id) ? 1 : 0.12);
+        node.attr('opacity', n => connected.has(n.__data__.id) ? 1 : 0.12);
         link.attr('opacity', l => {
             const src = typeof l.source === 'object' ? l.source.id : l.source;
             const tgt = typeof l.target === 'object' ? l.target.id : l.target;
             return (src === d.id || tgt === d.id) ? 0.85 : 0.02;
         });
         label.style('opacity', n => connected.has(n.id) ? 1 : 0);
-        d3.select(this).attr('stroke', '#fff').attr('stroke-width', 2);
+        d3.select(this).select('circle').attr('stroke', '#fff').attr('stroke-width', 3);
     })
     .on('mouseout', function () {
         node.attr('opacity', 1);
         link.attr('stroke-opacity', d => 0.12 + (d.weight / maxWeight) * 0.5);
         link.attr('opacity', null);
         label.style('opacity', d => d.severity >= 5 ? 1 : 0);
-        d3.select(this).attr('stroke', 'rgba(0,0,0,0.6)').attr('stroke-width', 1);
+        d3.select(this).select('circle').attr('stroke', d => SEVERITY_COLORS[d.level] || '#555').attr('stroke-width', 2);
     })
     .on('click', (event, d) => openPersonModal(d.id));
 
@@ -209,8 +233,7 @@ function initNetworkGraph() {
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
         node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y);
+            .attr('transform', d => `translate(${d.x},${d.y})`);
         label
             .attr('x', d => d.x)
             .attr('y', d => d.y);
@@ -285,11 +308,14 @@ function renderPeopleGrid() {
         const cLabel = p.badge ? p.badge.label : '';
         const safeName = p.name.replace(/'/g, "\\'");
 
+        const imgUrl = p.image_url || '/static/images/people/placeholder.png';
         return `
             <div class="person-card severity-${lvl}" role="listitem"
                  onclick="openPersonModal('${safeName}')"
                  tabindex="0"
                  aria-label="${p.name}, severity ${p.severity_score.toFixed(1)}">
+                <img src="${imgUrl}" alt="" class="card-avatar"
+                     onerror="this.src='/static/images/people/placeholder.png'" />
                 <div class="name">${p.name}</div>
                 <div class="score" style="color:${color}">${p.severity_score.toFixed(1)}</div>
                 <span class="level-badge" style="color:${color}">${p.level}</span>
@@ -346,7 +372,15 @@ function populateModal(data) {
     const modal = document.getElementById('person-modal');
     if (!modal) return;
 
-    // Header
+    // Header image
+    const imgEl = document.getElementById('modal-image');
+    if (imgEl) {
+        imgEl.src = data.image_url || '/static/images/people/placeholder.png';
+        imgEl.alt = data.name;
+        imgEl.onerror = function() { this.src = '/static/images/people/placeholder.png'; };
+    }
+
+    // Header name & badge
     document.getElementById('modal-name').textContent = data.name;
     const badge = document.getElementById('modal-level');
     badge.textContent = data.level;
@@ -394,7 +428,14 @@ function populateModal(data) {
     // Predictions
     const pEl = document.getElementById('modal-predictions');
     const tierText = { 0: 'No Consequence', 1: 'Consequence' };
-    const mLabels = { naive_baseline: 'Naive Baseline', gradient_boosting: 'Gradient Boosting', distilbert: 'DistilBERT' };
+    const mLabels = {
+        logistic_baseline: 'Logistic Regression',
+        random_forest_tfidf: 'Random Forest + TF-IDF',
+        legal_bert: 'Legal-BERT',
+        naive_baseline: 'Naive Baseline',
+        gradient_boosting: 'Gradient Boosting',
+        distilbert: 'DistilBERT'
+    };
 
     if (data.predictions && Object.keys(data.predictions).length) {
         pEl.innerHTML = `<table class="predictions-table">
@@ -426,6 +467,39 @@ function populateModal(data) {
         }).join('');
     } else {
         connEl.innerHTML = '<p style="color:#555; font-size:0.85rem;">No connections found in documents.</p>';
+    }
+
+    // Summary (lazy-loaded)
+    const summarySection = document.getElementById('modal-summary-section');
+    const summaryText = document.getElementById('modal-summary-text');
+    const citationsEl = document.getElementById('modal-citations');
+
+    if (data.has_summary) {
+        summarySection.style.display = '';
+        summaryText.textContent = 'Loading summary...';
+        citationsEl.innerHTML = '';
+
+        fetch(`/api/person/${encodeURIComponent(data.name)}/summary`)
+            .then(r => r.json())
+            .then(summary => {
+                summaryText.textContent = summary.summary_text || 'No summary available.';
+                if (summary.citations && summary.citations.length) {
+                    citationsEl.innerHTML = summary.citations.slice(0, 10).map(c => `
+                        <div class="citation-item">
+                            <span class="citation-type">${c.doc_type || 'document'}</span>
+                            <span class="citation-id">${c.doc_id || ''}</span>
+                            ${c.date ? `<span class="citation-date">${c.date}</span>` : ''}
+                            <p class="citation-snippet">${c.snippet || ''}</p>
+                            ${c.jmail_url ? `<a href="${c.jmail_url}" target="_blank" rel="noopener noreferrer" class="citation-link">View on jmail.world &rarr;</a>` : ''}
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(() => {
+                summaryText.textContent = 'Summary could not be loaded.';
+            });
+    } else {
+        summarySection.style.display = 'none';
     }
 
     // Show
@@ -530,14 +604,21 @@ function displayModelResults() {
     const container = document.getElementById('modelPerformance');
     if (!container) return;
 
-    const order  = ['naive_baseline', 'gradient_boosting', 'distilbert'];
-    const labels = { naive_baseline: 'Naive Baseline', gradient_boosting: 'Gradient Boosting', distilbert: 'DistilBERT' };
+    const order  = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert', 'naive_baseline', 'gradient_boosting', 'distilbert'];
+    const labels = {
+        logistic_baseline: 'Logistic Regression',
+        random_forest_tfidf: 'Random Forest + TF-IDF',
+        legal_bert: 'Legal-BERT',
+        naive_baseline: 'Naive Baseline',
+        gradient_boosting: 'Gradient Boosting',
+        distilbert: 'DistilBERT'
+    };
 
     container.innerHTML = order.filter(m => data[m]).map(m => {
         const met = data[m];
         const acc = (met.accuracy * 100).toFixed(1);
         const f1  = (met.f1_macro * 100).toFixed(1);
-        const best = m === 'gradient_boosting';
+        const best = m === 'random_forest_tfidf' || m === 'gradient_boosting';
 
         return `<div class="model-row${best ? ' best' : ''}">
             <div class="model-row-header">

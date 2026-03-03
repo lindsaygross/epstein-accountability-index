@@ -373,6 +373,17 @@ body {
 .person-card.severity-medium:hover   { box-shadow: 0 4px 20px rgba(255, 193, 7, 0.12); }
 .person-card.severity-low:hover      { box-shadow: 0 4px 20px rgba(78, 205, 196, 0.12); }
 .person-card.severity-minimal:hover  { box-shadow: 0 4px 20px rgba(85, 85, 85, 0.12); }
+/* Person card avatar */
+.card-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    float: right;
+    margin-left: 0.8rem;
+    border: 2px solid var(--border-subtle);
+    background: #1a1a1a;
+}
 .person-card .name {
     font-size: 1rem;
     font-weight: 600;
@@ -526,10 +537,19 @@ body {
 }
 .modal-header-content {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
     padding-right: 2.5rem;
+}
+.modal-person-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-subtle);
+    flex-shrink: 0;
+    background: #1a1a1a;
 }
 .modal-person-name {
     font-family: var(--font-heading);
@@ -638,6 +658,64 @@ body {
     background: rgba(255, 255, 255, 0.08);
     border-color: var(--border-hover);
 }
+
+/* ============================================================
+   SUMMARY & CITATIONS (in modal)
+   ============================================================ */
+.modal-summary-wrapper {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 1rem;
+}
+.summary-text {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+}
+.citations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.citation-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    border-left: 2px solid var(--color-medium);
+}
+.citation-type {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-medium);
+    margin-right: 0.5rem;
+    font-weight: 600;
+}
+.citation-id {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+}
+.citation-date {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-left: 0.5rem;
+}
+.citation-snippet {
+    font-size: 0.8rem;
+    color: #999;
+    margin: 0.4rem 0 0.3rem;
+    line-height: 1.5;
+}
+.citation-link {
+    font-size: 0.72rem;
+    color: var(--color-low);
+    text-decoration: none;
+}
+.citation-link:hover { text-decoration: underline; }
 
 /* ============================================================
    PLOTLY CHART OVERRIDES
