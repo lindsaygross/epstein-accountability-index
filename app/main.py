@@ -131,12 +131,12 @@ def load_data() -> None:
     logger.info("Loading data files...")
     base_path = Path(__file__).parent.parent
 
-    # Load severity scores JSON (primary source of truth for people list)
+    # Load severity scores JSON (people list source)
     scores_path = base_path / "data" / "scraped" / "epsteinoverview_scores.json"
     if scores_path.exists():
         with open(scores_path, 'r') as f:
             DATA['scores'] = json.load(f)
-        logger.info(f"Loaded {len(DATA['scores'])} severity scores")
+        logger.info(f"Loaded {len(DATA['scores'])} people entries")
 
     # Load features
     features_path = base_path / "data" / "processed" / "features.csv"
@@ -163,9 +163,6 @@ def load_data() -> None:
     edges_path = base_path / "data" / "processed" / "edges.csv"
     if edges_path.exists():
         DATA['edges'] = pd.read_csv(edges_path)
-        logger.info(f"Loaded {len(DATA['edges'])} edges")
-    else:
-        logger.warning("Edges file not found - network graph will have no connections")
 
     # Load predictions
     predictions_path = base_path / "data" / "outputs" / "predictions.csv"
@@ -187,21 +184,18 @@ def load_data() -> None:
     if images_manifest_path.exists():
         with open(images_manifest_path, 'r') as f:
             DATA['images'] = json.load(f)
-        logger.info(f"Loaded {len(DATA['images'])} image mappings")
 
     # Load summaries
     summaries_path = base_path / "data" / "processed" / "summaries.json"
     if summaries_path.exists():
         with open(summaries_path, 'r') as f:
             DATA['summaries'] = json.load(f)
-        logger.info(f"Loaded {len(DATA['summaries'])} person summaries")
 
-    # Merge features and consequences
+    # Merge features and consequences for person detail
     if 'features' in DATA and 'consequences' in DATA:
         DATA['merged'] = DATA['features'].merge(
             DATA['consequences'][['name', 'consequence_tier', 'consequence_description']],
-            on='name',
-            how='left'
+            on='name', how='left'
         )
         logger.info(f"Loaded {len(DATA['merged'])} merged records")
 
@@ -253,7 +247,6 @@ def get_tier_badge(tier: int) -> Dict[str, str]:
 
 @app.route('/')
 def index() -> str:
-    """Render main dashboard."""
     return render_template('index.html')
 
 
@@ -261,13 +254,7 @@ def index() -> str:
 
 @app.route('/api/people')
 def get_all_people() -> Any:
-    """
-    Get all 66 people with summary data for the grid and network graph.
-
-    Returns:
-        JSON array of person objects with severity, consequence, and features
-    """
-    # Non-person topics to filter out
+    """Get all people with impunity scores for grid and network."""
     non_person_topics = {
         "dentist", "gynecologist", "pregnant", "whoops",
         "beef jerky", "pizza", "cream cheese",
@@ -285,10 +272,18 @@ def get_all_people() -> Any:
             if name.lower().strip() in non_person_topics:
                 continue
 
-            score = float(entry.get('severity_score', 0))
-            level = get_severity_level(score)
+            # Get impunity index (our derived metric)
+            imp_score = 0.0
+            evidence_idx = 0.0
+            if 'impunity' in DATA:
+                a_row = DATA['impunity'][DATA['impunity']['name'] == name]
+                if not a_row.empty:
+                    imp_score = float(a_row.iloc[0]['impunity_index'])
+                    evidence_idx = float(a_row.iloc[0]['evidence_index'])
 
-            # Get consequence info if available
+            level = get_impunity_level(imp_score)
+
+            # Get consequence info
             consequence_tier = 0
             consequence_desc = ''
             if 'consequences' in DATA:
@@ -297,20 +292,21 @@ def get_all_people() -> Any:
                     consequence_tier = int(c_row.iloc[0]['consequence_tier'])
                     consequence_desc = str(c_row.iloc[0].get('consequence_description', ''))
 
-            # Get feature data if available
+            # Get mention count
             mention_count = 0
             if 'features' in DATA:
                 f_row = DATA['features'][DATA['features']['name'] == name]
                 if not f_row.empty:
                     mention_count = int(f_row.iloc[0].get('mention_count', 0))
 
-            # Get image URL
+            # Image URL
             image_file = DATA.get('images', {}).get(name, 'placeholder.png')
             image_url = f"/static/images/people/{image_file}"
 
             people.append({
                 'name': name,
-                'severity_score': score,
+                'impunity_index': imp_score,
+                'evidence_index': evidence_idx,
                 'level': level,
                 'consequence_tier': consequence_tier,
                 'consequence_description': consequence_desc,
@@ -324,22 +320,14 @@ def get_all_people() -> Any:
 
 @app.route('/api/edges')
 def get_edges() -> Any:
-    """
-    Get co-occurrence edges for the network graph.
-
-    Returns:
-        JSON array of edge objects with source, target, weight
-    """
     if 'edges' not in DATA or DATA['edges'].empty:
         return jsonify([])
-
-    edges = DATA['edges'].to_dict('records')
-    return jsonify(edges)
+    return jsonify(DATA['edges'].to_dict('records'))
 
 
 @app.route('/api/person/<name>')
 def get_person(name: str) -> Any:
-    """Get person profile data."""
+    """Get person profile with impunity index and NLP features."""
     if 'merged' not in DATA:
         return jsonify({'error': 'Data not loaded'}), 500
 
@@ -352,7 +340,6 @@ def get_person(name: str) -> Any:
     tier = person.get('consequence_tier', 0)
     tier = int(tier) if pd.notna(tier) else 0
     badge = get_tier_badge(tier)
-    score = float(person.get('severity_score', 0))
 
     # Get source URL for consequence citation
     source_url = ''
@@ -373,7 +360,7 @@ def get_person(name: str) -> Any:
                         int(pred_row[col]) if pd.notna(pred_row[col]) else None
                     )
 
-    # Get connected people from edges
+    # Connected people from edges
     connections = []
     if 'edges' in DATA and not DATA['edges'].empty:
         edges_df = DATA['edges']
@@ -383,23 +370,18 @@ def get_person(name: str) -> Any:
         connected = connected.sort_values('weight', ascending=False).head(10)
         for _, row in connected.iterrows():
             other = row['target'] if row['source'] == name else row['source']
-            connections.append({
-                'name': other,
-                'weight': int(row['weight'])
-            })
+            connections.append({'name': other, 'weight': int(row['weight'])})
 
-    # Get image URL
     image_file = DATA.get('images', {}).get(name, 'placeholder.png')
     image_url = f"/static/images/people/{image_file}"
 
-    response = {
+    return jsonify({
         'name': person['name'],
-        'severity_score': score,
-        'level': get_severity_level(score),
+        'impunity_index': imp_score,
+        'evidence_index': evidence_idx,
+        'level': get_impunity_level(imp_score),
         'consequence_tier': tier,
-        'consequence_description': person.get(
-            'consequence_description', 'No information available'
-        ),
+        'consequence_description': person.get('consequence_description', 'No information available'),
         'badge': badge,
         'predictions': predictions,
         'connections': connections,
@@ -428,20 +410,16 @@ def get_person_summary(name: str) -> Any:
 
 @app.route('/api/person/<name>/summary')
 def get_person_summary(name: str) -> Any:
-    """Get AI-generated summary with DOJ file citations for a person."""
     if 'summaries' not in DATA:
         return jsonify({'error': 'Summaries not available'}), 404
-
     summary = DATA['summaries'].get(name)
     if not summary:
         return jsonify({'error': f'Summary not found for {name}'}), 404
-
     return jsonify(summary)
 
 
 @app.route('/api/search')
 def search_person() -> Any:
-    """Search for people by name."""
     query = request.args.get('q', '').lower()
     if not query:
         return jsonify([])
@@ -457,7 +435,6 @@ def search_person() -> Any:
             DATA['merged']['name'].str.lower().str.contains(query, na=False)
         ]['name'].tolist()
         return jsonify(matches[:10])
-
     return jsonify([])
 
 # ── API: Analysis & Charts ────────────────────────────────────
@@ -466,17 +443,23 @@ def search_person() -> Any:
 
 @app.route('/api/chart-data')
 def get_chart_data() -> Any:
-    """Get data for accountability gap scatter plot."""
+    """Get data for impunity gap scatter plot."""
     if 'merged' not in DATA:
         return jsonify([])
 
-    df = DATA['merged'].dropna(subset=['severity_score', 'consequence_tier']).copy()
+    df = DATA['merged'].dropna(subset=['consequence_tier']).copy()
 
-    bins = [0, 2, 5, 8, 10.01]
+    if 'impunity_index' in df.columns:
+        score_col = 'impunity_index'
+    elif 'accountability_score' in df.columns:
+        score_col = 'accountability_score'
+    else:
+        score_col = 'severity_score'
+
+    bins = [0, 2.5, 5.0, 7.5, 10.01]
     df['power_tier'] = pd.cut(
-        df['severity_score'],
-        bins=bins,
-        labels=['Low', 'Medium', 'High', 'Very High'],
+        df[score_col], bins=bins,
+        labels=['Low', 'Moderate', 'High', 'Critical'],
         include_lowest=True
     )
 
@@ -496,21 +479,16 @@ def get_chart_data() -> Any:
 
 @app.route('/api/model-results')
 def get_model_results() -> Any:
-    """Get model performance metrics."""
     base_path = Path(__file__).parent.parent
     metrics_path = base_path / "data" / "outputs" / "model_metrics.json"
-
     if metrics_path.exists():
         with open(metrics_path, 'r') as f:
-            results = json.load(f)
-        return jsonify(results)
-
+            return jsonify(json.load(f))
     return jsonify({'error': 'Model metrics not available'}), 404
 
 
 @app.route('/api/experiment-results')
 def get_experiment_results() -> Any:
-    """Get power tier experiment results."""
     if 'experiment_results' not in DATA:
         return jsonify({'error': 'Experiment results not available'}), 404
     return jsonify(DATA['experiment_results'].to_dict('records'))
@@ -525,12 +503,9 @@ def get_ablation_results() -> Any:
 
 @app.route('/api/ablation-results')
 def get_ablation_results() -> Any:
-    """Get feature ablation study results."""
     if 'ablation_results' not in DATA:
         return jsonify({'error': 'Ablation results not available'}), 404
-
-    results = DATA['ablation_results'].to_dict('records')
-    return jsonify(results)
+    return jsonify(DATA['ablation_results'].to_dict('records'))
 
 
 # ── Error Handlers ────────────────────────────────────────────
@@ -548,15 +523,8 @@ def internal_error(error) -> tuple:
 
 def main() -> None:
     logger.info("Starting Flask application...")
-
     load_data()
-    load_models()
-
-    app.run(
-        host='0.0.0.0',
-        port=5001,
-        debug=True
-    )
+    app.run(host='0.0.0.0', port=5001, debug=True)
 
 
 if __name__ == "__main__":
