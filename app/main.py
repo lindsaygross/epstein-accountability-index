@@ -159,6 +159,10 @@ def load_data() -> None:
     edges_path = base_path / "data" / "processed" / "edges.csv"
     if edges_path.exists():
         DATA['edges'] = pd.read_csv(edges_path)
+    # Load edges (co-occurrence data for network graph)
+    edges_path = base_path / "data" / "processed" / "edges.csv"
+    if edges_path.exists():
+        DATA['edges'] = pd.read_csv(edges_path)
 
     # Load predictions
     predictions_path = base_path / "data" / "outputs" / "predictions.csv"
@@ -193,11 +197,50 @@ def load_data() -> None:
             DATA['consequences'][['name', 'consequence_tier', 'consequence_description']],
             on='name', how='left'
         )
-        # Also merge impunity scores
-        if 'impunity' in DATA:
-            DATA['merged'] = DATA['merged'].merge(
-                DATA['impunity'], on='name', how='left'
-            )
+        logger.info(f"Loaded {len(DATA['merged'])} merged records")
+
+
+def load_models() -> None:
+    """Load trained models."""
+    logger.info("Loading models...")
+
+    base_path = Path(__file__).parent.parent
+    models_path = base_path / "models"
+
+    # Load Gradient Boosting model
+    gb_path = models_path / "gradient_boosting_model.pkl"
+    if gb_path.exists():
+        MODELS['gradient_boosting'] = joblib.load(gb_path)
+        logger.info("Loaded Gradient Boosting model")
+    else:
+        logger.warning("Gradient Boosting model not found")
+
+
+def get_severity_level(score: float) -> str:
+    """Map severity score to a named level."""
+    if score >= 8.5:
+        return 'Critical'
+    elif score >= 7.0:
+        return 'High'
+    elif score >= 4.0:
+        return 'Medium'
+    elif score >= 1.0:
+        return 'Low'
+    else:
+        return 'Minimal'
+
+@app.route('/')
+def index() -> str:
+    return render_template('index.html')
+
+def get_tier_badge(tier: int) -> Dict[str, str]:
+    """Get badge color and label for consequence tier."""
+    badges = {
+        0: {'color': 'none', 'label': 'No Consequence'},
+        1: {'color': 'soft', 'label': 'Soft Consequence'},
+        2: {'color': 'hard', 'label': 'Hard Consequence'}
+    }
+    return badges.get(tier, {'color': 'none', 'label': 'Unknown'})
 
 
 # ── Page Routes ───────────────────────────────────────────────
@@ -298,8 +341,12 @@ def get_person(name: str) -> Any:
     tier = int(tier) if pd.notna(tier) else 0
     badge = get_tier_badge(tier)
 
-    imp_score = float(person.get('impunity_index', 0))
-    evidence_idx = float(person.get('evidence_index', 0))
+    # Get source URL for consequence citation
+    source_url = ''
+    if 'consequences' in DATA:
+        c_row = DATA['consequences'][DATA['consequences']['name'] == name]
+        if not c_row.empty:
+            source_url = str(c_row.iloc[0].get('source_url', '') or '')
 
     # Get predictions
     predictions = {}
@@ -361,6 +408,16 @@ def get_person_summary(name: str) -> Any:
     return jsonify(summary)
 
 
+@app.route('/api/person/<name>/summary')
+def get_person_summary(name: str) -> Any:
+    if 'summaries' not in DATA:
+        return jsonify({'error': 'Summaries not available'}), 404
+    summary = DATA['summaries'].get(name)
+    if not summary:
+        return jsonify({'error': f'Summary not found for {name}'}), 404
+    return jsonify(summary)
+
+
 @app.route('/api/search')
 def search_person() -> Any:
     query = request.args.get('q', '').lower()
@@ -373,6 +430,14 @@ def search_person() -> Any:
         return jsonify(matches[:10])
     return jsonify([])
 
+    if 'merged' in DATA:
+        matches = DATA['merged'][
+            DATA['merged']['name'].str.lower().str.contains(query, na=False)
+        ]['name'].tolist()
+        return jsonify(matches[:10])
+    return jsonify([])
+
+# ── API: Analysis & Charts ────────────────────────────────────
 
 # ── API: Analysis & Charts ────────────────────────────────────
 
@@ -427,6 +492,13 @@ def get_experiment_results() -> Any:
     if 'experiment_results' not in DATA:
         return jsonify({'error': 'Experiment results not available'}), 404
     return jsonify(DATA['experiment_results'].to_dict('records'))
+
+
+@app.route('/api/ablation-results')
+def get_ablation_results() -> Any:
+    if 'ablation_results' not in DATA:
+        return jsonify({'error': 'Ablation results not available'}), 404
+    return jsonify(DATA['ablation_results'].to_dict('records'))
 
 
 @app.route('/api/ablation-results')
