@@ -1,43 +1,134 @@
 # Attribution: Scaffolded with AI assistance (Claude, Anthropic)
 
 """
-Flask web application for The Accountability Gap.
+Flask web application for The Impunity Index.
 
 This app provides an interactive dashboard for exploring the relationship
-between Epstein file mention severity and real-world consequences.
+between Epstein file evidence and real-world consequences,
+using NLP-derived features and ML classification.
 """
 
 import json
 import logging
+import math
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
-import joblib
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-# Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
-# Global variables for loaded data and models
 DATA = {}
-MODELS = {}
+
+
+def compute_impunity_scores(features_df: pd.DataFrame, consequences_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compute impunity index from NLP features and consequence outcomes.
+
+    The impunity index is our own metric derived from:
+    1. Evidence Index (0-10): Weighted combination of NLP-extracted features
+       - Document mention frequency, co-occurrence with incriminating terms,
+         context sentiment, document type diversity, subject line presence
+    2. Consequence modifier: Adjusts based on whether justice has been served
+       - No consequence: +30% (high impunity — gap exists)
+       - Soft consequence: neutral
+       - Hard consequence (convicted): -30% (low impunity — justice served)
+    """
+    merged = features_df.merge(
+        consequences_df[['name', 'consequence_tier']],
+        on='name', how='left'
+    )
+    merged['consequence_tier'] = merged['consequence_tier'].fillna(0).astype(int)
+
+    # Normalize NLP features to 0-1 using min-max scaling
+    nlp_cols = {
+        'mention_count': 0.30,
+        'cooccurrence_score': 0.20,
+        'total_mentions': 0.15,
+        'doc_type_diversity': 0.15,
+        'name_in_subject_line': 0.10,
+    }
+
+    for col in nlp_cols:
+        col_max = merged[col].max()
+        if col_max > 0:
+            merged[f'{col}_norm'] = merged[col] / col_max
+        else:
+            merged[f'{col}_norm'] = 0.0
+
+    # Invert sentiment: more negative context = more concerning
+    sent_col = 'mean_context_sentiment'
+    s_max = merged[sent_col].max()
+    s_min = merged[sent_col].min()
+    if s_max != s_min:
+        merged['sentiment_norm'] = (s_max - merged[sent_col]) / (s_max - s_min)
+    else:
+        merged['sentiment_norm'] = 0.0
+
+    # Evidence index: weighted combination of normalized features
+    merged['evidence_index'] = (
+        nlp_cols['mention_count'] * merged['mention_count_norm'] +
+        nlp_cols['cooccurrence_score'] * merged['cooccurrence_score_norm'] +
+        nlp_cols['total_mentions'] * merged['total_mentions_norm'] +
+        nlp_cols['doc_type_diversity'] * merged['doc_type_diversity_norm'] +
+        nlp_cols['name_in_subject_line'] * merged['name_in_subject_line_norm'] +
+        0.10 * merged['sentiment_norm']
+    ) * 10
+
+    # Apply consequence modifier
+    def _score(row):
+        ev = row['evidence_index']
+        tier = row['consequence_tier']
+        if tier == 0:
+            return min(10.0, ev * 1.3)
+        elif tier == 1:
+            return ev * 1.0
+        else:
+            return ev * 0.7
+
+    merged['impunity_index'] = merged.apply(_score, axis=1).round(1)
+    merged['evidence_index'] = merged['evidence_index'].round(1)
+
+    return merged[['name', 'impunity_index', 'evidence_index']]
+
+
+def get_impunity_level(score: float) -> str:
+    """Map impunity index to a named level."""
+    if score >= 7.5:
+        return 'Critical'
+    elif score >= 5.0:
+        return 'High'
+    elif score >= 2.5:
+        return 'Moderate'
+    elif score >= 1.0:
+        return 'Low'
+    else:
+        return 'Minimal'
+
+
+def get_tier_badge(tier: int) -> Dict[str, str]:
+    """Get badge color and label for consequence tier."""
+    badges = {
+        0: {'color': 'none', 'label': 'No Consequence'},
+        1: {'color': 'soft', 'label': 'Soft Consequence'},
+        2: {'color': 'hard', 'label': 'Hard Consequence'}
+    }
+    return badges.get(tier, {'color': 'none', 'label': 'Unknown'})
 
 
 def load_data() -> None:
-    """Load all required data files."""
+    """Load all required data files and compute derived metrics."""
     logger.info("Loading data files...")
-
     base_path = Path(__file__).parent.parent
 
     # Load severity scores JSON (primary source of truth for people list)
@@ -57,6 +148,17 @@ def load_data() -> None:
     if consequences_path.exists():
         DATA['consequences'] = pd.read_csv(consequences_path)
 
+    # Compute impunity scores from NLP features + consequences
+    if 'features' in DATA and 'consequences' in DATA:
+        DATA['impunity'] = compute_impunity_scores(
+            DATA['features'], DATA['consequences']
+        )
+        logger.info(f"Computed impunity scores for {len(DATA['impunity'])} people")
+
+    # Load edges
+    edges_path = base_path / "data" / "processed" / "edges.csv"
+    if edges_path.exists():
+        DATA['edges'] = pd.read_csv(edges_path)
     # Load edges (co-occurrence data for network graph)
     edges_path = base_path / "data" / "processed" / "edges.csv"
     if edges_path.exists():
@@ -133,6 +235,9 @@ def get_severity_level(score: float) -> str:
     else:
         return 'Minimal'
 
+@app.route('/')
+def index() -> str:
+    return render_template('index.html')
 
 def get_tier_badge(tier: int) -> Dict[str, str]:
     """Get badge color and label for consequence tier."""
@@ -239,7 +344,6 @@ def get_person(name: str) -> Any:
         return jsonify({'error': 'Data not loaded'}), 500
 
     person_data = DATA['merged'][DATA['merged']['name'] == name]
-
     if person_data.empty:
         return jsonify({'error': 'Person not found'}), 404
 
@@ -250,7 +354,14 @@ def get_person(name: str) -> Any:
     badge = get_tier_badge(tier)
     score = float(person.get('severity_score', 0))
 
-    # Get predictions if available
+    # Get source URL for consequence citation
+    source_url = ''
+    if 'consequences' in DATA:
+        c_row = DATA['consequences'][DATA['consequences']['name'] == name]
+        if not c_row.empty:
+            source_url = str(c_row.iloc[0].get('source_url', '') or '')
+
+    # Get predictions
     predictions = {}
     if 'predictions' in DATA:
         pred_data = DATA['predictions'][DATA['predictions']['name'] == name]
@@ -302,9 +413,17 @@ def get_person(name: str) -> Any:
             'doc_type_diversity': int(person.get('doc_type_diversity', 0)),
             'in_subject_line': bool(person.get('name_in_subject_line', False))
         }
-    }
+    })
 
-    return jsonify(response)
+
+@app.route('/api/person/<name>/summary')
+def get_person_summary(name: str) -> Any:
+    if 'summaries' not in DATA:
+        return jsonify({'error': 'Summaries not available'}), 404
+    summary = DATA['summaries'].get(name)
+    if not summary:
+        return jsonify({'error': f'Summary not found for {name}'}), 404
+    return jsonify(summary)
 
 
 @app.route('/api/person/<name>/summary')
@@ -326,6 +445,12 @@ def search_person() -> Any:
     query = request.args.get('q', '').lower()
     if not query:
         return jsonify([])
+    if 'merged' in DATA:
+        matches = DATA['merged'][
+            DATA['merged']['name'].str.lower().str.contains(query, na=False)
+        ]['name'].tolist()
+        return jsonify(matches[:10])
+    return jsonify([])
 
     if 'merged' in DATA:
         matches = DATA['merged'][
@@ -335,6 +460,7 @@ def search_person() -> Any:
 
     return jsonify([])
 
+# ── API: Analysis & Charts ────────────────────────────────────
 
 # ── API: Analysis & Charts ────────────────────────────────────
 
@@ -358,7 +484,8 @@ def get_chart_data() -> Any:
     for _, row in df.iterrows():
         chart_data.append({
             'name': row['name'],
-            'severity_score': float(row['severity_score']),
+            'impunity_index': float(row.get('impunity_index', 0)),
+            'evidence_index': float(row.get('evidence_index', 0)),
             'consequence_tier': int(row['consequence_tier']),
             'power_tier': str(row['power_tier']) if pd.notna(row['power_tier']) else 'Unknown',
             'description': row.get('consequence_description', '')
@@ -386,9 +513,14 @@ def get_experiment_results() -> Any:
     """Get power tier experiment results."""
     if 'experiment_results' not in DATA:
         return jsonify({'error': 'Experiment results not available'}), 404
+    return jsonify(DATA['experiment_results'].to_dict('records'))
 
-    results = DATA['experiment_results'].to_dict('records')
-    return jsonify(results)
+
+@app.route('/api/ablation-results')
+def get_ablation_results() -> Any:
+    if 'ablation_results' not in DATA:
+        return jsonify({'error': 'Ablation results not available'}), 404
+    return jsonify(DATA['ablation_results'].to_dict('records'))
 
 
 @app.route('/api/ablation-results')
@@ -405,19 +537,16 @@ def get_ablation_results() -> Any:
 
 @app.errorhandler(404)
 def not_found(error) -> tuple:
-    """Handle 404 errors."""
     return jsonify({'error': 'Not found'}), 404
 
 
 @app.errorhandler(500)
 def internal_error(error) -> tuple:
-    """Handle 500 errors."""
     logger.error(f"Internal error: {error}")
     return jsonify({'error': 'Internal server error'}), 500
 
 
 def main() -> None:
-    """Main entry point for the app."""
     logger.info("Starting Flask application...")
 
     load_data()
