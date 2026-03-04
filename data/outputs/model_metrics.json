@@ -1,0 +1,44 @@
+{
+  "logistic_baseline": {
+    "accuracy": 0.7142857142857143,
+    "f1_macro": 0.65,
+    "confusion_matrix": [
+      [
+        8,
+        3
+      ],
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  "random_forest_tfidf": {
+    "accuracy": 0.7857142857142857,
+    "f1_macro": 0.6347826086956522,
+    "confusion_matrix": [
+      [
+        10,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  "legal_bert": {
+    "accuracy": 0.45695364238410596,
+    "f1_macro": 0.41813909774436087,
+    "confusion_matrix": [
+      [
+        15,
+        78
+      ],
+      [
+        4,
+        54
+      ]
+    ]
+  }
+}
