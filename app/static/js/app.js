@@ -17,8 +17,11 @@ const STATE = {
     ablationResults: [],
     activeFilter: 'all',
     activeSort: 'impunity',
-    searchQuery: ''
+    searchQuery: '',
+    gridExpanded: false
 };
+
+const GRID_INITIAL_COUNT = 50;
 
 const LEVEL_COLORS = {
     Critical: '#ef4444',
@@ -76,6 +79,8 @@ async function loadAllData() {
         createExperimentChart();
         renderLimitations();
         createScatterPlot();
+        createGeoMap();
+        createSemanticSpace();
 
     } catch (err) {
         console.error('Failed to load data:', err);
@@ -135,18 +140,34 @@ function initNetworkGraph() {
 
     const nameSet = new Set(STATE.people.map(p => p.name));
 
-    const nodes = STATE.people.map(p => ({
-        id:          p.name,
-        score:       p.impunity_index,
-        level:       p.level,
-        consequence: p.consequence_tier,
-        radius:      Math.max(10, Math.sqrt(Math.max(1, p.impunity_index)) * 5.5),
-        image_url:   p.image_url || ''
-    }));
-
-    const links = STATE.edges
+    // Build full link list first
+    const allLinks = STATE.edges
         .filter(e => nameSet.has(e.source) && nameSet.has(e.target))
         .map(e => ({ source: e.source, target: e.target, weight: e.weight }));
+
+    // Only show nodes that have at least one edge (connected nodes)
+    const connectedNames = new Set();
+    allLinks.forEach(l => { connectedNames.add(l.source); connectedNames.add(l.target); });
+
+    // Also include top non-connected people (by impunity) so we don't lose key figures
+    const topUnconnected = STATE.people
+        .filter(p => !connectedNames.has(p.name) && p.impunity_index >= 1.0)
+        .sort((a, b) => b.impunity_index - a.impunity_index)
+        .slice(0, 50);
+    topUnconnected.forEach(p => connectedNames.add(p.name));
+
+    const nodes = STATE.people
+        .filter(p => connectedNames.has(p.name))
+        .map(p => ({
+            id:          p.name,
+            score:       p.impunity_index,
+            level:       p.level,
+            consequence: p.consequence_tier,
+            radius:      Math.max(8, Math.sqrt(Math.max(1, p.impunity_index)) * 5),
+            image_url:   p.image_url || ''
+        }));
+
+    const links = allLinks;
 
     const maxWeight = d3.max(links, d => d.weight) || 1;
 
@@ -273,16 +294,22 @@ function renderPeopleGrid() {
 
     if (!list.length) {
         container.innerHTML = '<p style="text-align:center;color:#475569;grid-column:1/-1;padding:3rem;">No individuals match your criteria.</p>';
+        // Clear expand button
+        const btn = document.getElementById('people-expand-btn');
+        if (btn) btn.style.display = 'none';
         return;
     }
 
-    container.innerHTML = list.map(p => {
+    const isSearchOrFilter = STATE.searchQuery || STATE.activeFilter !== 'all';
+    const showAll = STATE.gridExpanded || isSearchOrFilter;
+    const displayList = showAll ? list : list.slice(0, GRID_INITIAL_COUNT);
+
+    function makeCard(p) {
         const lvl = p.level.toLowerCase();
         const color = LEVEL_COLORS[p.level] || '#475569';
         const cLabel = p.badge ? p.badge.label : '';
         const safeName = p.name.replace(/'/g, "\\'");
         const imgUrl = p.image_url || '/static/images/people/placeholder.png';
-
         return `
             <div class="person-card level-${lvl}" role="listitem"
                  onclick="openPersonModal('${safeName}')" tabindex="0"
@@ -294,7 +321,24 @@ function renderPeopleGrid() {
                 <span class="level-badge" style="color:${color}">${p.level}</span>
                 <span class="consequence-badge">${cLabel}</span>
             </div>`;
-    }).join('');
+    }
+
+    container.innerHTML = displayList.map(makeCard).join('');
+
+    // Update expand button
+    const btn = document.getElementById('people-expand-btn');
+    if (btn) {
+        if (!isSearchOrFilter && list.length > GRID_INITIAL_COUNT) {
+            btn.style.display = '';
+            if (STATE.gridExpanded) {
+                btn.textContent = `Collapse to top ${GRID_INITIAL_COUNT} ↑`;
+            } else {
+                btn.textContent = `Show all ${list.length.toLocaleString()} individuals ↓`;
+            }
+        } else {
+            btn.style.display = 'none';
+        }
+    }
 }
 
 function setupPeopleControls() {
@@ -302,7 +346,20 @@ function setupPeopleControls() {
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             STATE.searchQuery = searchInput.value.trim();
+            STATE.gridExpanded = false;
             renderPeopleGrid();
+        });
+    }
+
+    const expandBtn = document.getElementById('people-expand-btn');
+    if (expandBtn) {
+        expandBtn.addEventListener('click', () => {
+            STATE.gridExpanded = !STATE.gridExpanded;
+            renderPeopleGrid();
+            if (!STATE.gridExpanded) {
+                // Scroll back to top of people section
+                document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
     }
 
@@ -400,23 +457,32 @@ function populateModal(data) {
     const pEl = document.getElementById('modal-predictions');
     const tierText = { 0: 'No Consequence', 1: 'Consequence' };
     const mLabels = {
-        logistic_baseline: 'Logistic Regression',
+        logistic_regression: 'Logistic Regression',
+        sentence_transformer_svc: 'ST + SVC',
         random_forest_tfidf: 'Random Forest + TF-IDF',
+        majority_classifier: 'Majority Classifier',
+        consensus: 'Consensus',
+        logistic_baseline: 'Logistic Regression',
         legal_bert: 'Legal-BERT'
     };
     if (data.predictions && Object.keys(data.predictions).length) {
         const actual = data.consequence_tier > 0 ? 1 : 0;
         pEl.innerHTML = `<table class="predictions-table">
-            <thead><tr><th>Model</th><th style="text-align:right">Predicted</th><th style="text-align:right">Actual</th></tr></thead>
+            <thead><tr><th>Model</th><th style="text-align:right">Predicted</th><th style="text-align:right">Probability</th><th style="text-align:right">Actual</th></tr></thead>
             <tbody>${Object.entries(data.predictions).map(([m, pred]) => {
                 if (pred === null || pred === undefined) {
                     return `<tr><td>${mLabels[m] || m}</td>
-                        <td style="text-align:right;color:var(--text-secondary);font-style:italic;">Not in test set</td>
+                        <td colspan="2" style="text-align:right;color:var(--text-secondary);font-style:italic;">Not in test set</td>
                         <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
                 }
-                const match = pred === actual;
+                // Handle both old format (plain int) and new format ({label, probability})
+                const label = (typeof pred === 'object') ? pred.label : pred;
+                const prob = (typeof pred === 'object' && pred.probability != null) ? pred.probability : null;
+                const match = label === actual;
+                const probStr = prob != null ? `${(prob * 100).toFixed(1)}%` : '—';
                 return `<tr><td>${mLabels[m] || m}</td>
-                    <td style="text-align:right;color:${match ? '#10b981' : '#ef4444'}">${tierText[pred] ?? pred}</td>
+                    <td style="text-align:right;color:${match ? '#10b981' : '#ef4444'}">${tierText[label] ?? label}</td>
+                    <td style="text-align:right;color:var(--text-secondary)">${probStr}</td>
                     <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
             }).join('')}</tbody></table>`;
     } else {
@@ -433,38 +499,50 @@ function populateModal(data) {
         connEl.innerHTML = '<p style="color:#475569;font-size:0.82rem;">No co-occurrence connections found.</p>';
     }
 
-    // Summary & Citations with real document links
+    // Score reasoning + Citations from ChromaDB
     const summarySection = document.getElementById('modal-summary-section');
-    const summaryText = document.getElementById('modal-summary-text');
     const citationsEl = document.getElementById('modal-citations');
 
-    if (data.has_summary) {
-        summarySection.style.display = '';
-        summaryText.textContent = 'Loading summary...';
-        citationsEl.innerHTML = '';
+    summarySection.style.display = '';
 
-        fetch(`/api/person/${encodeURIComponent(data.name)}/summary`)
-            .then(r => r.json())
-            .then(summary => {
-                summaryText.textContent = summary.summary_text || 'No summary available.';
-                if (summary.citations && summary.citations.length) {
-                    citationsEl.innerHTML = summary.citations.slice(0, 10).map(c => {
-                        const batesNumber = extractBatesNumber(c.doc_id);
-                        const docUrl = buildDocumentUrl(batesNumber, c.source_volume);
-                        return `
-                            <div class="citation-item">
-                                <span class="citation-type">${c.doc_type || 'document'}</span>
-                                <span class="citation-id">${batesNumber || c.doc_id}</span>
-                                <p class="citation-snippet">${c.snippet || ''}</p>
-                                ${docUrl ? `<a href="${docUrl}" target="_blank" rel="noopener noreferrer" class="citation-link">Search Document Archives &rarr;</a>` : `<span style="font-size:0.68rem;color:#64748b;">Source: DOJ Release ${c.source_volume || 'unknown'}</span>`}
-                            </div>`;
-                    }).join('');
-                }
-            })
-            .catch(() => { summaryText.textContent = 'Summary could not be loaded.'; });
-    } else {
-        summarySection.style.display = 'none';
+    // Show score reasoning above citations
+    const reasoningEl = document.getElementById('modal-summary-text');
+    if (reasoningEl && data.score_reasoning) {
+        reasoningEl.style.display = '';
+        reasoningEl.textContent = data.score_reasoning;
+    } else if (reasoningEl) {
+        reasoningEl.style.display = 'none';
     }
+
+    citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">Loading citations...</p>';
+
+    fetch(`/api/person/${encodeURIComponent(data.name)}/citations`)
+        .then(r => r.json())
+        .then(result => {
+            if (result.citations && result.citations.length) {
+                const sourceLabel = { doj_pdf: 'DOJ PDF', jmail_court: 'Court Record', jmail_doj: 'DOJ/EFTA', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press' };
+                citationsEl.innerHTML = result.citations.map(c => {
+                    const label = sourceLabel[c.source] || c.source || 'Document';
+                    const efta = c.efta_id || '';
+                    const url = c.url || '';
+                    return `
+                        <div class="citation-item">
+                            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
+                                <span class="citation-type">${label}</span>
+                                ${efta ? `<span class="citation-id">${efta}</span>` : ''}
+                                <span style="margin-left:auto;font-size:0.7rem;color:var(--text-secondary);">score: ${c.score}</span>
+                            </div>
+                            <p class="citation-snippet">"${c.quote}"</p>
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Document &rarr;</a>` : ''}
+                        </div>`;
+                }).join('');
+            } else {
+                citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No document citations found in corpus.</p>';
+            }
+        })
+        .catch(() => {
+            citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">Citations unavailable.</p>';
+        });
 
     modal.removeAttribute('hidden');
     modal.classList.add('active');
@@ -806,7 +884,174 @@ function createScatterPlot() {
 }
 
 /* ============================================================
-   9. SIDE NAVIGATION
+   9. GEOGRAPHIC MAP
+   ============================================================ */
+
+function createGeoMap() {
+    const el = document.getElementById('geo-map');
+    if (!el) return;
+
+    fetch('/api/geo-data')
+        .then(r => r.json())
+        .then(data => {
+            if (!data.length) return;
+
+            const theme = getPlotlyTheme();
+            const isLight = document.documentElement.dataset.theme === 'light';
+
+            // Map country names to ISO-3 codes for Plotly choropleth
+            const countryToISO = {
+                'USA': 'USA', 'UK': 'GBR', 'France': 'FRA', 'Israel': 'ISR',
+                'Germany': 'DEU', 'Canada': 'CAN', 'Australia': 'AUS',
+                'Russia': 'RUS', 'Saudi Arabia': 'SAU', 'UAE': 'ARE',
+                'Brazil': 'BRA', 'Mexico': 'MEX', 'Spain': 'ESP', 'Italy': 'ITA',
+                'Japan': 'JPN', 'China': 'CHN', 'India': 'IND', 'Sweden': 'SWE',
+                'Netherlands': 'NLD', 'Switzerland': 'CHE', 'Austria': 'AUT',
+                'Belgium': 'BEL', 'Denmark': 'DNK', 'Norway': 'NOR', 'Finland': 'FIN',
+                'Portugal': 'PRT', 'Greece': 'GRC', 'Poland': 'POL', 'Czech Republic': 'CZE',
+                'Hungary': 'HUN', 'Romania': 'ROU', 'Ukraine': 'UKR', 'Turkey': 'TUR',
+                'South Africa': 'ZAF', 'Nigeria': 'NGA', 'Egypt': 'EGY', 'Morocco': 'MAR',
+                'Argentina': 'ARG', 'Chile': 'CHL', 'Colombia': 'COL', 'Peru': 'PER',
+                'New Zealand': 'NZL', 'Singapore': 'SGP', 'South Korea': 'KOR',
+                'Thailand': 'THA', 'Philippines': 'PHL', 'Vietnam': 'VNM',
+                'Pakistan': 'PAK', 'Bangladesh': 'BGD', 'Sri Lanka': 'LKA',
+                'Iran': 'IRN', 'Iraq': 'IRQ', 'Jordan': 'JOR', 'Lebanon': 'LBN',
+                'Kuwait': 'KWT', 'Qatar': 'QAT', 'Bahrain': 'BHR', 'Oman': 'OMN',
+                'Unknown': null
+            };
+
+            const locations = [], z = [], text = [], customdata = [];
+            data.forEach(d => {
+                const iso = countryToISO[d.country];
+                if (!iso) return;
+                locations.push(iso);
+                z.push(d.count);
+                customdata.push(d);
+                const top = d.names.slice(0, 3).map(n => `  • ${n.name} (${n.impunity})`).join('<br>');
+                text.push(`<b>${d.country}</b><br>Individuals: ${d.count}<br>Avg Impunity: ${d.avg_impunity}<br>No Consequence: ${d.no_consequence}<br>${top}`);
+            });
+
+            Plotly.newPlot('geo-map', [{
+                type: 'choropleth',
+                locations: locations,
+                z: z,
+                text: text,
+                customdata: customdata,
+                hovertemplate: '%{text}<extra></extra>',
+                colorscale: [
+                    [0, isLight ? '#dbeafe' : '#1e3a5f'],
+                    [0.3, '#3b82f6'],
+                    [0.6, '#f59e0b'],
+                    [1, '#ef4444']
+                ],
+                colorbar: {
+                    title: { text: 'Individuals', font: { color: theme.font.color, size: 11 } },
+                    tickfont: { color: theme.font.color, size: 10 },
+                    len: 0.6, thickness: 12,
+                },
+                marker: { line: { color: isLight ? '#cbd5e1' : '#334155', width: 0.5 } },
+            }], {
+                ...theme,
+                geo: {
+                    showframe: false,
+                    showcoastlines: true,
+                    coastlinecolor: isLight ? '#cbd5e1' : '#334155',
+                    showland: true,
+                    landcolor: isLight ? '#f1f5f9' : '#1e293b',
+                    showocean: true,
+                    oceancolor: isLight ? '#e0f2fe' : '#0f172a',
+                    showcountries: true,
+                    countrycolor: isLight ? '#cbd5e1' : '#334155',
+                    projection: { type: 'natural earth' },
+                    bgcolor: theme.paper_bgcolor,
+                },
+                height: 500,
+                margin: { t: 10, b: 10, l: 0, r: 0 },
+            }, { responsive: true, displaylogo: false });
+        })
+        .catch(err => console.warn('Geo map failed:', err));
+}
+
+/* ============================================================
+   10. SEMANTIC SPACE (t-SNE)
+   ============================================================ */
+
+function createSemanticSpace() {
+    const el = document.getElementById('semantic-plot');
+    if (!el) return;
+
+    el.innerHTML = '<p style="text-align:center;padding:4rem;color:var(--text-secondary);font-size:0.88rem;">Computing t-SNE projection... (first load may take ~30 seconds)</p>';
+
+    fetch('/api/semantic-space')
+        .then(r => r.json())
+        .then(points => {
+            if (!Array.isArray(points) || !points.length) return;
+
+            const theme = getPlotlyTheme();
+            const isLight = document.documentElement.dataset.theme === 'light';
+            const levelColors = {
+                critical: '#ef4444', high: '#f59e0b',
+                moderate: '#3b82f6', low: '#06b6d4',
+                minimal: isLight ? '#cbd5e1' : '#334155'
+            };
+            const levelOrder = ['critical', 'high', 'moderate', 'low', 'minimal'];
+            const levelLabels = {
+                critical: 'Critical', high: 'High',
+                moderate: 'Moderate', low: 'Low', minimal: 'Minimal (background)'
+            };
+
+            const traces = levelOrder.map(level => {
+                const pts = points.filter(p => p.level && p.level.toLowerCase() === level);
+                if (!pts.length) return null;
+                const isMinimal = level === 'minimal';
+                return {
+                    x: pts.map(p => p.x),
+                    y: pts.map(p => p.y),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: levelLabels[level],
+                    visible: isMinimal ? 'legendonly' : true,
+                    marker: {
+                        size: isMinimal ? 4 : pts.map(p => Math.max(5, Math.min(18, 4 + p.impunity * 1.5))),
+                        color: levelColors[level],
+                        opacity: isMinimal ? 0.35 : 0.8,
+                        line: { color: isLight ? '#fff' : '#0f172a', width: isMinimal ? 0 : 0.5 }
+                    },
+                    text: pts.map(p => p.name),
+                    customdata: pts.map(p => p.impunity),
+                    hovertemplate: '<b>%{text}</b><br>Impunity: %{customdata:.1f}<extra></extra>'
+                };
+            }).filter(Boolean);
+
+            Plotly.newPlot('semantic-plot', traces, {
+                ...theme,
+                xaxis: { visible: false, zeroline: false },
+                yaxis: { visible: false, zeroline: false },
+                height: 550,
+                margin: { t: 20, b: 20, l: 20, r: 20 },
+                hovermode: 'closest',
+                legend: { bgcolor: 'transparent', font: { size: 11, color: theme.font.color } },
+                annotations: [{
+                    text: 'Point size = impunity index · Proximity = similar document contexts',
+                    showarrow: false, x: 0.5, y: -0.02, xref: 'paper', yref: 'paper',
+                    font: { size: 10, color: theme.font.color }, xanchor: 'center'
+                }]
+            }, { responsive: true, displaylogo: false });
+
+            // Click to open person modal
+            el.on('plotly_click', evt => {
+                const pt = evt.points[0];
+                if (pt && pt.text) openPersonModal(pt.text);
+            });
+        })
+        .catch(err => {
+            el.innerHTML = '<p style="text-align:center;padding:2rem;color:var(--text-secondary);">Semantic space unavailable.</p>';
+            console.warn('Semantic space failed:', err);
+        });
+}
+
+/* ============================================================
+   11. SIDE NAVIGATION
    ============================================================ */
 
 function setupSideNav() {

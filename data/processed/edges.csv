@@ -1,335 +1,2709 @@
 source,target,weight
-Bill Clinton,Hillary Clinton,263
-Bill Clinton,Prince Andrew,130
-Hillary Clinton,Prince Andrew,130
-Bill Gates,Leslie Groff,115
-Leslie Groff,Peter Attia,115
-Ghislaine Maxwell,Hillary Clinton,71
-Bill Clinton,Ghislaine Maxwell,71
-Bill Clinton,Donald Trump,60
-Donald Trump,Hillary Clinton,60
-Donald Trump,Ghislaine Maxwell,58
-Bill Gates,Larry Summers,56
-Bill Gates,Jes Staley,51
-Donald Trump,Prince Andrew,49
-Bill Clinton,Les Wexner,48
-Hillary Clinton,Les Wexner,48
-Ghislaine Maxwell,Prince Andrew,45
-Leon Black,Peter Attia,44
-Ghislaine Maxwell,Les Wexner,42
-Leon Black,Leslie Groff,42
-Bill Gates,Jeff Bezos,37
-Les Wexner,Prince Andrew,33
-Jes Staley,Larry Summers,29
-Leon Black,Prince Andrew,29
-Donald Trump,Kash Patel,28
-Elon Musk,Mark Zuckerberg,27
-Bill O'Reilly,Jeff Bezos,27
-Bill Gates,Elon Musk,26
-Leon Black,Les Wexner,26
-Hillary Clinton,Leon Black,26
-Ghislaine Maxwell,Leon Black,26
-Bill Clinton,Leon Black,26
-Donald Trump,Les Wexner,25
-Bill Gates,Bill O'Reilly,25
-Elon Musk,Jeff Bezos,24
-Elon Musk,Leslie Groff,24
-Bill Gates,Glenn Dubin,23
-Bill O'Reilly,Elon Musk,21
-Donald Trump,Pam Bondi,18
-Bill Gates,Peter Mandelson,18
-Leon Botstein,Leslie Groff,17
-Kathryn Ruemmler,Peter Attia,17
-Bill Gates,Leon Black,17
-Bill Gates,Mark Landon,16
-Jeff Bezos,Mark Zuckerberg,16
-Bill Gates,Mark Zuckerberg,16
-Bill O'Reilly,Mark Zuckerberg,16
-Kathryn Ruemmler,Leslie Groff,14
-Bill Gates,Ehud Barak,14
-Barack Obama,Hillary Clinton,13
-Barack Obama,Bill Clinton,13
-Jes Staley,Leon Black,13
-Leon Black,Leon Botstein,12
-Ghislaine Maxwell,Pam Bondi,12
-Bill Gates,Sultan Bin Sulayem,12
-Bill Gates,Peggy Siegal,11
-Elon Musk,Ghislaine Maxwell,11
-Barack Obama,Donald Trump,11
-Bill Gates,Michael Wolff,11
-Jes Staley,Leslie Groff,11
-Larry Summers,Leon Black,11
-Glenn Dubin,Leon Black,10
-Glenn Dubin,Howard Lutnick,10
-Glenn Dubin,Jes Staley,10
-Donald Trump,Leon Black,10
-Kash Patel,Pam Bondi,10
-Peter Attia,Tom Hanks,10
-Bill Gates,Prince Andrew,10
-Jeff Bezos,Jes Staley,9
-Larry Summers,Leslie Groff,9
-Leon Botstein,Peter Attia,9
-Bill Gates,Kathryn Ruemmler,9
-Howard Lutnick,Jes Staley,9
-Glenn Dubin,Larry Summers,9
-Howard Lutnick,Leon Black,8
-Ehud Barak,Leslie Groff,8
-Bill Gates,Howard Lutnick,8
-Kathryn Ruemmler,Leon Black,8
-Leon Black,Michael Wolff,8
-Jes Staley,Prince Andrew,8
-Howard Lutnick,Larry Summers,8
-Hillary Clinton,Pam Bondi,8
-Howard Lutnick,Michael Wolff,8
-Bill Clinton,Pam Bondi,8
-Larry Summers,Michael Wolff,8
-Francis Derby,Leslie Groff,7
-Hillary Clinton,Kash Patel,7
-Larry Summers,Prince Andrew,7
-Bill Clinton,Kash Patel,7
-Hillary Clinton,Jes Staley,7
-Jes Staley,Les Wexner,7
-Glenn Dubin,Michael Wolff,7
-Ghislaine Maxwell,Kash Patel,7
-Jeff Bezos,Leslie Groff,7
-Donald Trump,Glenn Dubin,7
-Bill Clinton,Jes Staley,7
-Kathryn Ruemmler,Larry Summers,6
-Leslie Groff,Prince Andrew,6
-Jes Staley,Michael Wolff,6
-Kash Patel,Prince Andrew,6
-Hillary Clinton,Larry Summers,6
-Donald Trump,Sarah Ferguson,6
-Glenn Dubin,Les Wexner,6
-Barack Obama,Ghislaine Maxwell,6
-Bill Clinton,Larry Summers,6
-Donald Trump,Elon Musk,6
-Jes Staley,Peter Mandelson,5
-Chuck Schumer,Donald Trump,5
-Leslie Groff,Tom Hanks,5
-Ghislaine Maxwell,Jes Staley,5
-Bill O'Reilly,Leslie Groff,5
-George H.W. Bush and George W. Bush,Hillary Clinton,5
-Bill Clinton,Bill Gates,5
-Ghislaine Maxwell,Sarah Ferguson,5
-Bill Gates,Hillary Clinton,5
-Peter Attia,Prince Andrew,5
-Glenn Dubin,Hillary Clinton,5
-Elon Musk,Leon Black,5
-Donald Trump,Jes Staley,5
-Bill Clinton,Glenn Dubin,5
-Leslie Groff,Mark Landon,5
-Bill Clinton,Peggy Siegal,5
-Ehud Barak,Hillary Clinton,5
-Bill Clinton,George H.W. Bush and George W. Bush,5
-Karyna Shuliak,Leslie Groff,5
-Larry Summers,Peter Attia,5
-Bill Clinton,Ehud Barak,5
-Ehud Barak,Larry Summers,5
-Hillary Clinton,Peggy Siegal,5
-Casey Wasserman,Donald Trump,4
-Hillary Clinton,Sarah Ferguson,4
-Bill Clinton,Sarah Ferguson,4
-Leslie Groff,William Riley,4
-Donald Trump,Larry Summers,4
-Peggy Siegal,Prince Andrew,4
-Prince Andrew,Sarah Ferguson,4
-Elon Musk,Kash Patel,4
-Kathryn Ruemmler,Leon Botstein,4
-Bill Richardson,Prince Andrew,4
-Bill Clinton,Karyna Shuliak,4
-Hillary Clinton,Karyna Shuliak,4
-Leon Botstein,Prince Andrew,4
-Elon Musk,Prince Andrew,4
-Donald Trump,Howard Lutnick,4
-Bill Gates,Ghislaine Maxwell,4
-Glenn Dubin,Prince Andrew,4
-Leslie Groff,Mark Zuckerberg,4
-Barack Obama,Pam Bondi,4
-Chuck Schumer,Prince Andrew,3
-Donald Trump,Rupert Murdoch,3
-Leslie Groff,Peter Mandelson,3
-Bill Clinton,Elon Musk,3
-Ehud Barak,Prince Andrew,3
-Donald Trump,RFK,3
-Elon Musk,Michael Wolff,3
-Bill Gates,Francis Derby,3
-Francis Derby,Mark Landon,3
+Jeffrey Epstein,Lesley Groff,1270
+Jeffrey Epstein,Jo Jo,767
+Jo Jo,Lesley Groff,500
+Darren Indyke,Jeffrey Epstein,482
+Jeffrey Epstein,Richard Kahn,372
+Jeffrey Epstein,Leon Black,342
+Darren Indyke,Richard Kahn,334
+Leon Black,Lesley Groff,300
+Darren Indyke,Lesley Groff,230
+Jo Jo,Leon Black,227
+Soon-Yi Previn,Woody Allen,198
+Jeffrey Epstein,Woody Allen,189
+Jack A. Goldberger,Jeffrey Epstein,157
+Lesley Groff,Woody Allen,154
+Jeffrey Epstein,Soon-Yi Previn,145
+Lesley Groff,Soon-Yi Previn,131
+Jo Jo,Woody Allen,121
+Jeffrey Epstein,Sarah Kellen,114
+Debra C. Freeman,Jeffrey Epstein,106
+Darren Indyke,Debra C. Freeman,102
+Darren Indyke,Jo Jo,102
+Jack A. Goldberger,Jo Jo,102
+Lesley Groff,Richard Kahn,101
+Jo Jo,Soon-Yi Previn,101
+Debra C. Freeman,Richard Kahn,98
+Bradley Edwards,Jeffrey Epstein,96
+Leon Black,Woody Allen,94
+Jo Jo,Richard Kahn,91
+Darren Indyke,Leon Black,88
+Jeffrey Epstein,Leon Botstein,85
+Ghislaine Maxwell,Jeffrey Epstein,81
+Leon Black,Soon-Yi Previn,81
+Jeffrey Epstein,Kenneth Marra,80
+Janusz Banasiak,Jeffrey Epstein,75
+Jeffrey Epstein,Michael Wolff,75
+Leon Botstein,Lesley Groff,73
+Jeffrey Epstein,Joi Ito,72
+Joi Ito,Lesley Groff,72
+Jeffrey Epstein,Stuart S. Mermelstein,72
+Andrew Farkas,Jeffrey Epstein,70
+Lesley Groff,Michael Wolff,70
+Janusz Banasiak,Lesley Groff,69
+Jeffrey Epstein,Reid Weingarten,69
+Boris Nikolic,Jeffrey Epstein,68
+Jeffrey Epstein,Larry Visoski,62
+Jeffrey Epstein,Martin Nowak,61
+Jack A. Goldberger,Stuart S. Mermelstein,60
+Jeffrey Epstein,Larry Summers,60
+Andrew Farkas,Lesley Groff,59
+Boris Nikolic,Lesley Groff,58
+Jeffrey Epstein,Paul Morris,58
+Bradley Edwards,Jo Jo,58
+Lesley Groff,Paul Morris,57
+Lesley Groff,Reid Weingarten,56
+Leon Black,Richard Kahn,55
+Lesley Groff,Martin Nowak,54
+Jo Jo,Joi Ito,53
+Jo Jo,Leon Botstein,53
+Jack P. Hill,Jeffrey Epstein,52
+Alan Dershowitz,Jeffrey Epstein,52
+Jeffrey Epstein,Jes Staley,52
+Jeffrey Epstein,Theodore J. Leopold,52
+Jack A. Goldberger,Jack P. Hill,51
+Bradley Edwards,Jack A. Goldberger,51
+Bradley Edwards,Stuart S. Mermelstein,51
+Juliette Bryant,Richard Kahn,51
+Jo Jo,Larry Summers,51
+Darren Indyke,Juliette Bryant,51
+Jo Jo,Martin Nowak,50
+Jo Jo,Stuart S. Mermelstein,49
+Jack P. Hill,Stuart S. Mermelstein,49
+Bradley Edwards,Jack P. Hill,48
+Leon Black,Michael Wolff,48
+Bradley Edwards,Paul Cassell,48
+Jo Jo,Reid Weingarten,48
+Leon Black,Paul Morris,48
+Jack P. Hill,Jo Jo,48
+Boris Nikolic,Jo Jo,47
+Jean-Luc Brunel,Jeffrey Epstein,47
+Jeffrey Epstein,Juliette Bryant,47
+Jeffrey Epstein,Mort Zuckerman,47
+Jeffrey Epstein,Paul Cassell,47
+Boris Nikolic,Leon Black,46
+Jo Jo,Mort Zuckerman,45
+Larry Visoski,Lesley Groff,45
+Jeffrey Epstein,Prince Andrew,45
+Ehud Barak,Jeffrey Epstein,44
+Jo Jo,Paul Morris,44
+Jack A. Goldberger,Theodore J. Leopold,44
+Sarah Kellen,Theodore J. Leopold,42
+Leon Black,Reid Weingarten,42
+Larry Summers,Lesley Groff,42
+Jes Staley,Lesley Groff,42
+Haley Robson,Jeffrey Epstein,41
+Stuart S. Mermelstein,Theodore J. Leopold,40
+Leon Black,Leon Botstein,40
+Jack A. Goldberger,Sarah Kellen,40
+Jack Scarola,Jeffrey Epstein,39
+Jo Jo,Michael Wolff,39
+Jo Jo,Sarah Kellen,39
+Ehud Barak,Jo Jo,38
+Andrew Farkas,Jo Jo,38
+Jeffrey Epstein,Peter Attia,38
+Jack P. Hill,Jack Scarola,37
+Paul Cassell,Stuart S. Mermelstein,37
+Brad Karp,Lesley Groff,37
+Haley Robson,Sarah Kellen,36
+Jo Jo,Reid Hoffman,36
+Bradley Edwards,Jack Scarola,36
+Jack A. Goldberger,Paul Cassell,36
+Lesley Groff,Peter Attia,36
+Jack A. Goldberger,Jack Scarola,36
+Jo Jo,Paul Cassell,35
+Lesley Groff,Mort Zuckerman,35
+Andrew Farkas,Leon Black,34
+Jack P. Hill,Paul Cassell,34
+Jeffrey Epstein,Les Wexner,34
+Joi Ito,Woody Allen,34
+Jack Scarola,Stuart S. Mermelstein,34
+Andrew Farkas,Woody Allen,34
+Jack Scarola,Theodore J. Leopold,33
+Bradley Edwards,Theodore J. Leopold,33
+Jo Jo,Theodore J. Leopold,33
+Leon Black,Peter Attia,33
+Jeffrey Epstein,Sigrid McCawley,33
+Jack Scarola,Jo Jo,33
+Jack P. Hill,Theodore J. Leopold,33
+Leon Black,Mort Zuckerman,32
+Brad Karp,Jeffrey Epstein,32
+Ehud Barak,Lesley Groff,32
+Bradley Edwards,Sarah Kellen,32
+Jeffrey Epstein,Virginia Giuffre,32
+Sarah Kellen,Stuart S. Mermelstein,31
+Bill Gates,Jo Jo,31
+Boris Nikolic,Woody Allen,30
+Ariane de Rothschild,Jeffrey Epstein,30
+Jeffrey Epstein,Michael Reiter,30
+Jeffrey Epstein,Valdson Cotrin,30
+Richard Kahn,Woody Allen,30
+Jack P. Hill,Sarah Kellen,29
+Lesley Groff,Valdson Cotrin,29
+Jeffrey Epstein,Reid Hoffman,29
+Darren Indyke,Sigrid McCawley,29
+David Blaine,Jeffrey Epstein,29
+Jeffrey Epstein,Nadia Marcinkova,29
+Jack Scarola,Sarah Kellen,29
+Jeffrey Epstein,Peter Thiel,28
+Darren Indyke,Soon-Yi Previn,28
+Richard Kahn,Sigrid McCawley,28
+Ariane de Rothschild,Lesley Groff,28
+Bill Clinton,Jeffrey Epstein,27
+Ariane de Rothschild,Jo Jo,26
+Lesley Groff,Reid Hoffman,26
+Jeffrey Epstein,Noam Chomsky,26
+Richard Kahn,Soon-Yi Previn,26
+Debra C. Freeman,Juliette Bryant,26
+Bill Gates,Jeffrey Epstein,26
+Debra C. Freeman,Sigrid McCawley,25
+Martin Nowak,Noam Chomsky,25
+Boris Nikolic,Soon-Yi Previn,25
+Brad Karp,Leon Black,25
+Leon Botstein,Woody Allen,24
+Joi Ito,Martin Nowak,24
+Jes Staley,Jo Jo,24
+Jeffrey Epstein,Tim Zagat,24
+Jeffrey Epstein,Nathan Myhrvold,24
+Jo Jo,Larry Visoski,24
+Jo Jo,Valdson Cotrin,24
+Jeffrey Epstein,Paul A. Engel Mayer,23
+Joi Ito,Reid Hoffman,23
+Lesley Groff,Noam Chomsky,23
+David Blaine,Woody Allen,23
+Darren Indyke,Paul A. Engel Mayer,23
+Lesley Groff,Nathan Myhrvold,23
+Michael Wolff,Richard Kahn,23
+Martin Nowak,Soon-Yi Previn,22
+Darren Indyke,Woody Allen,22
+Boris Nikolic,Darren Indyke,22
+Leon Botstein,Richard Kahn,22
+Jack A. Goldberger,Lesley Groff,22
+Brad Karp,Jo Jo,22
+Bradley Edwards,Darren Indyke,22
+Lesley Groff,Peter Thiel,22
+Jack Scarola,Paul Cassell,22
+Ehud Barak,Mort Zuckerman,22
+Ehud Barak,Leon Black,22
+Jeffrey Epstein,Kenneth Starr,22
+Lesley Groff,Tim Zagat,22
+David Blaine,Lesley Groff,21
+Larry Summers,Leon Black,21
+Jeffrey Epstein,Peggy Siegal,21
+Kenneth Marra,Sarah Kellen,21
+David Blaine,Soon-Yi Previn,21
+Dr. Moskowitz,Jeffrey Epstein,21
+George Church,Jo Jo,21
+Jo Jo,Nathan Myhrvold,21
+Paul A. Engel Mayer,Richard Kahn,21
+Joi Ito,Leon Black,21
+Janusz Banasiak,Jo Jo,20
+Andrew Farkas,Soon-Yi Previn,20
+Ehud Barak,Larry Summers,20
+Cecile de Jongh,Lesley Groff,20
+Jo Jo,Peter Attia,20
+Guy Lewis,Jeffrey Epstein,20
+Jo Jo,Tim Zagat,19
+Dr. Moskowitz,Lesley Groff,19
+Paul Cassell,Theodore J. Leopold,19
+George Church,Martin Nowak,19
+Reid Weingarten,Richard Kahn,19
+Martin Nowak,Woody Allen,19
+Michael Wolff,Tim Zagat,18
+Joi Ito,Larry Visoski,18
+Juliette Bryant,Sigrid McCawley,18
+Lesley Groff,Peggy Siegal,18
+Bill Gates,Lesley Groff,18
+David Blaine,Leon Black,18
+Jes Staley,Michael Wolff,18
+Ghislaine Maxwell,Virginia Giuffre,18
+Michael Wolff,Woody Allen,18
+Jeffrey Epstein,Stephen Kosslyn,18
+Jo Jo,Noam Chomsky,18
+Josh Harris,Reid Weingarten,18
+Leon Black,Nathan Myhrvold,17
+Mort Zuckerman,Reid Weingarten,17
+Alan Dershowitz,Prince Andrew,17
+Paul Cassell,Sarah Kellen,17
+Larry Summers,Reid Weingarten,17
+Nina Zagat,Tim Zagat,17
+George Church,Jeffrey Epstein,17
+Bradley Edwards,Richard Kahn,17
+Barry Josephson,Jeffrey Epstein,17
+Barry Josephson,Lesley Groff,17
+Jes Staley,Leon Black,17
+Leon Botstein,Martin Nowak,17
+Boris Nikolic,Michael Wolff,17
+Leon Botstein,Soon-Yi Previn,16
+Larry Visoski,Martin Nowak,16
+Bill Richardson,Jeffrey Epstein,16
+Janusz Banasiak,Leon Black,16
+Bradley Edwards,Virginia Giuffre,16
+Darren Indyke,Peter Attia,16
+Alan Dershowitz,Virginia Giuffre,16
+Jo Jo,Stephen Kosslyn,16
+Joi Ito,Soon-Yi Previn,16
+Barry Krischer,Jeffrey Epstein,16
+Prince Andrew,Virginia Giuffre,16
+Reid Weingarten,Woody Allen,16
+Boris Nikolic,Mort Zuckerman,16
+Jeff Koons,Woody Allen,16
+Michael Wolff,Reid Weingarten,15
+Alfredo Rodriguez,Jeffrey Epstein,15
+John Brockman,Lesley Groff,15
+Frederic Fekkai,Jeffrey Epstein,15
+Bill Clinton,Prince Andrew,15
+Jeffrey Epstein,John Brockman,15
+Paul Morris,Reid Weingarten,15
+Bill Gates,Reid Weingarten,15
+Noam Chomsky,Soon-Yi Previn,15
+Jeffrey Epstein,Robert Maxwell,15
+Darren Indyke,Larry Visoski,15
+Noam Chomsky,Woody Allen,15
+Bill Gates,Mort Zuckerman,15
+Jeremy Rubin,Lesley Groff,15
+Leon Black,Reid Hoffman,15
+Jeffrey Epstein,Jeremy Rubin,15
+David Blaine,Jo Jo,15
+Peter Attia,Richard Kahn,15
+Ben Goertzel,Jo Jo,15
+Jo Jo,Josh Harris,15
+Jeffrey Epstein,Lawrence Krauss,15
+Ghislaine Maxwell,Robert Maxwell,15
+Guy Lewis,Sarah Kellen,14
+Bill Gates,Larry Summers,14
+Donald Trump,Jeffrey Epstein,14
+Leon Botstein,Tim Zagat,14
+Darren Indyke,Paul Morris,14
+Debra C. Freeman,Teresa Helm,14
+Larry Summers,Michael Wolff,14
+Haley Robson,Jack A. Goldberger,14
+Ghislaine Maxwell,Prince Andrew,14
+Paul Cassell,Virginia Giuffre,14
+Darren Indyke,Ghislaine Maxwell,14
+Ariane de Rothschild,Tim Zagat,14
+Nadia Marcinkova,Sarah Kellen,14
+Guy Lewis,Haley Robson,14
+David Boies,Jeffrey Epstein,14
+Ben Goertzel,Lesley Groff,14
+Michael Wolff,Soon-Yi Previn,14
+Jeremy Rubin,Jo Jo,14
+Ariane de Rothschild,Leon Black,14
+Tim Zagat,Woody Allen,14
+Cecile de Jongh,Jeffrey Epstein,14
+Leon Black,Peter Thiel,14
+Brad Karp,Woody Allen,14
+Jo Jo,John Brockman,14
+Ehud Barak,Woody Allen,14
+Ben Goertzel,Jeffrey Epstein,14
+Alan Dershowitz,Bill Clinton,14
+Jo Jo,Peter Thiel,13
+Ariane de Rothschild,Woody Allen,13
+Carolyn Andriano,Jeffrey Epstein,13
+Jeffrey Epstein,Teresa Helm,13
+Haley Robson,Theodore J. Leopold,13
+Deepak Chopra,Lesley Groff,13
+Alan Dershowitz,Kenneth Starr,13
+Frederic Fekkai,Jo Jo,13
+Jean-Luc Brunel,Michael Reiter,13
+Bill Gates,Josh Harris,13
+Jeffrey Epstein,Roy Black,13
+Jeffrey Epstein,Steve Bannon,13
+Lawrence Krauss,Lesley Groff,13
+Ehud Barak,Tim Zagat,13
+Richard Kahn,Tim Zagat,13
+Juliette Bryant,Teresa Helm,13
+Ghislaine Maxwell,Richard Kahn,13
+Ghislaine Maxwell,Les Wexner,13
+Brad Karp,Soon-Yi Previn,13
+Leon Black,Tim Zagat,13
+George Church,Lesley Groff,13
+Jeffrey Epstein,Marc Rowan,13
+Jo Jo,Kenneth Marra,12
+Carolyn Andriano,Jo Jo,12
+Lesley Groff,Stephen Kosslyn,12
+Ariane de Rothschild,Larry Summers,12
+Haley Robson,Kenneth Marra,12
+Bill Gates,Leon Black,12
+Mort Zuckerman,Woody Allen,12
+Leon Botstein,Michael Wolff,12
+Reid Hoffman,Reid Weingarten,12
+Larry Visoski,Noam Chomsky,12
+Jack A. Goldberger,Woody Allen,12
+Barry Josephson,Soon-Yi Previn,12
+Jeffrey M. Herman,Stuart S. Mermelstein,12
+Jeffrey Epstein,Jeffrey M. Herman,12
+Darren Indyke,Teresa Helm,12
+Richard Kahn,Teresa Helm,12
+Jeremy Rubin,Martin Nowak,12
+Boris Nikolic,Reid Weingarten,12
+Jes Staley,Tim Zagat,12
+Deepak Chopra,Jeffrey Epstein,12
+Leon Black,Peggy Siegal,12
+Dr. Moskowitz,Leon Black,12
+Nina Zagat,Woody Allen,12
+Andrew Farkas,Mort Zuckerman,12
+Ehud Barak,Martin Nowak,12
+Bill Clinton,Kenneth Starr,12
+Soon-Yi Previn,Tim Zagat,12
+Barry Josephson,Jo Jo,12
+Larry Summers,Martin Nowak,12
+Darren Indyke,Ehud Barak,12
+Darren Indyke,Janusz Banasiak,12
+Reid Hoffman,Woody Allen,12
+Andrew Farkas,Joi Ito,12
+Ehud Barak,Reid Weingarten,12
+Frederic Fekkai,Lesley Groff,11
+Darren Indyke,Reid Weingarten,11
+Janusz Banasiak,Woody Allen,11
+Prince Andrew,Sarah Ferguson,11
+Paul Morris,Reid Hoffman,11
+Reid Weingarten,Soon-Yi Previn,11
+John Brockman,Joi Ito,11
+Jack A. Goldberger,Soon-Yi Previn,11
+Andrew Farkas,Leon Botstein,11
+Larry Summers,Mort Zuckerman,11
+Cy Vance,Jeffrey Epstein,11
+Darren Indyke,David Boies,11
+Nina Zagat,Soon-Yi Previn,11
+Lesley Groff,Marc Rowan,11
+Bradley Edwards,Prince Andrew,11
+Jeff Koons,Soon-Yi Previn,11
+Boris Nikolic,Paul Morris,11
+Jeffrey Epstein,Seth Lloyd,11
+Jes Staley,Leon Botstein,11
+Ehud Barak,Michael Wolff,11
+Alan Dershowitz,Bradley Edwards,11
+Bill Gates,Ehud Barak,11
+Ehud Barak,Richard Kahn,11
+Martin Nowak,Michael Wolff,11
+Bill Clinton,Bill Richardson,11
+Leon Black,Marc Rowan,11
+Boris Nikolic,Larry Summers,11
+Lesley Groff,Steve Bannon,11
+Jay Lefkowitz,Jeffrey Epstein,11
+Andrew Farkas,Reid Weingarten,11
+Jeffrey Epstein,Vicky Ward,11
+Larry Summers,Woody Allen,11
+Danny Hillis,Jeffrey Epstein,11
+Harry Beller,Lesley Groff,10
+Boris Nikolic,David Blaine,10
+Larry Summers,Tim Zagat,10
+Andrew Farkas,Michael Wolff,10
+Ariane de Rothschild,Mort Zuckerman,10
+Paul Morris,Soon-Yi Previn,10
+Janusz Banasiak,Soon-Yi Previn,10
+Ariane de Rothschild,Boris Nikolic,10
+Josh Harris,Leon Black,10
+Jes Staley,Woody Allen,10
+Joi Ito,Noam Chomsky,10
+Danny Hillis,Martin Nowak,10
+Josh Harris,Paul Morris,10
+Leon Botstein,Mort Zuckerman,10
+Ehud Barak,Jes Staley,10
+Ariane de Rothschild,David Blaine,10
+Marc Rowan,Paul Morris,10
+Paul Morris,Woody Allen,10
+Bill Richardson,Ehud Barak,10
+Alan Dershowitz,Ehud Barak,10
+Darren Indyke,Leon Botstein,10
+Andrew Farkas,Peggy Siegal,10
+Alan Dershowitz,Paul Cassell,10
+Alan Dershowitz,Les Wexner,10
+Jo Jo,Michael Reiter,10
+Stephen Kosslyn,Woody Allen,10
+Ghislaine Maxwell,Sarah Kellen,10
+Darren Indyke,Michael Wolff,10
+Jo Jo,Nicholas Christakis,10
+Joi Ito,Larry Summers,10
+David Boies,Sigrid McCawley,10
+Bill Clinton,Gerald Lefcourt,10
+David Boies,Richard Kahn,10
+Gerald Lefcourt,Kenneth Starr,10
+Kenneth Starr,Roy Black,10
+Alfredo Rodriguez,Ghislaine Maxwell,10
+Harry Beller,Jeffrey Epstein,10
+Ehud Barak,Leon Botstein,10
+Jeffrey Epstein,Sarah Ferguson,10
+Boris Nikolic,Peter Attia,10
+Ariane de Rothschild,Frederic Fekkai,10
+Barry Josephson,Woody Allen,10
+Lesley Groff,Seth Lloyd,9
+Lawrence Krauss,Leon Black,9
+Lesley Groff,Sarah Kellen,9
+Bill Clinton,Ehud Barak,9
+Carolyn Andriano,Jack P. Hill,9
+Carolyn Andriano,Jack Scarola,9
+Boris Nikolic,Nathan Myhrvold,9
+Carolyn Andriano,Stuart S. Mermelstein,9
+Ehud Barak,Nina Zagat,9
+Danny Hillis,Lesley Groff,9
+Joi Ito,Leon Botstein,9
+Andrew Farkas,Reid Hoffman,9
+Alan Dershowitz,Lesley Groff,9
+Peter Attia,Woody Allen,9
+Jo Jo,Prince Andrew,9
+Andrew Farkas,Jes Staley,9
+Ehud Barak,Soon-Yi Previn,9
+Guy Lewis,Theodore J. Leopold,9
+Darren Indyke,Joi Ito,9
+Jeffrey Epstein,Nina Zagat,9
+Adriana Ross,Jeffrey Epstein,9
+Les Wexner,Prince Andrew,9
+Bill Clinton,Roy Black,9
+Jo Jo,Nina Zagat,9
+Danny Hillis,Jo Jo,9
+Lesley Groff,Nicole Junkermann,9
+Jeffrey Epstein,Nicole Junkermann,9
+Bill Gates,Reid Hoffman,9
+Charlie Rose,Jeffrey Epstein,9
+Alfredo Rodriguez,Sarah Kellen,9
+Gerald Lefcourt,Roy Black,9
+Robert Maxwell,Sarah Kellen,9
+Jeff Koons,Jo Jo,9
+Jes Staley,Paul Morris,9
+Martin Nowak,Tim Zagat,9
+Frederic Fekkai,Larry Summers,9
+Alan Dershowitz,Ghislaine Maxwell,9
+Jo Jo,Sigrid McCawley,9
+Josh Harris,Marc Rowan,9
+Ghislaine Maxwell,Jean-Luc Brunel,9
+Ariane de Rothschild,Reid Weingarten,9
+Martin Nowak,Nina Zagat,9
+Jeffrey Epstein,Josh Harris,9
+Andrew Farkas,Stephen Kosslyn,9
+Martin Nowak,Richard Kahn,9
+Gerald Lefcourt,Jeffrey Epstein,9
+Ghislaine Maxwell,Sigrid McCawley,9
+Jack A. Goldberger,Leon Black,9
+Michael Wolff,Paul Morris,9
+Alan Dershowitz,Gerald Lefcourt,9
+Janusz Banasiak,Richard Kahn,9
+Larry Summers,Stephen Kosslyn,9
+Jes Staley,Nina Zagat,8
+Ghislaine Maxwell,Lesley Groff,8
+Leon Black,Stephen Kosslyn,8
+Alan Dershowitz,Guy Lewis,8
+Debra C. Freeman,Jo Jo,8
+Jes Staley,Soon-Yi Previn,8
+Bill Clinton,Larry Summers,8
+Leon Botstein,Nina Zagat,8
+Bill Clinton,Guy Lewis,8
+Alan Dershowitz,Bill Richardson,8
+Ariane de Rothschild,Paul Morris,8
+Alan Dershowitz,Roy Black,8
+Alan Dershowitz,Larry Summers,8
+Jes Staley,Mort Zuckerman,8
+Peter Thiel,Stephen Kosslyn,8
+Jes Staley,Martin Nowak,8
+Ehud Barak,Roy Black,8
+Gerald Lefcourt,Guy Lewis,8
+Gerald Lefcourt,Larry Summers,8
+Gerald Lefcourt,Prince Andrew,8
+Josh Harris,Lesley Groff,8
+Prince Andrew,Roy Black,8
+Guy Lewis,Kenneth Starr,8
+Guy Lewis,Larry Summers,8
+Guy Lewis,Prince Andrew,8
+Guy Lewis,Roy Black,8
+Larry Summers,Roy Black,8
+Lesley Groff,Naomi Campbell,8
+Martin Nowak,Reid Hoffman,8
+Kenneth Starr,Larry Summers,8
+Kenneth Starr,Prince Andrew,8
+Bill Richardson,Lesley Groff,8
+Janusz Banasiak,Larry Summers,8
+Ehud Barak,Prince Andrew,8
+Bill Richardson,Gerald Lefcourt,8
+Ehud Barak,Kenneth Starr,8
+Elon Musk,Jo Jo,8
+Joi Ito,Seth Lloyd,8
+Bill Richardson,Guy Lewis,8
+Bill Richardson,Kenneth Starr,8
+Bill Richardson,Larry Summers,8
+Bill Richardson,Prince Andrew,8
+Martin Nowak,Seth Lloyd,8
+Jean-Luc Brunel,Lesley Groff,8
+Ariane de Rothschild,Michael Wolff,8
+Danny Hillis,Noam Chomsky,8
+Bill Gates,Paul Morris,8
+Bill Richardson,Roy Black,8
+Jo Jo,Lawrence Krauss,8
+Ehud Barak,Gerald Lefcourt,8
+Ehud Barak,Guy Lewis,8
+Josh Harris,Michael Wolff,8
+Jo Jo,Peggy Siegal,8
+Ghislaine Maxwell,Nadia Marcinkova,8
+Bradley Edwards,Carolyn Andriano,8
+Lesley Groff,Nina Zagat,8
+Jeremy Rubin,Tim Zagat,8
+Janusz Banasiak,Leon Botstein,8
+Guy Lewis,Jack A. Goldberger,8
+Leon Black,Martin Nowak,8
+Jeremy Rubin,Joi Ito,8
+Haley Robson,Michael Reiter,8
+Lesley Groff,Robert Maxwell,8
+David Blaine,Mort Zuckerman,8
+Boris Nikolic,Richard Kahn,8
+Carolyn Andriano,Theodore J. Leopold,8
+Carolyn Andriano,Paul Cassell,8
+Josh Harris,Reid Hoffman,8
+Carolyn Andriano,Jack A. Goldberger,8
+Adriana Ross,Ghislaine Maxwell,8
+Jack A. Goldberger,Tim Zagat,8
+George Church,Henry Rosovsky,8
+Henry Rosovsky,Martin Nowak,8
+Dr. Moskowitz,Jo Jo,8
+Barry Josephson,Martin Nowak,8
+Adriana Ross,Robert Maxwell,8
+Andrew Farkas,Ehud Barak,8
+Bradley Edwards,Ghislaine Maxwell,8
+Mort Zuckerman,Richard Kahn,8
+Bradley Edwards,Les Wexner,8
+Alfredo Rodriguez,Robert Maxwell,8
+Donald Trump,Ghislaine Maxwell,8
+Larry Visoski,Leon Botstein,8
+Joi Ito,Paul Morris,8
+Les Wexner,Virginia Giuffre,8
+Marc Rowan,Reid Weingarten,8
+Adriana Ross,Alfredo Rodriguez,8
+Dan Ariely,Jeffrey Epstein,8
+Alan Dershowitz,Jo Jo,8
+Larry Summers,Prince Andrew,8
+Ariane de Rothschild,Ehud Barak,8
+Peter Thiel,Woody Allen,8
+Jean-Luc Brunel,Richard Kahn,8
+Charlie Rose,George Stephanopoulos,8
+Deepak Chopra,Leon Black,8
+Charlie Rose,Katie Couric,8
+Dan Ariely,Nicole Junkermann,8
+Andrew Farkas,Bill Gates,8
+Leon Botstein,Noam Chomsky,8
+Dan Ariely,Lesley Groff,8
+Ariane de Rothschild,Soon-Yi Previn,8
+George Stephanopoulos,Prince Andrew,8
+George Stephanopoulos,Jeffrey Epstein,8
+George Stephanopoulos,Katie Couric,8
+Leon Botstein,Paul Morris,8
+Jeffrey Epstein,Naomi Campbell,7
+Barry Josephson,Brad Karp,7
+David Blaine,Jeff Koons,7
+Sarah Ferguson,Virginia Giuffre,7
+Brad Karp,David Blaine,7
+Michael Wolff,Nina Zagat,7
+Alfredo Rodriguez,Lesley Groff,7
+Nadia Marcinkova,Robert Maxwell,7
+Mort Zuckerman,Tim Zagat,7
+Jeff Koons,Leon Black,7
+Guy Lewis,Martin Weinberg,7
+Alexander Acosta,Jeffrey Epstein,7
+Kenneth Starr,Martin Weinberg,7
+Martin Weinberg,Roy Black,7
+Martin Weinberg,Prince Andrew,7
+Adriana Ross,Sarah Kellen,7
+Carolyn Andriano,Sarah Kellen,7
+Andrew Farkas,Brock Pierce,7
+Jeffrey Epstein,Martin Weinberg,7
+Gerald Lefcourt,Martin Weinberg,7
+Boris Nikolic,Tim Zagat,7
+Jeffrey Epstein,Stephen Hawking,7
+Kenneth Starr,Leon Black,7
+David Blaine,Leon Botstein,7
+Jack A. Goldberger,Martin Nowak,7
+Bill Clinton,Martin Weinberg,7
+Boris Nikolic,Reid Hoffman,7
+Bill Richardson,Martin Weinberg,7
+Andrew Farkas,Josh Harris,7
+George Church,Noam Chomsky,7
+Brad Karp,Michael Wolff,7
+Danny Hillis,Larry Visoski,7
+Valdson Cotrin,Woody Allen,7
+Jeffrey M. Herman,Theodore J. Leopold,7
+Alan Dershowitz,Martin Weinberg,7
+Adriana Ross,Lesley Groff,7
+Ariane de Rothschild,Jes Staley,7
+Ehud Barak,Martin Weinberg,7
+Peggy Siegal,Seth Lloyd,7
+David Blaine,Reid Weingarten,7
+Jes Staley,Peter Mandelson,7
+Jack A. Goldberger,Jean-Luc Brunel,7
+Leon Black,Seth Lloyd,7
+Andrew Farkas,Nicole Junkermann,7
+Steve Bannon,Woody Allen,7
+Ehud Barak,Peter Thiel,7
+Larry Summers,Martin Weinberg,7
+Bill Clinton,Donald Trump,7
+Ariane de Rothschild,Bill Gates,7
+Alan Dershowitz,Joi Ito,7
+Bradley Edwards,Lesley Groff,7
+David Boies,Jo Jo,7
+Frederic Fekkai,Michael Wolff,7
+George Church,Joi Ito,7
+Danny Hillis,Joi Ito,7
+David Boies,Debra C. Freeman,7
+Bill Gates,Elon Musk,7
+Boris Nikolic,Janusz Banasiak,7
+Boris Nikolic,Jes Staley,7
+Barry Krischer,Michael Reiter,7
+Jean-Luc Brunel,Leon Botstein,7
+Elon Musk,Josh Harris,7
+Jes Staley,Lawrence Krauss,7
+Ehud Barak,Jean-Luc Brunel,7
+Larry Visoski,Leon Black,7
+Janusz Banasiak,Paul Morris,7
+David Blaine,Paul Morris,7
+Andrew Farkas,Darren Indyke,7
+Jo Jo,Marvin Minsky,7
+Cy Vance,Prince Andrew,7
+Jeremy Rubin,Nina Zagat,7
+Jeffrey Epstein,Katie Couric,7
+Katie Couric,Prince Andrew,7
+Charlie Rose,Prince Andrew,7
+Charlie Rose,Lesley Groff,7
+Martin Nowak,Marvin Minsky,7
+Barry Krischer,Lanna Leigh Belohlavek,7
+Kenneth Starr,Lesley Groff,7
+Leon Botstein,Nathan Myhrvold,7
+Paul Morris,Peter Thiel,7
+Bradley Edwards,Debra C. Freeman,7
+Darren Indyke,Dr. Moskowitz,7
+Debra C. Freeman,Paul A. Engel Mayer,7
+Michael Wolff,Mort Zuckerman,7
+Darren Indyke,Les Wexner,7
+Henry Rosovsky,Jo Jo,7
+Boris Nikolic,Joi Ito,7
+David Blaine,Nathan Myhrvold,7
+George Church,Reid Hoffman,7
+Frederic Fekkai,Leon Black,7
+Jack Lang,Jeffrey Epstein,7
+Jo Jo,Marc Rowan,7
+Martin Nowak,Mort Zuckerman,7
+Jo Jo,Juliette Bryant,7
+Ehud Barak,Henry Kissinger,7
+Andrew Farkas,Martin Nowak,7
+Annie Farmer,Darren Indyke,7
+Frederic Fekkai,Mary Erdoes,7
+Leon Botstein,Peter Attia,7
+Jes Staley,Richard Kahn,7
+Ehud Barak,Reid Hoffman,7
+Boris Nikolic,Peter Thiel,6
+Janusz Banasiak,Michael Wolff,6
+David Blaine,Ehud Barak,6
+Denise George,Jeffrey Epstein,6
+Jeff Koons,Robert Bass,6
+David Blaine,Jes Staley,6
+Jo Jo,Nadia Marcinkova,6
+Alison Nathan,Jeffrey Epstein,6
+Frederic Fekkai,Reid Weingarten,6
+Les Wexner,Robert Meister,6
+Boris Nikolic,Frederic Fekkai,6
+Jeff Koons,Reid Weingarten,6
+Mort Zuckerman,Nicholas Christakis,6
+Brock Pierce,Lesley Groff,6
+Joi Ito,Mort Zuckerman,6
+Jean-Luc Brunel,Nadia Marcinkova,6
+Andrew Farkas,David Blaine,6
+John Brockman,Woody Allen,6
+Brock Pierce,Jeffrey Epstein,6
+Jay Lefkowitz,Roy Black,6
+Janusz Banasiak,Reid Weingarten,6
+Larry Summers,Richard Kahn,6
+Peter Attia,Soon-Yi Previn,6
+Donald Trump,Virginia Giuffre,6
+Ehud Barak,Valdson Cotrin,6
+Barry Josephson,Leon Black,6
+Jay Lefkowitz,Kenneth Starr,6
+Alfredo Rodriguez,Nadia Marcinkova,6
+Kenneth Starr,Seth Lloyd,6
+Barry Krischer,Jo Jo,6
+Adriana Ross,Nadia Marcinkova,6
+Bill Clinton,Ghislaine Maxwell,6
+Jean-Luc Brunel,Leon Black,6
+Jes Staley,Nathan Myhrvold,6
+Andrew Farkas,Seth Lloyd,6
+Larry Summers,Peter Attia,6
+Darren Indyke,Larry Summers,6
+Darren Indyke,Mort Zuckerman,6
+Carolyn Andriano,Kenneth Marra,6
+Janusz Banasiak,Tim Zagat,6
+Andrew Farkas,Richard Kahn,6
+Ariane de Rothschild,Darren Indyke,6
+Ghislaine Maxwell,Sarah Ferguson,6
+Henry Rosovsky,Joi Ito,6
+Borge Brende,Michael Wolff,6
+Nadia Marcinkova,Prince Andrew,6
+Frederic Fekkai,Tim Zagat,6
+Paul Cassell,Prince Andrew,6
+Ariane de Rothschild,Brad Karp,6
+Ehud Barak,Nicholas Christakis,6
+Bill Gates,Kevin Spacey,6
+Bill Clinton,Vicky Ward,6
+Darren Indyke,Jean-Luc Brunel,6
+Jean-Luc Brunel,Larry Summers,6
+Kenneth Marra,Theodore J. Leopold,6
+Larry Summers,Reid Hoffman,6
+Harry Beller,Woody Allen,6
+Michael Wolff,Nathan Myhrvold,6
+David Blaine,Tim Zagat,6
+Cy Vance,Lesley Groff,6
+Hardeep Singh Puri,Leon Black,6
+Sigrid McCawley,Teresa Helm,6
+Joi Ito,Peter Thiel,6
+Cy Vance,Darren Indyke,6
+Lesley Groff,Nadia Marcinkova,6
+Jeffrey Epstein,Lanna Leigh Belohlavek,6
+Leon Black,Valdson Cotrin,6
+David Boies,Juliette Bryant,6
+Ehud Barak,Noam Chomsky,6
+David Blaine,Janusz Banasiak,6
+Michael Wolff,Peter Attia,6
+Alan Dershowitz,Darren Indyke,6
+Debra C. Freeman,Ghislaine Maxwell,6
+Brad Karp,Dr. Moskowitz,6
+David Blaine,Frederic Fekkai,6
+Ehud Barak,Stephen Kosslyn,6
+Richard Kahn,Vera Wang,6
+Sigrid McCawley,Virginia Giuffre,6
+Hardeep Singh Puri,Woody Allen,6
+Andrew Farkas,Boris Nikolic,6
+Jeffrey Epstein,Nicholas Negroponte,6
+Josh Harris,Mort Zuckerman,6
+Janusz Banasiak,Jes Staley,6
+Boris Nikolic,Josh Harris,6
+Lesley Groff,Nicholas Negroponte,6
+Ghislaine Maxwell,Teresa Helm,6
+John Brockman,Reid Hoffman,6
+Annie Farmer,Teresa Helm,6
+Annie Farmer,Debra C. Freeman,6
+Andrew Farkas,Peter Thiel,6
+Leon Botstein,Peggy Siegal,6
+John Brockman,Peggy Siegal,6
+Harry Beller,Leon Black,6
+Cy Vance,Katie Couric,6
+David Blaine,Jean-Luc Brunel,6
+Ehud Barak,Jack A. Goldberger,6
+Annie Farmer,Ghislaine Maxwell,6
+Larry Visoski,Reid Hoffman,6
+Jeffrey Epstein,Marvin Minsky,6
+Chris Tucker,Jeffrey Epstein,6
+Charlie Rose,Cy Vance,6
+Bill Clinton,Jo Jo,6
+John Brockman,Leon Black,6
+Annie Farmer,Sigrid McCawley,6
+Nicole Junkermann,Reid Hoffman,6
+Ariane de Rothschild,Henry Kissinger,5
+Haley Robson,Stuart S. Mermelstein,5
+Andrew Farkas,Jeff Koons,5
+Barry Josephson,Joi Ito,5
+Jeff Koons,Reid Hoffman,5
+Alan Dershowitz,Sigrid McCawley,5
+Alan Dershowitz,Richard Kahn,5
+Dr. Moskowitz,Elon Musk,5
+Bill Clinton,Virginia Giuffre,5
+Bradley Edwards,David Boies,5
+Annie Farmer,Jeffrey Epstein,5
+Annie Farmer,Juliette Bryant,5
+Jeff Koons,Jeffrey Epstein,5
+Ehud Barak,Frederic Fekkai,5
+Ehud Barak,Mary Erdoes,5
+Bradley Edwards,Larry Visoski,5
+Jeffrey Epstein,Laura Menninger,5
+George Stephanopoulos,Les Wexner,5
+Jeffrey Epstein,Ric Bradshaw,5
+Elon Musk,Reid Weingarten,5
+Joi Ito,Valdson Cotrin,5
+Jeffrey Epstein,Sharon R. Bock,5
+Nicholas Christakis,Reid Hoffman,5
+Leon Black,Nicholas Christakis,5
+Alison Nathan,Darren Indyke,5
+Charlie Rose,Les Wexner,5
+Janusz Banasiak,Josh Harris,5
+Bill Gates,Peggy Siegal,5
+Lesley Groff,Prince Andrew,5
+Cy Vance,George Stephanopoulos,5
+Dan Ariely,Reid Hoffman,5
+Frederic Fekkai,Mort Zuckerman,5
+Andrew Farkas,Larry Summers,5
+Katie Couric,Les Wexner,5
+Cy Vance,Les Wexner,5
+Joi Ito,Reid Weingarten,5
+Bill Gates,Frederic Fekkai,5
+Brad Karp,Peter Thiel,5
+Alison Nathan,Richard Kahn,5
+Graydon Carter,Jeffrey Epstein,5
+Elon Musk,Reid Hoffman,5
+Bradley Edwards,Leon Black,5
+Henry Kissinger,Mort Zuckerman,5
+Jeffrey Epstein,Juan Alessi,5
+Darren Indyke,Tim Zagat,5
+Henry Kissinger,Jo Jo,5
+Harry Beller,Reid Weingarten,5
+Glenn Dubin,Jeffrey Epstein,5
+David Boies,Ghislaine Maxwell,5
+Borge Brende,Martin Nowak,5
+Ghislaine Maxwell,Jo Jo,5
+Borge Brende,Jeffrey Epstein,5
+Jeremy Rubin,John Brockman,5
+Mark Lloyd,Robert Bass,5
+Jeff Koons,Mark Lloyd,5
+Ghislaine Maxwell,Vicky Ward,5
+Jeffrey Epstein,Jerry Goldsmith,5
+Haley Robson,Jean-Luc Brunel,5
+Jeffrey Epstein,Mark Lloyd,5
+Bill Gates,Mary Erdoes,5
+Soon-Yi Previn,Steve Bannon,5
+Peter Attia,Peter Thiel,5
+Larry Summers,Larry Visoski,5
+Darren Indyke,David Blaine,5
+John Brockman,Soon-Yi Previn,5
+Jeremy Rubin,Seth Lloyd,5
+Seth Lloyd,Woody Allen,5
+David Blaine,Tom Barrack,5
+Noam Chomsky,Seth Lloyd,5
+Jack A. Goldberger,Jay Lefkowitz,5
+Jay Lefkowitz,Jo Jo,5
+Ben Goertzel,Paul Morris,5
+Lesley Groff,Marvin Minsky,5
+Jack A. Goldberger,Kenneth Marra,5
+Jeffrey Epstein,Robert Meister,5
+Lanna Leigh Belohlavek,Michael Reiter,5
+Jeffrey Epstein,ROBERT GLASSMAN,5
+Denise George,ROBERT GLASSMAN,5
+Denise George,Jo Jo,5
+Les Wexner,Robert Maxwell,5
+Andrew Farkas,Paul Morris,5
+Jean-Luc Brunel,Reid Weingarten,5
+Boris Nikolic,Jean-Luc Brunel,5
+David Blaine,George Mitchell,5
+David Gelernter,Jeffrey Epstein,5
+Peter Attia,Reid Weingarten,5
+David Blaine,Nina Zagat,5
+Paul Morris,Stephen Kosslyn,5
+Joi Ito,Mark Zuckerberg,5
+Jack A. Goldberger,Michael Wolff,5
+Mark Zuckerberg,Peter Thiel,5
+Danny Hillis,Seth Lloyd,5
+Ariane de Rothschild,Janusz Banasiak,5
+Mark Zuckerberg,Reid Hoffman,5
+Bill Gates,Dr. Moskowitz,5
+Peter Thiel,Reid Hoffman,5
+Dr. Moskowitz,Janusz Banasiak,5
+Jack A. Goldberger,Leon Botstein,5
+Deepak Chopra,Jo Jo,5
+Deepak Chopra,Woody Allen,5
+Barry Krischer,Sarah Kellen,5
+Jeffrey Epstein,Tom Barrack,5
+Larry Visoski,Sarah Kellen,5
+Lesley Groff,Tom Barrack,5
+George Mitchell,Nathan Myhrvold,5
+Marc Rowan,Peter Attia,5
+Boris Nikolic,Ehud Barak,5
+Lawrence Krauss,Peter Attia,5
+Jo Jo,Nicholas Negroponte,5
+Bella Klein,Lesley Groff,5
+Andrew Farkas,Jack A. Goldberger,5
+Deepak Chopra,Richard Kahn,5
+Barry Josephson,Tom Barrack,5
+Barry Josephson,David Blaine,5
+Barry Josephson,Peter Thiel,5
+Lesley Groff,Vera Wang,5
+Ariane de Rothschild,Tom Barrack,5
+Ariane de Rothschild,Barry Josephson,5
+John Brockman,Larry Visoski,5
+Jean-Luc Brunel,Jo Jo,5
+Jeffrey Epstein,Kevin Spacey,5
+Janusz Banasiak,Larry Visoski,5
+Larry Visoski,Paul Cassell,5
+Jean-Luc Brunel,Prince Andrew,5
+Ariane de Rothschild,Lawrence Krauss,5
+Jack Lang,Lesley Groff,5
+Robert Bass,Woody Allen,5
+Robert Bass,Soon-Yi Previn,5
+Jack Scarola,Larry Visoski,5
+Alfredo Rodriguez,Jo Jo,5
+Mort Zuckerman,Soon-Yi Previn,5
+Brad Karp,Tom Barrack,5
+Bella Klein,Jeffrey Epstein,5
+Prince Andrew,Sarah Kellen,5
+Chris Tucker,Kevin Spacey,5
+Bill Richardson,Peggy Siegal,5
+Les Wexner,Vicky Ward,4
+Larry Visoski,Valdson Cotrin,4
+Frederic Fekkai,Jes Staley,4
+John Brockman,Reid Weingarten,4
+Al Seckel,Stephen Hawking,4
+Elon Musk,Jeffrey Epstein,4
+Dr. Moskowitz,Tim Zagat,4
+Elon Musk,Stephen Hawking,4
+Larry Visoski,Lawrence Krauss,4
+Ariane de Rothschild,Nicholas Christakis,4
+Isabel Maxwell,Robert Maxwell,4
+Paul Morris,Peter Attia,4
+Mark Lloyd,Woody Allen,4
+Brad Karp,Nathan Myhrvold,4
+Mark Lloyd,Soon-Yi Previn,4
+Boris Nikolic,John Brockman,4
+Larry Summers,Seth Lloyd,4
+Jeremy Rubin,Larry Summers,4
+Jeff Koons,Mort Zuckerman,4
+George Stephanopoulos,Sarah Ferguson,4
+Mort Zuckerman,Reid Hoffman,4
+Frederic Fekkai,Lawrence Krauss,4
+Ariane de Rothschild,Jack Lang,4
+Frederic Fekkai,Jean-Luc Brunel,4
+Peter Mandelson,Reid Weingarten,4
+Jes Staley,Seth Lloyd,4
+Peter Mandelson,Seth Lloyd,4
+Peter Mandelson,Tim Zagat,4
+Anna Wintour,Bill Clinton,4
+Mort Zuckerman,Paul Morris,4
+Seth Lloyd,Tim Zagat,4
+Anna Wintour,Vicky Ward,4
+Donald Trump,Hillary Clinton,4
+Bill Clinton,Hillary Clinton,4
+Mort Zuckerman,Richard Branson,4
+Larry Visoski,Stephen Hawking,4
+Larry Summers,Marc Rowan,4
+Paul Morris,Richard Branson,4
+Jeremy Rubin,Noam Chomsky,4
+John Brockman,Paul Morris,4
+Brock Pierce,Woody Allen,4
+Peggy Siegal,Woody Allen,4
+Brad Karp,Jack A. Goldberger,4
+David Copperfield,Jeffrey Epstein,4
+Martin Nowak,Paul Morris,4
+Isabel Maxwell,Stephen Hawking,4
+Danny Hillis,George Church,4
+David Copperfield,Mort Zuckerman,4
+Bill Gates,Boris Nikolic,4
+Jerry Goldsmith,John Brockman,4
+Bradley Edwards,Peter Attia,4
+Bill Gates,Dan Ariely,4
+Bill Richardson,Kevin Spacey,4
+Bill Richardson,Chris Tucker,4
+Bill Gates,Nicole Junkermann,4
+Boris Nikolic,Noam Chomsky,4
+Frederic Fekkai,Peggy Siegal,4
+John Brockman,Tim Zagat,4
+Peter Thiel,Soon-Yi Previn,4
+Michael Reiter,Sarah Kellen,4
+Bill Gates,Chris Tucker,4
+Brad Karp,George Mitchell,4
+Alexander Acosta,Roy Black,4
+John Brockman,Sandy Berger,4
+Martin Nowak,Nathan Wolfe,4
+Andrew Farkas,Dan Ariely,4
+Jack A. Goldberger,Nathan Myhrvold,4
+Prince Andrew,Robert Maxwell,4
+Jack Horner,Lesley Groff,4
+Andrew Farkas,Barry Josephson,4
+Jack Horner,Jeffrey Epstein,4
+Donald Trump,Mick Jagger,4
+Jeff Koons,Lesley Groff,4
+Boris Nikolic,Valdson Cotrin,4
+Andrew Farkas,Frederic Fekkai,4
+Jo Jo,Mary Erdoes,4
+Harry Beller,Joi Ito,4
+Andrew Farkas,Ariane de Rothschild,4
+Gerald Lefcourt,Jack A. Goldberger,4
+Larry Summers,Mary Erdoes,4
+Jeremy Rubin,Marvin Minsky,4
+Joi Ito,Marvin Minsky,4
+Jeffrey Epstein,Mark Epstein,4
+Naomi Campbell,Paul Morris,4
+Reid Weingarten,Sultan Ahmed bin Sulayem,4
+Leon Black,Sultan Ahmed bin Sulayem,4
+Harry Beller,Jeff Koons,4
+Larry Visoski,Stuart S. Mermelstein,4
+Jo Jo,Robert Bass,4
+Jack P. Hill,Larry Visoski,4
+Jack A. Goldberger,Larry Visoski,4
+Alan Grubman,Joi Ito,4
+George Church,Marvin Minsky,4
+Dr. Moskowitz,Leon Botstein,4
+Leon Black,Naomi Campbell,4
+Brad Karp,Leon Botstein,4
+Dan Ariely,Leon Black,4
+Lawrence Krauss,Woody Allen,4
+Nicholas Christakis,Reid Weingarten,4
+Frederic Fekkai,Peter Thiel,4
+Alan Dershowitz,Barry Krischer,4
+Larry Visoski,Theodore J. Leopold,4
+Ben Goertzel,Woody Allen,4
+Jo Jo,Virginia Giuffre,4
+Harry Beller,Reid Hoffman,4
+Dr. Moskowitz,John Brockman,4
+David Blaine,Peter Mandelson,4
+Ehud Barak,Peter Mandelson,4
+Jeffrey Epstein,Nathan Wolfe,4
+Tom Barrack,Woody Allen,4
+Mort Zuckerman,Peter Mandelson,4
+Peter Thiel,Reid Weingarten,4
+Jack A. Goldberger,Sharon R. Bock,4
+Brad Karp,Deepak Chopra,4
+Joi Ito,Stephen Kosslyn,4
+Reid Hoffman,Stephen Kosslyn,4
+Jes Staley,Mark Lloyd,4
+John Brockman,Nicholas Negroponte,4
+David Blaine,Larry Summers,4
+Al Seckel,Elon Musk,4
+Ghislaine Maxwell,Paul Cassell,4
+David Boies,Teresa Helm,4
+Nicholas Christakis,Valdson Cotrin,4
+Lesley Groff,Nicholas Christakis,4
+Larry Visoski,Prince Andrew,4
+Bill Richardson,Valdson Cotrin,4
+Bill Richardson,Nicholas Christakis,4
+Darren Indyke,Nathan Myhrvold,4
+Jeremy Rubin,Leon Black,4
+Brad Karp,Reid Weingarten,4
+Leon Black,Noam Chomsky,4
+Paul Morris,Richard Kahn,4
+Charlie Rose,Noam Chomsky,4
+Charlie Rose,Leon Black,4
+Jack A. Goldberger,Michael Reiter,4
+Charlie Rose,Darren Indyke,4
+Darren Indyke,George Stephanopoulos,4
+Les Wexner,Paul Cassell,4
+Ehud Barak,Larry Visoski,4
+Darren Indyke,Katie Couric,4
+Annie Farmer,David Boies,4
+Eric Fischl,Vicky Ward,4
+Henry Rosovsky,Jeffrey Epstein,4
+Jeffrey Epstein,Loretta Preska,4
+Ben Goertzel,Leon Black,4
+Jo Jo,Juan Alessi,4
+Dr. Jarecki,Jeffrey Epstein,4
+Kenneth Starr,Peggy Siegal,4
+Barry Krischer,Prince Andrew,4
+Barry Krischer,Ghislaine Maxwell,4
+Alan Dershowitz,Jay Lefkowitz,4
+David Boies,Prince Andrew,4
+Brock Pierce,Michael Wolff,4
+Boris Nikolic,Lawrence Krauss,4
+Brock Pierce,Jes Staley,4
+Janusz Banasiak,Lawrence Krauss,4
+Nadia Marcinkova,Sarah Ferguson,4
+Darren Indyke,Prince Andrew,4
+Jeffrey Epstein,Miroslav Lajcak,4
+George Church,Janusz Banasiak,4
+Andrew Farkas,Nina Zagat,4
+Nathan Myhrvold,Tim Zagat,4
+Alan Dershowitz,Jean-Luc Brunel,4
+Jeffrey Epstein,Vera Wang,4
+Jean-Luc Brunel,Martin Weinberg,4
+Bill Clinton,Jean-Luc Brunel,4
+Richard Kahn,Steve Bannon,4
+Bella Klein,Richard Kahn,4
+Bill Clinton,Les Wexner,4
+Bradley Edwards,Jean-Luc Brunel,4
+David Blaine,Richard Kahn,4
+Jack A. Goldberger,Richard Kahn,4
+Harry Beller,Peggy Siegal,4
+Leon Botstein,Vera Wang,4
+Donald Trump,Les Wexner,4
+Bill Gates,Tim Zagat,4
+Andrew Farkas,Tim Zagat,4
+George Stephanopoulos,Lesley Groff,4
+Jes Staley,Josh Harris,4
+Katie Couric,Lesley Groff,4
+Jack A. Goldberger,Nina Zagat,4
+Hardeep Singh Puri,Richard Kahn,4
+Jack A. Goldberger,Jes Staley,4
+Hardeep Singh Puri,Mort Zuckerman,4
+David Blaine,Deepak Chopra,4
+Borge Brende,Lesley Groff,4
+Mort Zuckerman,Nina Zagat,4
+Josh Harris,Woody Allen,4
+Josh Harris,Tim Zagat,4
+Josh Harris,Richard Kahn,4
+Josh Harris,Nina Zagat,4
+Josh Harris,Martin Nowak,4
+Josh Harris,Leon Botstein,4
+Bill Gates,Nathan Myhrvold,4
+Debra C. Freeman,Loretta Preska,4
+David Gelernter,Lesley Groff,4
+Darren Indyke,Jack A. Goldberger,4
+John Brockman,Mort Zuckerman,4
+Harry Beller,Jo Jo,4
+Andrew Farkas,Janusz Banasiak,4
+George Church,Leon Botstein,4
+Ghislaine Maxwell,Laura Menninger,4
+Dr. Moskowitz,Jeremy Rubin,4
+Ghislaine Maxwell,Juliette Bryant,4
+Debra C. Freeman,Laura Menninger,4
+Jo Jo,ROBERT GLASSMAN,4
+Andrew Farkas,John Brockman,4
+Bill Gates,John Brockman,4
+Brad Karp,Darren Indyke,4
+Bill Gates,Peter Thiel,4
+Andrew Farkas,Valdson Cotrin,4
+John Brockman,Peter Thiel,4
+Debra C. Freeman,Denise George,4
+Annie Farmer,Richard Kahn,4
+Larry Visoski,Peter Attia,4
+Mort Zuckerman,Peggy Siegal,4
+Mort Zuckerman,Peter Thiel,4
+Peggy Siegal,Peter Thiel,4
+Alan Dershowitz,Michael Reiter,4
+Jeffrey Epstein,Peter Mandelson,4
+George Mitchell,Jeffrey Epstein,4
+George Mitchell,Jo Jo,4
+Michael Wolff,Nicole Junkermann,4
+George Mitchell,Lesley Groff,4
+Camille S. Biros,Jeffrey Epstein,4
+Camille S. Biros,Kenneth R. Feinberg,4
+Laura Menninger,Sigrid McCawley,4
+David Boies,Virginia Giuffre,4
+Jean-Luc Brunel,Mort Zuckerman,4
+Jean-Luc Brunel,Michael Wolff,4
+Lesley Groff,Miroslav Lajcak,4
+Joi Ito,Richard Kahn,4
+Ehud Barak,Joi Ito,4
+Ariane de Rothschild,Jean-Luc Brunel,4
+Cecile de Jongh,Peter Thiel,3
+Henry Kissinger,Mick Jagger,3
+Gerald Sussman,Isabel Maxwell,3
+Mick Jagger,Ralph Fiennes,3
+Dr. Richard Hall,Lesley Groff,3
+Jeffrey Epstein,Mick Jagger,3
+Dan Ariely,Janusz Banasiak,3
+Henry Kissinger,Ralph Fiennes,3
+Dr. Richard Hall,Jeffrey Epstein,3
+Jack Scarola,Sigrid McCawley,3
+Jack Scarola,Virginia Giuffre,3
+Dustin Hoffman,Ralph Fiennes,3
+Gerald Sussman,Murray Gell-Mann,3
+Gerald Sussman,Stephen Hawking,3
+Murray Gell-Mann,Stephen Hawking,3
+Dustin Hoffman,Mick Jagger,3
+Dustin Hoffman,Jeffrey Epstein,3
+Dustin Hoffman,Henry Kissinger,3
+Donald Trump,Ralph Fiennes,3
+Cecile de Jongh,Darren Indyke,3
+Boris Nikolic,Jack A. Goldberger,3
+Jean-Luc Brunel,Les Wexner,3
+Bill Gates,Bill Richardson,3
+Darren Indyke,Noam Chomsky,3
+Camille S. Biros,Jo Jo,3
+Bill Clinton,Chris Tucker,3
+Donald Trump,Prince Andrew,3
+Boris Nikolic,Mary Erdoes,3
+Camille S. Biros,Darren Indyke,3
+Bill Clinton,Kevin Spacey,3
+Marc Rowan,Woody Allen,3
+Dr. Moskowitz,Nathan Myhrvold,3
+Chelsea Clinton,Sarah Ferguson,3
+Jack A. Goldberger,Roy Black,3
+Ghislaine Maxwell,Jack Scarola,3
+Jack A. Goldberger,John Brockman,3
+Dr. Moskowitz,Larry Visoski,3
+Barry Krischer,Haley Robson,3
+Miroslav Lajcak,Soon-Yi Previn,3
+Barry Josephson,Leon Botstein,3
+Miroslav Lajcak,Woody Allen,3
+Dan Ariely,Jes Staley,3
+Larry Summers,Soon-Yi Previn,3
+Larry Visoski,Nadia Marcinkova,3
+Donald Trump,Dustin Hoffman,3
+Donald Trump,Henry Kissinger,3
+Juan Alessi,Sarah Kellen,3
+Bill Gates,Jeff Koons,3
+Bill Richardson,David Koch,3
+Roy Black,Sarah Kellen,3
+Denise George,Richard Kahn,3
+Joi Ito,Naomi Campbell,3
+Harry Beller,Tim Zagat,3
+Ghislaine Maxwell,Gwendolyn Beck,3
+Gwendolyn Beck,Jeffrey Epstein,3
+Gwendolyn Beck,Robert Maxwell,3
+Paul Cassell,Sigrid McCawley,3
+Ghislaine Maxwell,Robert Meister,3
+David Blaine,Martin Nowak,3
+Gwendolyn Beck,Tony Randall,3
+Debra C. Freeman,ROBERT GLASSMAN,3
+Marvin Minsky,Nicholas Negroponte,3
+Joi Ito,Nicholas Negroponte,3
+Joi Ito,Tim Zagat,3
+Robert Maxwell,Tony Randall,3
+Darren Indyke,Jes Staley,3
+John Brockman,Marvin Minsky,3
+Kenneth Starr,Sarah Kellen,3
+Kevin Rudd,Lesley Groff,3
+Bill Richardson,Donald Trump,3
+Cecile de Jongh,Jo Jo,3
+Darren Indyke,Denise George,3
+Robert Maxwell,Robert Meister,3
+David Koch,Ralph Fiennes,3
+David Koch,Mick Jagger,3
+David Koch,Henry Kissinger,3
+David Koch,Donald Trump,3
+Bill Richardson,Ralph Fiennes,3
+Bill Richardson,Mick Jagger,3
+Bill Richardson,Henry Kissinger,3
+Henry Rosovsky,Marvin Minsky,3
+Lesley Groff,Nathan Wolfe,3
+Larry Summers,Leon Botstein,3
+Martin Weinberg,Michael Reiter,3
+Haley Robson,Jeffrey M. Herman,3
+Katie Couric,Sarah Ferguson,3
+Jeffrey M. Herman,Sarah Kellen,3
+Leon Black,Nicholas Negroponte,3
+Jay Lefkowitz,Sarah Kellen,3
+Frederic Fekkai,George Church,3
+Charlie Rose,Sarah Ferguson,3
+Adriana Ross,Michael Reiter,3
+Frederic Fekkai,Valdson Cotrin,3
+Juliette Bryant,Laura Menninger,3
+Frederic Fekkai,Josh Harris,3
+David Blaine,Michael Wolff,3
+David Blaine,Josh Harris,3
+Reid Hoffman,Richard Branson,3
+Andrew Farkas,Nathan Myhrvold,3
+Jack A. Goldberger,Larry Summers,3
+Deepak Chopra,Peter Attia,3
+Deepak Chopra,Lawrence Krauss,3
+Naomi Campbell,Woody Allen,3
+Nadia Marcinkova,Roy Black,3
+Jay Lefkowitz,Nadia Marcinkova,3
+Bill Clinton,Nadia Marcinkova,3
+Bill Clinton,Jay Lefkowitz,3
+Alexander Acosta,Nadia Marcinkova,3
+Alexander Acosta,Jay Lefkowitz,3
+Alexander Acosta,Bill Clinton,3
+Catherine Derby,Dana Burns,3
+Andrea Mitrovich,Dana Burns,3
+Andrea Mitrovich,Catherine Derby,3
+Laura Menninger,Teresa Helm,3
+John Brockman,Seth Lloyd,3
+Darren Indyke,Loretta Preska,3
+Danny Hillis,John Brockman,3
+Danny Hillis,Jeremy Rubin,3
+George Mitchell,Josh Harris,3
+Brad Karp,Josh Harris,3
+Danny Hillis,Henry Rosovsky,3
+Josh Harris,Peggy Siegal,3
+Dr. Moskowitz,Reid Weingarten,3
+Josh Harris,Larry Summers,3
+Jes Staley,Kenneth Starr,3
+Dr. Moskowitz,Josh Harris,3
+Kenneth Starr,Peter Mandelson,3
+Dr. Jarecki,Dr. Moskowitz,3
+Barry Josephson,Mark Zuckerberg,3
+David Blaine,Reid Hoffman,3
+Josh Harris,Nicole Junkermann,3
+Dan Ariely,Josh Harris,3
+Dr. Moskowitz,Harry Beller,3
+Lisa Randall,Marvin Minsky,3
+Howard Gardner,Marvin Minsky,3
+Howard Gardner,Lisa Randall,3
+Marc Rowan,Richard Branson,3
+Josh Harris,Richard Branson,3
+Leon Black,Nathan Wolfe,3
+Dr. Jarecki,Jerry Goldsmith,3
+Lawrence Krauss,Reid Weingarten,3
+John Brockman,Lawrence Krauss,3
+Peggy Siegal,Reid Weingarten,3
+John Brockman,Peter Mandelson,3
+Jerry Goldsmith,Sandy Berger,3
+Annie Farmer,Laura Menninger,3
+Ehud Barak,Nathan Myhrvold,3
+David Roth,Dr. Jarecki,3
+David Roth,Donald Trump,3
+David Copperfield,David Roth,3
+Harvey Weinstein,Ivan Rosh,3
+Harry Beller,Ivan Rosh,3
+Harry Beller,Harvey Weinstein,3
+Jeff Schantz,Jerry Goldsmith,3
+Darren Indyke,Laura Menninger,3
+Kenneth Starr,Tim Zagat,3
+Dr. Moskowitz,Reid Hoffman,3
+Juliette Bryant,Loretta Preska,3
+Jeffrey Epstein,Mary Erdoes,3
+Darren Indyke,Steve Bannon,3
+Lanna Leigh Belohlavek,Sarah Kellen,3
+Janusz Banasiak,Joi Ito,3
+George Church,Woody Allen,3
+Andrew Farkas,George Church,3
+Jeffrey Epstein,John Duffy,3
+Michael Reiter,Robert Maxwell,3
+Haley Robson,Robert Maxwell,3
+Alfredo Rodriguez,Michael Reiter,3
+Alfredo Rodriguez,Haley Robson,3
+Alan Grubman,Jeffrey Epstein,3
+Adriana Ross,Haley Robson,3
+Borge Brende,Soon-Yi Previn,3
+Darren Indyke,Martin Nowak,3
+Conrad Black,Vicky Ward,3
+Anna Wintour,Conrad Black,3
+Alan Grubman,Andrew Farkas,3
+Jack A. Goldberger,Reid Hoffman,3
+George Church,Jeremy Rubin,3
+George Church,Leon Black,3
+Stephen Kosslyn,Valdson Cotrin,3
+Alan Dershowitz,Jack Scarola,3
+Alan Dershowitz,Larry Visoski,3
+Lawrence Krauss,Tim Zagat,3
+Jack Lang,Valdson Cotrin,3
+Nathan Myhrvold,Paul Morris,3
+Mary Erdoes,Valdson Cotrin,3
+Lesley Groff,Mary Erdoes,3
+Larry Summers,Valdson Cotrin,3
+David Boies,Paul Cassell,3
+Jeffrey Epstein,Sandy Berger,3
+Andrew Farkas,Steve Bannon,3
+George Church,Jack A. Goldberger,3
+Jeremy Rubin,Larry Visoski,3
+Loretta Preska,Richard Kahn,3
+Henry Kissinger,Nicholas Christakis,3
+Darren Indyke,Sarah Kellen,3
+Brad Karp,Robert Bass,3
+Brad Karp,Mark Lloyd,3
+Brad Karp,Jeff Koons,3
+Darren Indyke,Virginia Giuffre,3
+Lesley Groff,Virginia Giuffre,3
+Richard Kahn,Sarah Kellen,3
+Reid Weingarten,Richard Branson,3
+Mary Erdoes,Richard Branson,3
+Jeff Koons,Richard Branson,3
+Jeff Koons,Mary Erdoes,3
+Sarah Kellen,Virginia Giuffre,3
+Frederic Fekkai,Richard Branson,3
+Frederic Fekkai,Jeff Koons,3
+Ariane de Rothschild,Josh Harris,3
+Jo Jo,Mark Lloyd,3
+Jack A. Goldberger,Joi Ito,3
+Bradley Edwards,Stanley Pottinger,3
+Larry Summers,Richard Branson,3
+Ehud Barak,Richard Branson,3
+Bill Gates,Richard Branson,3
+Debra C. Freeman,Stanley Pottinger,3
+Jeff Koons,Nicholas Christakis,3
+Harry Beller,Nicholas Christakis,3
+Mary Erdoes,Tim Zagat,3
+Mary Erdoes,Mort Zuckerman,3
+Les Wexner,Lesley Groff,3
+Alan Grubman,Lesley Groff,3
+Jean-Luc Brunel,Roy Black,3
+Eric Fischl,Jeffrey Epstein,3
+Janusz Banasiak,Reid Hoffman,3
+Larry Summers,Noam Chomsky,3
+Jean-Luc Brunel,Josh Harris,3
+Danny Hillis,Larry Summers,3
+Brock Pierce,Leon Black,3
+Reid Weingarten,Tim Zagat,3
+George Church,Larry Summers,3
+Nina Zagat,Tom Barrack,3
+Josh Harris,Soon-Yi Previn,3
+Brad Karp,Tim Zagat,3
+Brad Karp,Nina Zagat,3
+Barry Josephson,Nina Zagat,3
+Lesley Groff,Mark Zuckerberg,3
+Nina Zagat,Richard Kahn,3
+Jeffrey Epstein,Mark Zuckerberg,3
+Bill Gates,Janusz Banasiak,3
+Michael Wolff,Steve Bannon,3
+Deepak Chopra,Janusz Banasiak,3
+Deepak Chopra,Soon-Yi Previn,3
+Jo Jo,Tom Barrack,3
+Jes Staley,Reid Weingarten,3
+Jeffrey Epstein,Nancy Ma,3
+Brock Pierce,Jo Jo,3
+Soon-Yi Previn,Tom Barrack,3
+Sarah Ferguson,Sarah Kellen,3
+Guy Lewis,Kenneth Marra,3
+Jeremy Rubin,Reid Weingarten,3
+Bill Richardson,Jo Jo,3
+Bella Klein,Leon Botstein,3
+Jo Jo,Naomi Campbell,3
+Jeffrey Epstein,Nicholas Christakis,3
+Michael Wolff,Peggy Siegal,3
+Prince Andrew,Stephen Hawking,3
+Larry Visoski,Richard Kahn,3
+Jo Jo,Seth Lloyd,3
+Kevin Rudd,Peter Thiel,3
+Graydon Carter,Vicky Ward,3
+Bill Clinton,Graydon Carter,3
+Anna Wintour,Jeffrey Epstein,3
+Anna Wintour,Graydon Carter,3
+Jeffrey Epstein,Murray Gell-Mann,3
+Larry Visoski,Mort Zuckerman,3
+Alfredo Rodriguez,Prince Andrew,3
+Alan Dershowitz,Robert Maxwell,3
+Jeffrey Epstein,Michael Stroll,3
+Ehud Barak,Peter Attia,3
+Robert Maxwell,Stephen Hawking,3
+Hardeep Singh Puri,Jeffrey Epstein,3
+Isabel Maxwell,Jeffrey Epstein,3
+Sarah Ferguson,Woody Allen,3
+George Stephanopoulos,Woody Allen,3
+Lawrence Krauss,Richard Kahn,3
+Martin Nowak,Peter Attia,3
+Larry Visoski,Woody Allen,3
+Larry Visoski,Soon-Yi Previn,3
+Hillary Clinton,Virginia Giuffre,3
+Hillary Clinton,Jeffrey Epstein,3
+Jack Lang,Nathan Myhrvold,3
+Jack Lang,Jo Jo,3
+Ariane de Rothschild,Valdson Cotrin,3
+Bill Gates,Michael Wolff,3
+Prince Andrew,Vicky Ward,3
+Jo Jo,Sultan Ahmed bin Sulayem,3
+Jo Jo,Miroslav Lajcak,3
+Ghislaine Maxwell,Michael Reiter,3
+Ghislaine Maxwell,Haley Robson,3
+Al Seckel,Jeffrey Epstein,3
+Lesley Groff,Mark Lloyd,3
+Leon Black,Miroslav Lajcak,3
+Bradley Edwards,Nadia Marcinkova,3
+Janusz Banasiak,Marc Rowan,3
+Nathan Wolfe,Peter Mandelson,3
+Bradley Edwards,Robert Maxwell,3
+Jeffrey Epstein,Robert De Niro,3
+Mort Zuckerman,Nathan Wolfe,3
+Jes Staley,Larry Summers,3
+Larry Summers,Peter Thiel,3
+Cy Vance,Jean-Luc Brunel,3
+Cy Vance,Nadia Marcinkova,3
+Ehud Barak,Nathan Wolfe,3
+Larry Summers,Peggy Siegal,3
+David Blaine,Nathan Wolfe,3
+Jeffrey Epstein,Nadia Bjorlin,3
+Harry Beller,Nicole Junkermann,3
+Alan Dershowitz,Ariane de Rothschild,3
+Bill Cosby,Sarah Ferguson,3
+Bill Cosby,Ghislaine Maxwell,3
+Robert Maxwell,Virginia Giuffre,3
+John Brockman,Larry Summers,3
+Bill Gates,Joi Ito,3
+Jeffrey Epstein,Sultan Ahmed bin Sulayem,3
+Lesley Groff,Sultan Ahmed bin Sulayem,3
+Reid Weingarten,Robert Bass,3
+Lesley Groff,Peter Mandelson,3
+Bradley Edwards,Haley Robson,3
+Haley Robson,Jack P. Hill,3
+Haley Robson,Jo Jo,3
+Haley Robson,Paul Cassell,3
+Jean-Luc Brunel,Kenneth Starr,3
+Jeff Koons,Paul Morris,3
 Bill Gates,Leon Botstein,3
-Elon Musk,Hillary Clinton,3
-Leon Black,Peggy Siegal,3
-Glenn Dubin,Leslie Groff,3
-Ehud Barak,Leon Black,3
-Elon Musk,Jes Staley,3
-Leslie Groff,Peggy Siegal,3
-Larry Summers,Les Wexner,3
-Pam Bondi,Prince Andrew,3
-Barack Obama,Benjamin Netanyahu,3
-Howard Lutnick,Prince Andrew,3
-Howard Lutnick,Les Wexner,3
-Hillary Clinton,Howard Lutnick,3
-Bill Clinton,Howard Lutnick,3
-Ghislaine Maxwell,Glenn Dubin,3
-Ghislaine Maxwell,Peggy Siegal,3
-Karyna Shuliak,Prince Andrew,3
-Benjamin Netanyahu,Hillary Clinton,3
-Benjamin Netanyahu,Bill Clinton,3
-Larry Summers,Peter Mandelson,3
-Casey Wasserman,Ghislaine Maxwell,2
-Elon Musk,Pam Bondi,2
-Barack Obama,George H.W. Bush and George W. Bush,2
-Donald Trump,Leslie Groff,2
-Prince Andrew,Rupert Murdoch,2
-Donald Trump,"Oren, Alon, and Tal Alexander",2
-Kash Patel,"Oren, Alon, and Tal Alexander",2
-Elon Musk,William Riley,2
-Kathryn Ruemmler,Michael Wolff,2
-Donald Trump,Steve Bannon,2
-Kash Patel,RFK,2
-Glenn Dubin,Jess Ting,2
-Elon Musk,Karyna Shuliak,2
-Karyna Shuliak,Mark Zuckerberg,2
-Bill Gates,Les Wexner,2
-Bill Clinton,Casey Wasserman,2
-Bill Richardson,Larry Summers,2
-Elon Musk,Larry Summers,2
-Leslie Groff,Michael Wolff,2
-Bill Richardson,Hillary Clinton,2
-Bill Richardson,Ehud Barak,2
-Bill Clinton,Bill Richardson,2
-Glenn Dubin,Peter Attia,2
-Casey Wasserman,Hillary Clinton,2
-Bill Clinton,Chuck Schumer,2
-Pam Bondi,Sarah Ferguson,2
-Chuck Schumer,Hillary Clinton,2
-Donald Trump,George H.W. Bush and George W. Bush,2
-Barack Obama,Sarah Ferguson,2
-Jeff Bezos,William Riley,2
-Bill Richardson,Donald Trump,2
-Michael Wolff,Peter Attia,2
-Bill Gates,Donald Trump,2
-Ghislaine Maxwell,Michael Wolff,2
-Larry Summers,Peggy Siegal,2
-Ehud Barak,Peter Attia,2
-Hillary Clinton,Michael Wolff,2
-Bill Gates,William Riley,2
-Bill Gates,Karyna Shuliak,2
-Barack Obama,Kash Patel,2
-Ghislaine Maxwell,Mark Landon,2
-Ghislaine Maxwell,Howard Lutnick,2
-Bill Clinton,Michael Wolff,2
-Donald Trump,Paolo Zampolli,1
-Bill O'Reilly,Paolo Zampolli,1
-Hillary Clinton,Paolo Zampolli,1
-Bill Gates,Ron Lauder,1
-Bill O'Reilly,Prince Andrew,1
-Les Wexner,Paolo Zampolli,1
-Barack Obama,Bill Gates,1
-Donald Trump,Ron Lauder,1
-Bill O'Reilly,Hillary Clinton,1
-Bill O'Reilly,Les Wexner,1
-Chuck Schumer,Les Wexner,1
-Hillary Clinton,Tom Hanks,1
-Bill O'Reilly,Donald Trump,1
-Bill Clinton,Paolo Zampolli,1
-Larry Summers,Leon Botstein,1
-Karyna Shuliak,Peter Attia,1
-Karyna Shuliak,Kathryn Ruemmler,1
-Bill Clinton,Bill O'Reilly,1
-Les Wexner,Sarah Ferguson,1
-Bill Clinton,Jeff Bezos,1
-Hillary Clinton,Jeff Bezos,1
-Bill Gates,Tom Hanks,1
-Bill Clinton,Tom Hanks,1
-Elon Musk,Glenn Dubin,1
-Paolo Zampolli,Prince Andrew,1
-Leon Black,Peter Mandelson,1
-Bill Gates,Stefan Krause,1
-Ehud Barak,Kathryn Ruemmler,1
-Kash Patel,Larry Summers,1
-Mark Zuckerberg,Peter Attia,1
-Jess Ting,Peter Attia,1
-Mark Landon,Pam Bondi,1
-Donald Trump,Mark Landon,1
-Chuck Schumer,Larry Summers,1
-Justin Trudeau,Prince Andrew,1
-Donald Trump,Justin Trudeau,1
-Peter Mandelson,Rupert Murdoch,1
-Peter Mandelson,Prince Andrew,1
-Leon Black,Rupert Murdoch,1
-Jes Staley,Rupert Murdoch,1
-Larry Summers,Pam Bondi,1
-Ghislaine Maxwell,Rupert Murdoch,1
-Ghislaine Maxwell,Peter Mandelson,1
-Donald Trump,Peter Mandelson,1
-Bill Richardson,Rupert Murdoch,1
-Bill Richardson,Peter Mandelson,1
-Bill Richardson,Leon Black,1
-Bill Richardson,Jes Staley,1
-Bill Richardson,Ghislaine Maxwell,1
-Barack Obama,Prince Andrew,1
-Leon Black,Sarah Ferguson,1
-Mark Landon,Michael Wolff,1
-Elon Musk,Les Wexner,1
-Francis Derby,Karyna Shuliak,1
-Jes Staley,Leon Botstein,1
-Benjamin Netanyahu,George H.W. Bush and George W. Bush,1
-Elon Musk,Sultan Bin Sulayem,1
-Jeff Bezos,Tom Hanks,1
-Peggy Siegal,Rupert Murdoch,1
-Oprah,Tom Hanks,1
-Oprah,Sarah Ferguson,1
-Oprah,Rupert Murdoch,1
-Oprah,Prince Andrew,1
-Oprah,Peggy Siegal,1
-Mark Zuckerberg,Tom Hanks,1
-Mark Zuckerberg,Sarah Ferguson,1
-Mark Zuckerberg,Rupert Murdoch,1
-Mark Zuckerberg,Prince Andrew,1
-Mark Zuckerberg,Peggy Siegal,1
-Mark Zuckerberg,Oprah,1
-Jeff Bezos,Sarah Ferguson,1
-Peggy Siegal,Tom Hanks,1
-Jeff Bezos,Rupert Murdoch,1
-Jeff Bezos,Prince Andrew,1
-Jeff Bezos,Peggy Siegal,1
-Jeff Bezos,Oprah,1
-Donald Trump,Tom Hanks,1
-Donald Trump,Peggy Siegal,1
-Donald Trump,Oprah,1
-Donald Trump,Mark Zuckerberg,1
-Donald Trump,Jeff Bezos,1
-Hillary Clinton,Leslie Groff,1
-Bill Clinton,Leslie Groff,1
-Bill Clinton,Mark Landon,1
-Peggy Siegal,Sarah Ferguson,1
-Prince Andrew,Tom Hanks,1
-Jes Staley,Tom Hanks,1
-"Oren, Alon, and Tal Alexander",RFK,1
-Larry Summers,Tom Hanks,1
-Ehud Barak,Les Wexner,1
-Ehud Barak,Elon Musk,1
-Bill Gates,Oprah,1
-Kathryn Ruemmler,Peggy Siegal,1
-Kathryn Ruemmler,Prince Andrew,1
-Michael Wolff,Pam Bondi,1
-Kash Patel,Michael Wolff,1
-Donald Trump,Michael Wolff,1
-Barack Obama,Michael Wolff,1
-Donald Trump,Ehud Barak,1
-Prince Andrew,RFK,1
-"Oren, Alon, and Tal Alexander",Prince Andrew,1
-Rupert Murdoch,Sarah Ferguson,1
-Mark Landon,Prince Andrew,1
-Bill Richardson,RFK,1
-Les Wexner,Mark Landon,1
-Bill Richardson,"Oren, Alon, and Tal Alexander",1
-Bill Richardson,Kash Patel,1
-Benjamin Netanyahu,Donald Trump,1
-Leon Black,Mark Landon,1
-Howard Lutnick,"Oren, Alon, and Tal Alexander",1
-Howard Lutnick,Kash Patel,1
-Hillary Clinton,Mark Landon,1
-Sarah Ferguson,Tom Hanks,1
-Rupert Murdoch,Tom Hanks,1
-Barack Obama,Elon Musk,1
+Mort Zuckerman,Nathan Myhrvold,3
+Guy Lewis,Jean-Luc Brunel,3
+Martin Nowak,Stephen Kosslyn,3
+Jeffrey Epstein,Richard Epstein,3
+Richard Epstein,Sarah Kellen,3
+Gerald Lefcourt,Jean-Luc Brunel,3
+Jean-Luc Brunel,Sarah Kellen,3
+Jean-Luc Brunel,Robert Maxwell,3
+Alexander Acosta,Kenneth Starr,3
+Barry Krischer,Sarah Ferguson,3
+Alfredo Rodriguez,Jean-Luc Brunel,3
+Barry Krischer,Virginia Giuffre,3
+Andrew Farkas,Kenneth Starr,3
+Adriana Ross,Jean-Luc Brunel,3
+Bill Richardson,Jean-Luc Brunel,3
+Juan Alessi,Michael Reiter,3
+Bill Clinton,Eric Fischl,3
+Larry Summers,Nicole Junkermann,3
+Reid Hoffman,Sultan Ahmed bin Sulayem,3
+Michael Wolff,Valdson Cotrin,3
+Eric Fischl,Prince Andrew,3
+Leon Black,Nicole Junkermann,3
+Nadia Marcinkova,Ric Bradshaw,3
+Lesley Groff,Richard Branson,3
+Frederic Fekkai,Woody Allen,3
+Jo Jo,Kenneth Starr,3
+Peter Thiel,Richard Kahn,3
+Harry Beller,Jack A. Goldberger,3
+Darren Indyke,Peter Thiel,3
+Larry Visoski,Seth Lloyd,3
+Camille S. Biros,Debra C. Freeman,3
+Ariane de Rothschild,Leon Botstein,3
+George Church,Larry Visoski,3
+Jack A. Goldberger,Lanna Leigh Belohlavek,3
+Joi Ito,Lawrence Krauss,3
+Alexander Acosta,Sarah Kellen,3
+Jo Jo,Lanna Leigh Belohlavek,3
+Bella Klein,Lawrence Krauss,3
+Ben Goertzel,David Gelernter,3
+Ben Goertzel,Leon Botstein,3
+Jeffrey Epstein,Richard Branson,3
+Jeffrey Epstein,Kenneth R. Feinberg,3
+David Gelernter,Leon Black,3
+David Gelernter,Leon Botstein,3
+Bella Klein,Joi Ito,3
+George Church,Peter Thiel,3
+Henry Kissinger,Michael Bloomberg,2
+Henry Kissinger,Joan Rivers,2
+Henry Kissinger,Tony Blair,2
+Henry Kissinger,Steven Spielberg,2
+Harvey Weinstein,Mike,2
+Harvey Weinstein,Lee,2
+Henry Kissinger,Janice Dickinson,2
+Harvey Weinstein,Julia,2
+Donna Karan,Ruslana Korshunova,2
+Henry Kravis,Robert Meister,2
+Daniel Dennett,Steven Pinker,2
+Daniel,Eve,2
+Daniel D. Villanueva,Guy Riordan,2
+Daniel Dennett,Richard Dawkins,2
+Tony,Will,2
+Daniel Dennett,Nicholas Christakis,2
+Daniel Dennett,Robert Trivers,2
+"Daniels, J.","Marrero, J.",2
+Henry Kravis,Stephen Schwarzman,2
+Henry Kravis,Pepe Fanjul,2
+Darren Indyke,Eve,2
+Dashawn Robertson,Mr. Robertson,2
+Hall,Mike,2
+Dave,Jo Jo,2
+Henry Kravis,John Paulson,2
+Hall,Michael,2
+Hall,Virginia Giuffre,2
+Hall,Tom,2
+Hall,steph,2
+David Gross,Stephen Hawking,2
+David Gross,Marvin Minsky,2
+Glen,Harry Beller,2
+Gianni Agnelli,Ivana Trump,2
+David Gross,Lisa Randall,2
+Ghislaine Maxwell,Sara,2
+Ghislaine Maxwell,Max,2
+David Gross,Kip Thorne,2
+Ghislaine Maxwell,sam,2
+Gerald Lefcourt,"Lilly Ann Sanchez, Esq.",2
+David Gross,Gerard 't Hooft,2
+Gerald Lefcourt,Jack Goldberg,2
+George Stephanopoulos,Nikki,2
+George Mitchell,Nathan Wolfe,2
+George Mitchell,Howard Gardner,2
+Glen,Glenn Dubin,2
+Graydon Carter,Ronald Perelman,2
+David Gelernter,Howard Gardner,2
+Hall,Lee,2
+Hall,John,2
+Hall,MARK,2
+Hall,Harvey Weinstein,2
+Dan,Nick,2
+Hall,Lea,2
+David Bowie,Michael Jackson,2
+Hall,Jeffrey Epstein,2
+David Geffen,Mark Tramo,2
+Hall,Sting,2
+Hall,Julia,2
+HYPERION AIR INC,JEGE INC,2
+David Bowie,Mick Jagger,2
+Gwendolyn Beck,Jeff Schantz,2
+Graydon Carter,Tina Brown,2
+Daniel,Mark Epstein,2
+Hillary Clinton,Joe,2
+Dan,Will,2
+Dan,Tom,2
+Minor Victim-5,Minor Victim-6,2
+Igor Zinoviev,Lance Calloway,2
+Mohammed bin Salman,Ro Khanna,2
+Christof Koch,Murray Gell-Mann,2
+Christof Koch,Gerald Sussman,2
+Christopher Mason,Larry Gagosian,2
+Cindy Crawford,Linda Evangelista,2
+Mr. DeMARCO,Mr. HOBSON,2
+Cledus McTavern,Leah Jean,2
+Tim,Will,2
+Ian Maxwell,Kevin Maxwell,2
+Mona Juul,Terje Roed-Larsen,2
+Colleen Maloof,Gavin Maloof,2
+Tina Brown,Vera Wang,2
+Colleen McMahon,Michael Greco,2
+Inmate 3,SHU Lieutenant,2
+Isabel Maxwell,Kevin Maxwell,2
+Christof Koch,Kip Thorne,2
+JEFFREY S. PAGLIUCA,Nicole Simmons,2
+JONATHAN,MeLiSsA,2
+JENNIFER GAFFNEY,MR. LEFKOWITZ,2
+Christine Maxwell,Ian Maxwell,2
+Christine Maxwell,Michael Bloomberg,2
+JENNIFER GAFFNEY,Ruth Pickholz,2
+Christine Maxwell,Isabel Maxwell,2
+J. E.,Jerry Goldsmith,2
+Christof Koch,Larry Page,2
+Christine Maxwell,Kevin Maxwell,2
+Itzhak Perlman,Mick Jagger,2
+Itzhak Perlman,Tom Ford,2
+Minor Victim-3,Minor Victim-6,2
+Itzhak Perlman,Phil Collins,2
+Mr. Glassman,ROBERT GLASSMAN,2
+Colon,Tim,2
+Colon,Will,2
+Conrad Black,Ken Griffin,2
+DAMIAN WILLIAMS,Dr. Park Dietz,2
+Courtney Love,Dustin Hoffman,2
+Courtney Love,Ralph Fiennes,2
+Crew members,HYPERION AIR INC,2
+DAMIAN WILLIAMS,Park Dietz,2
+Hillary Clinton,Sara,2
+Toni,steph,2
+Hillary Clinton,John,2
+Courtney Love,Phil Collins,2
+George Mitchell,Tony Blair,2
+DAMIAN WILLIAMS,JEFFREY S. PAGLIUCA,2
+Dan,Jennie Saunders,2
+Dan,Eve,2
+Henry Rosovsky,Howard Gardner,2
+Dan,Jeffrey Epstein,2
+Mort Janklow,Si Newhouse,2
+Tom Rutherford,Trevor Loy,2
+Ian Maxwell,Isabel Maxwell,2
+Mr. Berry,Mr. HOBSON,2
+Howard Lutnick,Terje Roed-Larsen,2
+Corina Tarnita,Robert Trivers,2
+Howard Lutnick,Nick,2
+Howard Gardner,LARRY,2
+Mr. Berry,Mr. DeMARCO,2
+Corina Tarnita,Nathan Wolfe,2
+Courtney Love,Henry Kissinger,2
+Howard Gardner,Jamie Dimon,2
+Tom Barrack,Vera Wang,2
+Courtney Love,Joan Rivers,2
+Courtney Love,Tiffany Gramza,2
+Howard Gardner,Tony Blair,2
+Courtney Love,Janice Dickinson,2
+Christine,Kevin Maxwell,2
+George Mitchell,Marvin Minsky,2
+David Gross,Steven Pinker,2
+David Gross,Frank Wilczek,2
+Diane von Furstenberg,Joan Rivers,2
+Detective,Kevin Spacey,2
+Detective,Michael Jackson,2
+"Elissa R. Miller, Psy.D.",Lee Plourde,2
+Detective,Mary,2
+Detective,Ray,2
+Elie Wiesel,Jimmy Buffett,2
+Elie Wiesel,Michael Steinhardt,2
+Diana Fabi Samson,José A. Cabranes,2
+Elie Wiesel,Sheldon Adelson,2
+Eli Broad,John Catsimatidis,2
+Eileen Guggenheim,Jack Horner,2
+Diana Fabi Samson,JOHN M. LEVENTHAL,2
+Eileen Guggenheim,Eric Fischl,2
+Ehud Barak,MARK,2
+Ehud Barak,sam,2
+Dennis M. Langley,John Turner,2
+Demi Moore,Stephanie Seymour,2
+Demi Moore,Paul Tudor Jones,2
+Emmy Tayler,Juan Alessi,2
+Eric,Jeffrey Epstein,2
+Demi Moore,Julian Schnabel,2
+Eric,Hall,2
+Eric,Sting,2
+Demi Moore,Peter Brant,2
+Emmy Tayler,Miles Alexander,2
+Elon Musk,Paul Allen,2
+Elizabeth Stein,Sarah Ransome,2
+Elon Musk,MARK,2
+Elon Musk,Sergey Brin,2
+Elon Musk,Larry Page,2
+Elon Musk,Jeff Bezos,2
+Elle Macpherson,Jeffrey Jones,2
+Elle Macpherson,Michael Jackson,2
+Diana MacArthur,John M O'Quinn,2
+Ed Tuttle,Kevin Thompson,2
+Eric,Max,2
+EVENING WATCH OPERATIONS LIEUTENANT,Operations Lieutenant,2
+Dr. Park Dietz,Park Dietz,2
+Donald Trump,Eric,2
+Donald Trump,Eve,2
+Donna Karan,Nick,2
+Dr. Park Dietz,Stephen Flatley,2
+Dr. Park Dietz,Nicole Simmons,2
+Dr. Jarecki,Tom Barrack,2
+Dr. Benedict H. Gross,S. Allen Counter,2
+Doug,Sara,2
+Doug,Doug Band,2
+Donna Karan,Vera Wang,2
+Donna Karan,Helena Christensen,2
+Donna Karan,Mick Jagger,2
+Donna Karan,Ralph Fiennes,2
+Donna Karan,Patrick,2
+Donald Trump,Lea,2
+Dustin Hoffman,Joan Rivers,2
+Dustin Hoffman,Michael Bloomberg,2
+E/W CONTROL CENTER OFFICER,M/W CONTROL CENTER OFFICER,2
+Diane von Furstenberg,Tina Brown,2
+Donald Trump,Sting,2
+EVENING WATCH OPERATIONS LIEUTENANT,MORNING WATCH OPERATIONS LIEUTENANT,2
+ESCORT OFF #1,REC OFFICER #1,2
+ESCORT OFF #1,REC OFFICER #2,2
+ESCORT OFF #1,TOWN DRIVER,2
+Dustin Hoffman,Tony Bennett,2
+Dustin Hoffman,Janice Dickinson,2
+Dustin Hoffman,Jimmy Buffett,2
+Donald Trump,sam,2
+Dustin Hoffman,Phil Collins,2
+Donald Trump,Lee,2
+Dustin Hoffman,Elie Wiesel,2
+Donald Trump,Max,2
+Eric,Naomi Campbell,2
+Delphine Collin-Vézina,Ramona Alaggia,2
+George Mitchell,Jamie Dimon,2
+Eve,Virginia Giuffre,2
+Eve,Tom,2
+Eve,Tim,2
+David Koch,Paul Allen,2
+Eve,Larry Visoski,2
+Eve,John,2
+David Koch,Ms. Jane,2
+Eve,Lesley Groff,2
+David L. Stone,Diana MacArthur,2
+Eve,Prince Andrew,2
+Eve,MARK,2
+David Rockefeller,Michael Bloomberg,2
+Eve,LARRY,2
+Eve,Vicky Ward,2
+Eve,Robert Maxwell,2
+David Rodgers,Juan Alessi,2
+David Koch,Henry Kravis,2
+Eve,Michael,2
+Executive Staff,SHU Lieutenant,2
+Frank Wilczek,Lisa Randall,2
+Geoffrey Berman,William Barr,2
+Gavin Andresen,Jason Calacanis,2
+Gary McKinnon,Theresa,2
+Donna Karan,Tina Brown,2
+Frank Wilczek,Gerard 't Hooft,2
+Frank Wilczek,Kip Thorne,2
+David Koch,Wilbur Ross,2
+David Koch,Martha Stewart,2
+David Koch,Peter Marino,2
+Frank Wilczek,Marvin Minsky,2
+Frank Wilczek,Stephen Hawking,2
+Francisco Villacis,Melissa Dalton,2
+Forensic Psychologist 1,Inmate 3,2
+Forensic Psychologist 1,SHU Lieutenant,2
+David Rodgers,Tom,2
+Eve,Will,2
+Eric,Lea,2
+David Rodgers,HYPERION AIR INC,2
+Eric Schmidt,Larry Page,2
+Eric Schmidt,Jeff Bezos,2
+Eric Schmidt,Michael Bloomberg,2
+Eric Schmidt,Stephen Schwarzman,2
+Jack Goldberg,Jay Lefkowitz,2
+Eric Fischl,Nacho Figueras,2
+Eric,Michael,2
+Day Watch Operations Lieutenant,Inmate 3,2
+Eric,Eve,2
+Delphine Collin-Vézina,Rusan Lateef,2
+Eric,John,2
+Eric,Prince Andrew,2
+Eric,Vicky Ward,2
+Eric,Robert Maxwell,2
+Eric,Virginia Giuffre,2
+Eric Schmidt,Sergey Brin,2
+Eric Schmidt,Mark Zuckerberg,2
+Eric Schmidt,Paul Allen,2
+Day Watch Operations Lieutenant,MORNING WATCH OPERATIONS LIEUTENANT,2
+Eve,Lea,2
+David Steiner,Garrett Thornburg,2
+Eve,Steve Bannon,2
+Day Watch Operations Lieutenant,EVENING WATCH OPERATIONS LIEUTENANT,2
+Eve,Max,2
+Eve,Naomi Campbell,2
+Eve,Toni,2
+Day Watch Operations Lieutenant,Operations Lieutenant,2
+Eve,sam,2
+Eve,Jeffrey Epstein,2
+Eve,Noam Chomsky,2
+Eve,Hall,2
+Eve,Sting,2
+Estate Manager,Mort Zuckerman,2
+Eric Fischl,Miles Alexander,2
+Peter Marino,Tiffany Gramza,2
+Jack Goldberg,Mike Edmondson,2
+Ramona Alaggia,Rusan Lateef,2
+Larry Page,Richard Branson,2
+Larry Gagosian,Oscar de la Renta,2
+Ray,Robert Maxwell,2
+Max,Robert Maxwell,2
+Larry Gagosian,Tom Ford,2
+Larry Gagosian,Martha Stewart,2
+Larry Gagosian,Peter Brant,2
+Larry Gagosian,Stephen Schwarzman,2
+Larry Ellison,Michael Dell,2
+Max,Vicky Ward,2
+Larry Ellison,Sheldon Adelson,2
+LARRY,Lesley Groff,2
+LARRY,Martin Nowak,2
+LARRY,Lea,2
+"Raymond J. Lohier, Jr.",Richard J. Sullivan,2
+Ray,Will,2
+Max,Virginia Giuffre,2
+LARRY,Nick,2
+Max,Naomi Campbell,2
+REC OFFICER #1,REC OFFICER #2,2
+Lea,Naomi Campbell,2
+Max,sam,2
+Lea,Nicole Junkermann,2
+Lea,sam,2
+Lea,Sting,2
+Lawrence Krauss,Steven Pinker,2
+Lawrence Krauss,Nicholas Christakis,2
+Lawrence Krauss,Richard Dawkins,2
+Laura Menninger,Mark Cohen,2
+Max,Nick,2
+Larry Page,Paul Allen,2
+Larry Page,Ron Burkle,2
+Larry Page,Mark Zuckerberg,2
+Larry Page,Sergey Brin,2
+Pamela J. Bondi,TODD BLANCHE,2
+Max,Prince Andrew,2
+Nicole Simmons,Park Dietz,2
+Medical Examiner,Michael Baden,2
+Melanie Walker,Robert Trivers,2
+Kevin Pistro,Michael Carroll,2
+Kevin Maxwell,Philip Barden,2
+Ken Hart,Ugly Ken Hart,2
+Katielynn Boyd Townsend,Patrick J. Smith,2
+Oliver Sacks,Stephen Hawking,2
+Melanie Walker,Nathan Wolfe,2
+Michael,Sting,2
+Katie,Katie Couric,2
+Michael,Naomi Campbell,2
+OPS LT,REC OFFICER #1,2
+OPS LT,REC OFFICER #2,2
+OPS LT,Operations Lieutenant,2
+Richard Dawkins,Robert Trivers,2
+Richard Dawkins,Steven Pinker,2
+Kevin Spacey,Mary,2
+Medical Examiner,sam,2
+Richard Branson,sam,2
+Kevin Spacey,Vicky Ward,2
+Max,Michael,2
+Richard Branson,Sergey Brin,2
+Richard Branson,Sarah Ransome,2
+Richard Branson,Ron Burkle,2
+Richard Branson,Sara,2
+LARRY,Larry Summers,2
+LARRY,Seth Lloyd,2
+L. N'Diaye,"N'Diaye, Warden",2
+Kip Thorne,Murray Gell-Mann,2
+Kip Thorne,Steven Spielberg,2
+Kip Thorne,Stephen Hawking,2
+Operations Lieutenant,SHU Lieutenant,2
+Olivier Laude,William JULIÉ,2
+Kevin Spacey,Tony,2
+Kevin Spacey,Mick Jagger,2
+Max,Sting,2
+Prince Andrew,Sara,2
+Park Dietz,Stephen Flatley,2
+Peter Thiel,sam,2
+Lesley Groff,MARK,2
+MORNING WATCH OPERATIONS LIEUTENANT,Operations Lieutenant,2
+Peggy Siegal,Tina Brown,2
+Pierre N. Leval,Richard J. Sullivan,2
+Lesley Groff,Nick,2
+Lesley Groff,Michael,2
+Les Wexner,sam,2
+Pierre N. Leval,"Raymond J. Lohier, Jr.",2
+Leon Black,Nick,2
+MR. LEFKOWITZ,Martin Weinberg,2
+Leo Sims,Thomas M. Valenzuela,2
+Maria Farmer,Sarah Ransome,2
+Lee,Michael,2
+Marie Villafana,Mr. Jack Goldberger,2
+Mark DeMarco,Mr. Berry,2
+Phil Collins,Tom Ford,2
+Linda,Paul,2
+Patrick,Ruslana Korshunova,2
+Linda,Paul Allen,2
+Peter Skinner,Stanley Pottinger,2
+Peter Gabriel,Steven Pinker,2
+Peter Gabriel,Sergey Brin,2
+Peter Brant,Stephanie Seymour,2
+MARK,Reid Hoffman,2
+MARK,Mark Zuckerberg,2
+MARK,Peter Thiel,2
+MARK,Nili Priel,2
+Lloyd Blankfein,Michael Bloomberg,2
+Lisa Randall,Nathan Wolfe,2
+Linda Evangelista,Stephanie Seymour,2
+Peter Brant,Ronald Perelman,2
+Linda Evangelista,Peter Brant,2
+MEG,Ro Khanna,2
+MEG,Susan,2
+Lee,Mike,2
+Lee,Tom,2
+Lee,MARK,2
+"Preska, J.","Woods, J.",2
+Lea,MARK,2
+Maurene Comey,Michael J. Fitzpatrick,2
+Maurene Comey,Michael Greco,2
+Paul Allen,Sergey Brin,2
+Prince Andrew,sam,2
+Lea,Vicky Ward,2
+Paul,Paul Allen,2
+Lea,Robert Maxwell,2
+Maurine Dickey,Tom Worrell,2
+Lea,Virginia Giuffre,2
+Lea,Will,2
+Lea,Max,2
+Paul,Will,2
+Paul,sam,2
+Patrick,Vera Wang,2
+Mary,Robert De Niro,2
+Mary,Michael Jackson,2
+Marvin Minsky,Robert Trivers,2
+Prince Andrew,Sting,2
+Lee,Will,2
+Mark DeMarco,Mr. HOBSON,2
+Paul E. Cook,Tommy Hughes,2
+Mark DeMarco,Mr. DeMARCO,2
+Mark Zuckerberg,Sergey Brin,2
+Martha Stewart,Stephen Schwarzman,2
+Paul Allen,Peter Gabriel,2
+Lea,Prince Andrew,2
+Lee,sam,2
+Martha Stewart,Vicky Ward,2
+Lea,Michael,2
+Lea,Tom,2
+Lea,Tim,2
+Marvin Minsky,Ray,2
+Nolan H. Brunson,Oscar S. Wyatt Jr.,2
+Michael,Steve Bannon,2
+Jack Goldberg,Jeff Sloman,2
+Jeffrey Epstein,Lea,2
+Staff Member Preparing Out Count,TOWN DRIVER,2
+Stephen A. Cozen,Ted Turner,2
+Stephen Hawking,Steven Pinker,2
+Jeffrey Epstein,Lee,2
+Jeffrey Epstein,Sting,2
+Steve Bannon,sam,2
+Sting,Vicky Ward,2
+Jeff Sloman,Marie Villafana,2
+Jeff Bezos,Peter Gabriel,2
+Jeff Bezos,Paul Allen,2
+Jeff Bezos,Mark Zuckerberg,2
+Jeff Bezos,Sergey Brin,2
+Natalya Malyshev,Sarah Ransome,2
+Jeff Bezos,Larry Page,2
+Jay Clayton,Jeffrey Oestericher,2
+Jeffrey Epstein,Mary,2
+Jeffrey Epstein,Will,2
+Jay Clayton,TODD BLANCHE,2
+Jeffrey Epstein,LARRY,2
+Sara,Toni,2
+Sara,Sarah Ferguson,2
+Jimmy Cayne,Vicky Ward,2
+Jimmy Buffett,Lenny Kravitz,2
+Michael Saylor,Mira Nair,2
+Michael Steinhardt,Sheldon Adelson,2
+Sergey Brin,Steven Pinker,2
+Jes Staley,Nick,2
+Jerome,Robson,2
+Jeffrey Jones,Michael Jackson,2
+Nathan Wolfe,Tony Blair,2
+Michael Wolff,Nick,2
+Jeffrey Epstein,Michael,2
+Jeffrey Epstein,Sara,2
+Jeffrey Epstein,MARK,2
+Mick Jagger,Wendi Deng Murdoch,2
+Natalie Bennett,William O'Donohue,2
+Nicolas Berggruen,Peter Gabriel,2
+Jane Doe #1,Jane Does,2
+Jane,Prince Andrew,2
+Ms. Jane,Wilbur Ross,2
+Thorbjorn Jagland,Valdson Cotrin,2
+Mr. Jones,Mr. Vega,2
+Mr. Jones,Paul Tudor Jones,2
+Jane,Sara,2
+Jamie Dimon,Tony Blair,2
+James Peterson,Kate,2
+Minor Victim-1,Minor Victim-3,2
+Minor Victim-1,Minor Victim-2,2
+Minor Victim-2,Minor Victim-6,2
+Minor Victim-2,Minor Victim-3,2
+Minor Victim-2,Minor Victim-5,2
+James L. Brochin,Marc Allan Fernich,2
+Jack Goldberg,Roy Black,2
+Jane,Jeffrey Epstein,2
+Mike Wallace,Thomas Pritzker,2
+Jay Clayton,Pamela J. Bondi,2
+Ms. Jane,Peter Marino,2
+Jay Clayton,Wilbur Ross,2
+Jason Calacanis,Joan Rivers,2
+Janice Dickinson,Ralph Fiennes,2
+Naomi Campbell,Sting,2
+Nancy Ma,Nicolas Berggruen,2
+Murray Gell-Mann,Oliver Sacks,2
+Murray Gell-Mann,Seth Lloyd,2
+Mick Jagger,Phil Collins,2
+Mick Jagger,Tom Ford,2
+Janice Dickinson,Phil Collins,2
+Janice Dickinson,Michael Bloomberg,2
+Janice Dickinson,Joan Rivers,2
+Jane Does,Jeffrey M. Herman,2
+Jane Does,Paul Cassell,2
+Jane Doe #1,Jane Doe #2,2
+SIS Lieutenant,Unit Manager,2
+Jimmy Cayne,Les Wexner,2
+Ruslana Korshunova,Vera Wang,2
+Julian Schnabel,Stephanie Seymour,2
+Julian Schnabel,Peter Brant,2
+Julian Schnabel,Mira Nair,2
+Michael,Tom,2
+Julia,Mike,2
+Robert Maxwell,sam,2
+Julia,Tom,2
+Julia,steph,2
+Julia,Lee,2
+Juan Alessi,Miles Alexander,2
+Juan Alessi,Tony Figueroa,2
+Juan Alessi,Rinaldo Rizzo,2
+José A. Cabranes,Maurene Comey,2
+Michael Baden,sam,2
+Josh,Josh Harris,2
+Josh,Larry Gagosian,2
+Michael,Prince Andrew,2
+Robert Maxwell,Sting,2
+Roy Black,Will,2
+Julian Schnabel,Pepe Fanjul,2
+Michael,Michael Wolff,2
+Michael,Virginia Giuffre,2
+Nicolas Berggruen,Paul Allen,2
+Rinaldo Rizzo,Tony Figueroa,2
+Michael,Ray,2
+Michael,Robert Maxwell,2
+Ro Khanna,Thomas Massie,2
+Nicolas Berggruen,Steven Pinker,2
+Karyna Shuliak,Nicole Junkermann,2
+Nicolas Berggruen,Stephanie Seymour,2
+Nicolas Berggruen,Sergey Brin,2
+Juror Number 50,Scotty David,2
+Ro Khanna,Susan,2
+Nicolas Berggruen,Peter Brant,2
+Nick,Woody Allen,2
+Nick,Patrick,2
+Josh,Leon Black,2
+Josh,Marc Rowan,2
+Michael Bloomberg,Stephen Schwarzman,2
+Nick,Ruslana Korshunova,2
+Nick,Terje Roed-Larsen,2
+John,Lea,2
+Nick,Vera Wang,2
+Joe,John,2
+Joe,Mary,2
+Nick,sam,2
+Nick,Tony Blair,2
+Robert Trivers,Steven Pinker,2
+Joan Rivers,Ralph Fiennes,2
+Joan Rivers,Phil Collins,2
+Nicholas Christakis,Steven Pinker,2
+Ron Burkle,Sergey Brin,2
+Joan Rivers,Michael Jackson,2
+Nathan Wolfe,Robert Trivers,2
+John,sam,2
+John Csakany,Michael Greco,2
+John Csakany,Maurene Comey,2
+Robert Mueller,William Barr,2
+Robert Meister,Rosemary Vrablic,2
+Joseph Recarey,Juan Alessi,2
+Joseph Recarey,Tony Figueroa,2
+Joseph Recarey,Rinaldo Rizzo,2
+Joseph Pecorino,Wendy Olson,2
+Michael Bloomberg,Ralph Fiennes,2
+"Jordana (""Jordy"") H. Feldman",Kenneth R. Feinberg,2
+John Csakany,Michael J. Fitzpatrick,2
+Joi Ito,MARK,2
+Michael Bloomberg,Michael Dell,2
+John Turner,Wayne A. Reaud,2
+John M. Eaves,Kandace Blanchard,2
+Michael Dell,Paul Tudor Jones,2
+Michael Greco,Michael J. Fitzpatrick,2
+Christine,Isabel Maxwell,2
+Lanna Leigh Belohlavek,Sharon R. Bock,2
+Christine,Christine Maxwell,2
+Isabel Maxwell,Murray Gell-Mann,2
+Charlie Rose,Chelsea Handler,2
+Anil Ambani,Lesley Groff,2
+Anil Ambani,Jeffrey Epstein,2
+Janusz Banasiak,Peter Thiel,2
+Leon Botstein,Peter Thiel,2
+Cecile de Jongh,Leon Botstein,2
+Jeffrey Epstein,Tony Randall,2
+Ghislaine Maxwell,Tony Randall,2
+Donald Trump,Tony Randall,2
+Donald Trump,Robert Maxwell,2
+Donald Trump,Gwendolyn Beck,2
+Leon Botstein,Marc Rowan,2
+Henry Rosovsky,Lesley Groff,2
+Alan Dershowitz,Janusz Banasiak,2
+Sarah Kellen,Stephen Hawking,2
+Charlie Rose,Woody Allen,2
+Chelsea Handler,George Stephanopoulos,2
+Chelsea Handler,Jeffrey Epstein,2
+Jeffrey Epstein,John Kerry,2
+Michael Reiter,Roy Black,2
+Larry Summers,Michael Reiter,2
+Kenneth Starr,Michael Reiter,2
+Gerald Lefcourt,Michael Reiter,2
+Bill Richardson,Michael Reiter,2
+Jeffrey Epstein,Justice Stevens,2
+Bill Clinton,Bill Gates,2
+Chelsea Handler,Katie Couric,2
+Gwendolyn Beck,Prince Andrew,2
+Alan Dershowitz,Gwendolyn Beck,2
+Katie Couric,Woody Allen,2
+Chelsea Handler,Woody Allen,2
+Chelsea Handler,Sarah Ferguson,2
+Chelsea Handler,Prince Andrew,2
+Nadia Marcinkova,Stephen Hawking,2
+Gerald Sussman,Robert Maxwell,2
+Chris Tucker,Leon Botstein,2
+Gerald Sussman,Jeffrey Epstein,2
+Jo Jo,Ric Bradshaw,2
+Bill Clinton,Ric Bradshaw,2
+Barry Krischer,Jack A. Goldberger,2
+Alan Dershowitz,Jack A. Goldberger,2
+Alan Dershowitz,Alfredo Rodriguez,2
+Lesley Groff,Mark Tramo,2
+Jeffrey Epstein,Mark Tramo,2
+Jack Lang,Steve Bannon,2
+Jack Scarola,Laura Menninger,2
+JEFFREY S. PAGLIUCA,Laura Menninger,2
+JEFFREY S. PAGLIUCA,Jack Scarola,2
+Ghislaine Maxwell,JEFFREY S. PAGLIUCA,2
+Alan Dershowitz,Laura Menninger,2
+Alan Dershowitz,JEFFREY S. PAGLIUCA,2
+Bella Klein,Larry Visoski,2
+Alexander Acosta,Haley Robson,2
+Bill Richardson,Michael Wolff,2
+Dan Ariely,Jo Jo,2
+David Blaine,Joi Ito,2
+Deepak Chopra,Reid Weingarten,2
+Deepak Chopra,Peter Thiel,2
+Jo Jo,Roy Black,2
+Larry Visoski,Miroslav Lajcak,2
+John Brockman,Miroslav Lajcak,2
+Dr. Moskowitz,Miroslav Lajcak,2
+Chelsea Clinton,Prince Andrew,2
+Dan Ariely,Michael Wolff,2
+Chelsea Clinton,Jeffrey Epstein,2
+Chelsea Clinton,Ghislaine Maxwell,2
+Alan Dershowitz,Sarah Ferguson,2
+Alan Dershowitz,Chelsea Clinton,2
+Danny Hillis,Jes Staley,2
+Ric Bradshaw,Sarah Kellen,2
+Harry Beller,Larry Summers,2
+Jeffrey Epstein,Kevin Rudd,2
+Jo Jo,Kevin Rudd,2
+Bill Gates,Marc Rowan,2
+Jo Jo,Richard Branson,2
+Nicholas Christakis,Woody Allen,2
+Sultan Ahmed bin Sulayem,Woody Allen,2
+Joi Ito,Sultan Ahmed bin Sulayem,2
+Harry Beller,Sultan Ahmed bin Sulayem,2
+Mick Jagger,Rupert Murdoch,2
+Jeffrey Epstein,Rupert Murdoch,2
+Donald Trump,Rupert Murdoch,2
+Harvey Weinstein,Jeffrey Epstein,2
+John Brockman,Leon Botstein,2
+Jeremy Rubin,Leon Botstein,2
+John Duffy,Lesley Groff,2
+Frederic Fekkai,Janusz Banasiak,2
+Haley Robson,Lanna Leigh Belohlavek,2
+Borge Brende,Woody Allen,2
+David Blaine,Jack A. Goldberger,2
+Mark Lloyd,Reid Weingarten,2
+Jo Jo,Martha Stewart,2
+Henry Kissinger,Richard Branson,2
+Joi Ito,Kevin Rudd,2
+Henry Rosovsky,Jack A. Goldberger,2
+Robert Trivers,Woody Allen,2
+Leon Black,Robert Trivers,2
+Mary Erdoes,Reid Weingarten,2
+Jeff Koons,Larry Summers,2
+Henry Kissinger,Reid Weingarten,2
+Martha Stewart,Soon-Yi Previn,2
+Henry Kissinger,Mary Erdoes,2
+Henry Kissinger,Larry Summers,2
+Henry Kissinger,Jeff Koons,2
+Frederic Fekkai,Henry Kissinger,2
+Ehud Barak,Jeff Koons,2
+Bill Gates,Henry Kissinger,2
+Janusz Banasiak,Seth Lloyd,2
+George Mitchell,Leon Black,2
+John Duffy,Leon Black,2
+David Koch,Dustin Hoffman,2
+Ehud Barak,Ralph Fiennes,2
+Ehud Barak,Mick Jagger,2
+Dustin Hoffman,Ehud Barak,2
+Donald Trump,Ehud Barak,2
+David Koch,Jeffrey Epstein,2
+David Koch,Ehud Barak,2
+Bill Richardson,Dustin Hoffman,2
+Jeffrey Epstein,Ralph Fiennes,2
+Bill Clinton,Ralph Fiennes,2
+Bill Clinton,Mick Jagger,2
+Bill Clinton,Henry Kissinger,2
+Bill Clinton,Dustin Hoffman,2
+Bill Clinton,David Koch,2
+Leon Black,Marvin Minsky,2
+Henry Kissinger,Jeffrey Epstein,2
+Marc Rowan,Soon-Yi Previn,2
+Ehud Barak,John Duffy,2
+Bill Clinton,Conrad Black,2
+Lesley Groff,Michael Reiter,2
+Haley Robson,Lesley Groff,2
+Andrew Farkas,Lawrence Krauss,2
+Janusz Banasiak,Nina Zagat,2
+Janusz Banasiak,Martin Nowak,2
+Conrad Black,Jeffrey Epstein,2
+Alan Grubman,Woody Allen,2
+Janusz Banasiak,Stephen Kosslyn,2
+Jack A. Goldberger,Jeffrey M. Herman,2
+Nathan Wolfe,Stephen Kosslyn,2
+Barry Josephson,Paul Morris,2
+Barry Josephson,Boris Nikolic,2
+Janusz Banasiak,Noam Chomsky,2
+Alan Dershowitz,Lanna Leigh Belohlavek,2
+Chris Tucker,Lesley Groff,2
+Jes Staley,Peter Thiel,2
+Kevin Rudd,Stephen Kosslyn,2
+Darren Indyke,Henry Rosovsky,2
+Jo Jo,Kenneth R. Feinberg,2
+Geoffrey Berman,Jeffrey Epstein,2
+Darren Indyke,Kenneth Starr,2
+Darren Indyke,Kenneth R. Feinberg,2
+Camille S. Biros,Richard Kahn,2
+Darren Indyke,Jeremy Rubin,2
+Cecile de Jongh,Richard Kahn,2
+Ben Goertzel,Darren Indyke,2
+Jeffrey Epstein,Maria Farmer,2
+Debra C. Freeman,Maria Farmer,2
+ROBERT GLASSMAN,Richard Kahn,2
+Darren Indyke,ROBERT GLASSMAN,2
+Alan Dershowitz,Leon Black,2
+Darren Indyke,Reid Hoffman,2
+Darren Indyke,Lawrence Krauss,2
+Kenneth R. Feinberg,Richard Kahn,2
+Bradley Edwards,Camille S. Biros,2
+Camille S. Biros,Stanley Pottinger,2
+Ehud Barak,Kevin Rudd,2
+Andrew Farkas,Peter Attia,2
+Larry Summers,Nathan Myhrvold,2
+Bill Gates,Richard Kahn,2
+Marc Rowan,Richard Kahn,2
+Hardeep Singh Puri,Lesley Groff,2
+Nicholas Negroponte,Richard Kahn,2
+Boris Nikolic,Leon Botstein,2
+Jeffrey Epstein,Stanley Pottinger,2
+Kenneth Marra,Richard Berman,2
+Jeffrey Epstein,Richard Berman,2
+Ghislaine Maxwell,Richard Berman,2
+Denise George,Kenneth R. Feinberg,2
+Debra C. Freeman,Kenneth R. Feinberg,2
+Camille S. Biros,Denise George,2
+Henry Rosovsky,Leon Black,2
+Nathan Myhrvold,Richard Kahn,2
+George Church,Jes Staley,2
+Prince Andrew,Sigrid McCawley,2
+Darren Indyke,Kenneth Marra,2
+Jo Jo,Teresa Helm,2
+Annie Farmer,Jo Jo,2
+Richard Kahn,Virginia Giuffre,2
+Loretta Preska,Virginia Giuffre,2
+Juliette Bryant,Sarah Kellen,2
+Debra C. Freeman,Virginia Giuffre,2
+Alan Dershowitz,Debra C. Freeman,2
+Laura Menninger,Richard Kahn,2
+Ira Magaziner,Juliette Bryant,2
+Ira Magaziner,Jeffrey Epstein,2
+Chris Tucker,Juliette Bryant,2
+Andrea Mitrovich,Juliette Bryant,2
+Andrea Mitrovich,Jeffrey Epstein,2
+Juliette Bryant,Paul A. Engel Mayer,2
+Juliette Bryant,Kenneth Marra,2
+Kenneth Marra,Richard Kahn,2
+Les Wexner,Richard Kahn,2
+Bradley Edwards,Sigrid McCawley,2
+Les Wexner,Sigrid McCawley,2
+Larry Visoski,Sigrid McCawley,2
+Larry Visoski,Les Wexner,2
+Jean-Luc Brunel,Sigrid McCawley,2
+Ghislaine Maxwell,Larry Visoski,2
+Donald Trump,Sigrid McCawley,2
+Bill Clinton,Sigrid McCawley,2
+Les Wexner,Sarah Kellen,2
+Bill Clinton,Darren Indyke,2
+George Church,Tim Zagat,2
+Darren Indyke,George Church,2
+Borge Brende,Darren Indyke,2
+Leon Black,Steve Bannon,2
+Darren Indyke,Stanley Pottinger,2
+Harry Beller,Leon Botstein,2
+Harry Beller,Michael Wolff,2
+Peggy Siegal,Richard Kahn,2
+Deepak Chopra,Jack A. Goldberger,2
+Ariane de Rothschild,Nina Zagat,2
+Leon Black,Vera Wang,2
+Bella Klein,Jo Jo,2
+Jo Jo,Nancy Ma,2
+Jack A. Goldberger,Nancy Ma,2
+Ben Goertzel,Soon-Yi Previn,2
+Lesley Groff,Robert Bass,2
+Leon Black,Robert Bass,2
+Jeffrey Epstein,Robert Bass,2
+Larry Summers,Sultan Ahmed bin Sulayem,2
+Adriana Ross,Prince Andrew,2
+Adriana Ross,Jo Jo,2
+Jes Staley,Nathan Wolfe,2
+Jo Jo,Sarah Ferguson,2
+Bill Cosby,Prince Andrew,2
+Jes Staley,Stephen Kosslyn,2
+Mort Zuckerman,Stephen Kosslyn,2
+Nadia Bjorlin,Prince Andrew,2
+Ghislaine Maxwell,Isabel Maxwell,2
+Boris Nikolic,George Church,2
+Elon Musk,Lesley Groff,2
+Jeffrey Epstein,Jennifer Araoz,2
+Jo Jo,Les Wexner,2
+Donald Trump,Jo Jo,2
+Ghislaine Maxwell,Stephen Hawking,2
+Prince Andrew,Woody Allen,2
+David Copperfield,Jerry Goldsmith,2
+Soon-Yi Previn,Valdson Cotrin,2
+Lawrence Krauss,Michael Wolff,2
+Larry Summers,Lawrence Krauss,2
+Les Wexner,Nadia Marcinkova,2
+Sultan Ahmed bin Sulayem,Valdson Cotrin,2
+Reid Weingarten,Valdson Cotrin,2
+Bill Cosby,Jeffrey Epstein,2
+Bill Clinton,Sarah Ferguson,2
+Bill Clinton,Bill Cosby,2
+Leon Black,Nina Zagat,2
+Michael Wolff,Stephen Kosslyn,2
+Bill Gates,Stephen Kosslyn,2
+Alan Dershowitz,Mort Zuckerman,2
+Brad Karp,Jeremy Rubin,2
+Charlie Rose,Soon-Yi Previn,2
+Deepak Chopra,Joi Ito,2
+Brad Karp,Richard Kahn,2
+Brad Karp,Miroslav Lajcak,2
+Larry Summers,Steve Bannon,2
+Richard Kahn,Tom Barrack,2
+Jo Jo,Vera Wang,2
+Reid Weingarten,Steve Bannon,2
+Bella Klein,Martin Nowak,2
+Bella Klein,David Gelernter,2
+Eric Fischl,Ghislaine Maxwell,2
+Michael Wolff,Miroslav Lajcak,2
+Robert Maxwell,Sarah Ferguson,2
+Jes Staley,Valdson Cotrin,2
+Nadia Marcinkova,Virginia Giuffre,2
+Lesley Groff,Sarah Ferguson,2
+Bradley Edwards,Sarah Ferguson,2
+Leon Black,Peter Mandelson,2
+Andrew Farkas,Peter Mandelson,2
+Donald Trump,Nathan Myhrvold,2
+Joi Ito,Peggy Siegal,2
+Jeremy Rubin,Michael Wolff,2
+Jo Jo,Nicole Junkermann,2
+Nadia Bjorlin,Virginia Giuffre,2
+Ghislaine Maxwell,Nadia Bjorlin,2
+Peter Attia,Tim Zagat,2
+Janusz Banasiak,Kenneth Starr,2
+Dr. Moskowitz,Kenneth Starr,2
+Kevin Rudd,Reid Hoffman,2
+Kevin Rudd,Woody Allen,2
+Christine,Ian Maxwell,2
+Associate Warden 1,SIS Lieutenant,2
+Barbara Walters,Michelle,2
+Barbara Walters,Henry Kissinger,2
+Barbara Walters,Donna Karan,2
+Barbara Walters,Barry Diller,2
+Barbara Walters,Vicky Ward,2
+Barbara Walters,Janice Dickinson,2
+Barbara Walters,Ralph Fiennes,2
+Barbara Walters,Larry Gagosian,2
+Barbara Walters,Michael Bloomberg,2
+Barbara Walters,Bob Weinstein,2
+Barbara Walters,Joan Rivers,2
+Barbara Walters,Walter Cronkite,2
+Barack Obama,Richard J. Durbin,2
+Audrey Strauss,William Barr,2
+Audrey Strauss,Geoffrey Berman,2
+Barbara Walters,Martha Stewart,2
+Barbara Walters,Katie Couric,2
+Barbara Walters,Katie,2
+Bella Klein,Eve,2
+Bernard Rapoport,Billy G. Smith,2
+Bernard L. Schwartz,Billy G. Smith,2
+Bernard L. Schwartz,Bernard Rapoport,2
+Ben Stiller,Cate Blanchett,2
+Ben Stiller,Robert De Niro,2
+Ben Stiller,Brett Ratner,2
+Barry Diller,Chelsea Handler,2
+Barbara Walters,Dustin Hoffman,2
+Barry Diller,David Koch,2
+Barry Diller,Bob Colacello,2
+Barry Diller,Diane von Furstenberg,2
+Barry Diller,Tina Brown,2
+Barry Diller,Larry Gagosian,2
+Barbara Walters,Graydon Carter,2
+Associate Warden of Programs,Case Management Coordinator,2
+Associate Warden 1,Day Watch SHU Officer in Charge,2
+Andy Stewart,Miles Alexander,2
+Associate Warden,Operations Lieutenant,2
+Anthony Correra,Odis Echols,2
+Annie Farmer,Maria Farmer,2
+Anna Wintour,Oscar de la Renta,2
+Anna,MEG,2
+Anna,Ghislaine Maxwell,2
+Anna,Susan,2
+Anna,Eve,2
+Anna,Eric,2
+Anna,Ro Khanna,2
+Anna,Lea,2
+Anna,Max,2
+Anna,Maria Farmer,2
+Anita De Domenico,Odis Echols,2
+Anil Ambani,Sultan Ahmed bin Sulayem,2
+Andy Stewart,Lance Calloway,2
+Anthony Correra,Richard L. Fisher,2
+Antonio Damasio,Matt Groening,2
+Antonio Damasio,Nathan Wolfe,2
+Ashley Davis,Michelle Licata,2
+Associate Warden,Case Management Coordinator,2
+Associate Warden,Executive Staff,2
+Associate Warden,Lee Plourde,2
+Associate Warden,Unit Manager,2
+Associate Warden,Chief Psychologist,2
+Ashley Davis,Courtney Wild,2
+Arthur L. Aidala,JOHN M. LEVENTHAL,2
+Antonio Damasio,Melanie Walker,2
+Arthur L. Aidala,José A. Cabranes,2
+Arthur L. Aidala,Diana Fabi Samson,2
+Arpad Busson,Peter Soros,2
+Arnold J. Rael,Leo Sims,2
+Arnold J. Rael,Thomas M. Valenzuela,2
+Antonio Damasio,Dan Ariely,2
+Bill Clinton,Dan,2
+Bill Clinton,sam,2
+Bill Clinton,Max,2
+Bill Clinton,Lea,2
+Carl Icahn,Strauss Zelnick,2
+Carl Icahn,Nicolas Berggruen,2
+Carl Icahn,Nancy Ma,2
+Carl Icahn,Ken Griffin,2
+Camille S. Biros,"Jordana (""Jordy"") H. Feldman",2
+Cameron Diaz,Leonardo DiCaprio,2
+Cameron Diaz,Helena Bonham Carter,2
+CHRISTIAN R. EVERDELL,JEFFREY S. PAGLIUCA,2
+CAPTAIN,Tom,2
+CAPTAIN,David Rodgers,2
+"Buchwald, J.","Furman, J.",2
+Bryan,Chris Tucker,2
+Bryan,Detective,2
+Bryan,Mary,2
+Bryan,Michael Jackson,2
+Carl Icahn,John Catsimatidis,2
+Carly Simon,Roberta Flack,2
+Caroline Lang,Marvin Minsky,2
+Chief Psychologist,Psy.D.,2
+Christie Brinkley,Henry Kravis,2
+Christie Brinkley,Elle Macpherson,2
+Christie Brinkley,Martha Stewart,2
+Chris Tucker,Ron Burkle,2
+Chief Psychologist,Executive Staff,2
+Chief Psychologist,Unit Manager,2
+Chelsea Clinton,Sara,2
+Case Management Coordinator,Unit Manager,2
+Charlie Rose,Joan Rivers,2
+Cate Blanchett,Leonardo DiCaprio,2
+Cate Blanchett,Philip Barden,2
+Casey Wasserman,Chris Tucker,2
+Casey Wasserman,Ron Burkle,2
+Case Management Coordinator,Chief Psychologist,2
+Bryan,Jeffrey Epstein,2
+Bryan,Hall,2
+Bryan,Kevin Spacey,2
+Billy G. Smith,Brian F. Egolf,2
+Bob Colacello,Leonardo DiCaprio,2
+Bob Colacello,Demi Moore,2
+Bob Colacello,Stephanie Seymour,2
+Bob Colacello,Tina Brown,2
+Bob Colacello,Peter Brant,2
+Bob Colacello,Julian Schnabel,2
+Bill Gates,Nick,2
+Bob Weinstein,John de Jongh,2
+Bill Gates,sam,2
+Bill Cosby,Mark Zuckerberg,2
+Bill Clinton,Eve,2
+Bill Clinton,Eric,2
+Bill Clinton,Sara,2
+Bill Clinton,MARK,2
+Bob Colacello,Graydon Carter,2
+Bob Weinstein,Thomas Pritzker,2
+Bruce Willis,Cate Blanchett,2
+Brett Ratner,Michael Jackson,2
+Bruce Willis,Miles Alexander,2
+Bruce Willis,Demi Moore,2
+Bruce Willis,Ed Tuttle,2
+Brock Pierce,Michael Ovitz,2
+Brett Ratner,Bryan,2
+Brett Ratner,Tom Ford,2
+Brett Ratner,Mary,2
+Bob Weinstein,Mike Wallace,2
+Brad Karp,Josh,2
+Bobbi C. Sternheim,Mark Cohen,2
+Bobbi C. Sternheim,JEFFREY S. PAGLIUCA,2
+Bobbi C. Sternheim,Laura Menninger,2
+Bobbi C. Sternheim,David Oscar Markus,2
+Bobbi C. Sternheim,CHRISTIAN R. EVERDELL,2
+Andy Stewart,Igor Zinoviev,2
+Andrew Stein,Evelyn de Rothschild,2
+Ariane de Rothschild,Jeremy Rubin,2
+Lawrence Krauss,Peggy Siegal,2
+ALEX,Richard Branson,2
+ALEX,Steve Bannon,2
+ALEX,Leon Black,2
+ALEX,Nick,2
+ALEX,sam,2
+ACT LT,OPS LT,2
+Barry Josephson,Reid Hoffman,2
+Peter Thiel,Tim Zagat,2
+Harry Beller,Tom Ford,2
+Dr. Moskowitz,Tom Ford,2
+Ariane de Rothschild,Harry Beller,2
+David Gelernter,Joi Ito,2
+Leon Black,Richard Branson,2
+John Brockman,Marc Rowan,2
+Peter Mandelson,Woody Allen,2
+ALEX,Michael Baden,2
+ALEX,Peter Thiel,2
+ALEX,Medical Examiner,2
+ALEXANDER ROSSMILLER,Michael J. Fitzpatrick,2
+ANDREW ROHRBACH,Lara Elizabeth Pomerantz,2
+ANDREW ROHRBACH,Katielynn Boyd Townsend,2
+ANDREW ROHRBACH,Maurene Comey,2
+ALEXANDER ROSSMILLER,Alison Moe,2
+ALEXANDER ROSSMILLER,John Csakany,2
+ALEXANDER ROSSMILLER,Michael Greco,2
+ALEXANDER ROSSMILLER,Maurene Comey,2
+ALEX,Bill Gates,2
+ALEX,Paul Morris,2
+ALEX,Ehud Barak,2
+ALEX,Bill Clinton,2
+ALEX,Eve,2
+ALEX,Alexander Acosta,2
+ALEX,Alexander,2
+Lawrence Krauss,Peter Mandelson,2
+Peggy Siegal,Peter Mandelson,2
+Andrew Stein,Conrad Black,2
+Donald Trump,Dr. Jarecki,2
+Brad Karp,Naomi Campbell,2
+Ariane de Rothschild,Jack A. Goldberger,2
+Jack A. Goldberger,Marc Rowan,2
+Naomi Campbell,Soon-Yi Previn,2
+Naomi Campbell,Tim Zagat,2
+Larry Summers,Naomi Campbell,2
+Ariane de Rothschild,Naomi Campbell,2
+Kenneth Starr,Nadia Marcinkova,2
+Bill Clinton,Sarah Kellen,2
+Andrew Farkas,Elon Musk,2
+John Brockman,Noam Chomsky,2
+John Brockman,Martin Nowak,2
+Henry Kissinger,Tim Zagat,2
+George Church,Mort Zuckerman,2
+Jeremy Rubin,Mort Zuckerman,2
+Boris Nikolic,Kenneth Starr,2
+Boris Nikolic,Peter Mandelson,2
+Boris Nikolic,Seth Lloyd,2
+Harvey Weinstein,Sarah Ferguson,2
+David Copperfield,Dr. Jarecki,2
+David Copperfield,Donald Trump,2
+Reid Weingarten,Seth Lloyd,2
+Kenneth Starr,Reid Weingarten,2
+Bill Clinton,Danny Hillis,2
+Ivan Rosh,Sarah Ferguson,2
+Harry Beller,Sarah Ferguson,2
+Ariane de Rothschild,Peter Thiel,2
+Harvey Weinstein,Jean-Luc Brunel,2
+Jerry Goldsmith,Jes Staley,2
+Jeff Schantz,Jes Staley,2
+Jean-Luc Brunel,Jerry Goldsmith,2
+Jean-Luc Brunel,Jeff Schantz,2
+Larry Visoski,Peter Thiel,2
+ANDREW ROHRBACH,Alison Moe,2
+Activities Lieutenant,Day Watch Operations Lieutenant,2
+Activities Lieutenant,Inmate 3,2
+Activities Lieutenant,Associate Warden 1,2
+Alice Fisher,Andrew Oosterbaan,2
+Alice Fisher,Mark Filip,2
+Alfred Taubman,David Koch,2
+Alfred Taubman,Pepe Fanjul,2
+Alfred Taubman,Henry Kravis,2
+Alexander Acosta,Medical Examiner,2
+Alexander Acosta,Michael Baden,2
+Alexander Acosta,sam,2
+Alexander,Ehud Barak,2
+Alexander,Bill Clinton,2
+Alexander,Eve,2
+Alexander,Alexander Acosta,2
+Alexander,Bill Gates,2
+Alexander,Medical Examiner,2
+Alexander,Peter Thiel,2
+Alison Moe,Maurene Comey,2
+Alison Moe,Michael J. Fitzpatrick,2
+Alison Moe,Michael Greco,2
+Amir Taaki,Gavin Andresen,2
+Andrew Oosterbaan,Mark Filip,2
+Andrew Lourie,Marie Villafana,2
+Andrew Lourie,Jeff Sloman,2
+Andrew Cuomo,Harvey Weinstein,2
+Andres Pastrana,Ron Burkle,2
+Andres Pastrana,Sandy Berger,2
+Amir Elichai,Pinchas Buchris,2
+Alison Moe,Colleen McMahon,2
+Amber,Josh,2
+Amber,Josh Harris,2
+Amber,Marc Rowan,2
+Alison Nathan,Max,2
+Alison Moe,John Csakany,2
+Alison Moe,José A. Cabranes,2
+Alexander,Michael Baden,2
+Alexander,Steve Bannon,2
+Alexander,Nick,2
+Adam Johnson,Alison Moe,2
+Al Seckel,Kip Thorne,2
+Al Gore,Bob Weinstein,2
+Al Gore,Dan,2
+Adnan Khashoggi,Bill Cosby,2
+Adnan Khashoggi,sam,2
+Adam Mueller,Nicole Simmons,2
+Adam Johnson,Colleen McMahon,2
+Alan Dershowitz,Sting,2
+Adam Johnson,Darrin Howard,2
+Adam Johnson,Michael Greco,2
+Adam Johnson,Lee Plourde,2
+Adam Johnson,Associate Warden,2
+Adam Johnson,James Petrucci,2
+Activities Lieutenant,SIS Lieutenant,2
+Alan Dershowitz,Michael,2
+Alan Dershowitz,Max,2
+Alexander,sam,2
+Alec Baldwin,Michael Bloomberg,2
+Alec Baldwin,Dustin Hoffman,2
+Alec Baldwin,Jimmy Buffett,2
+Alec Baldwin,Ralph Fiennes,2
+Alec Baldwin,Elie Wiesel,2
+Alec Baldwin,Janice Dickinson,2
+Alec Baldwin,Courtney Love,2
+Alec Baldwin,Joan Rivers,2
+Alan Dershowitz,Lea,2
+Alec Baldwin,Barbara Walters,2
+Alec Baldwin,Henry Kissinger,2
+Alan Stopeck,Nicole Hesse,2
+Alan Greenberg,Jimmy Cayne,2
+Alan Dershowitz,Eve,2
+Alan Dershowitz,Eric,2
+Unknown,William Styron,2

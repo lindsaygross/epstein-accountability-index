@@ -11,9 +11,11 @@ using NLP-derived features and ML classification.
 import json
 import logging
 import math
+import re
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
+import joblib
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, jsonify, request
@@ -29,6 +31,7 @@ app = Flask(__name__)
 CORS(app)
 
 DATA = {}
+MODELS = {}
 
 
 def compute_impunity_scores(features_df: pd.DataFrame, consequences_df: pd.DataFrame) -> pd.DataFrame:
@@ -131,12 +134,27 @@ def load_data() -> None:
     logger.info("Loading data files...")
     base_path = Path(__file__).parent.parent
 
-    # Load severity scores JSON (people list source)
+    # Load full 1264-person registry (from expand_persons.py output)
+    registry_path = base_path / "data" / "processed" / "people_registry.csv"
+    if registry_path.exists():
+        DATA['registry'] = pd.read_csv(registry_path)
+        logger.info(f"Loaded people registry: {len(DATA['registry'])} people")
+
+    # Load evidence scores derived from corpus (doj_pdf, court, wiki, doj_press)
+    # These are computed purely from document evidence — no external severity scores
+    evidence_scores_path = base_path / "data" / "processed" / "evidence_scores.json"
+    if evidence_scores_path.exists():
+        with open(evidence_scores_path, 'r') as f:
+            DATA['evidence_scores'] = json.load(f)
+        logger.info(f"Loaded evidence scores for {len(DATA['evidence_scores'])} people")
+
+    # Load legacy scores JSON (83 entries from epsteinoverview) — kept only for
+    # consequence descriptions, NOT used for scoring
     scores_path = base_path / "data" / "scraped" / "epsteinoverview_scores.json"
     if scores_path.exists():
         with open(scores_path, 'r') as f:
             DATA['scores'] = json.load(f)
-        logger.info(f"Loaded {len(DATA['scores'])} people entries")
+        logger.info(f"Loaded {len(DATA['scores'])} legacy score entries (consequence descriptions only)")
 
     # Load features
     features_path = base_path / "data" / "processed" / "features.csv"
@@ -148,21 +166,38 @@ def load_data() -> None:
     if consequences_path.exists():
         DATA['consequences'] = pd.read_csv(consequences_path)
 
-    # Compute impunity scores from NLP features + consequences
-    if 'features' in DATA and 'consequences' in DATA:
+    # Compute impunity scores — prefer evidence_scores.json (corpus-derived, no external sources)
+    # Fall back to NLP features + consequences computation for the 66-person subset
+    if 'evidence_scores' in DATA and 'consequences' in DATA and 'registry' in DATA:
+        # Build impunity from evidence_scores for all registry people
+        impunity_rows = []
+        ev_scores = DATA['evidence_scores']
+        for _, reg_row in DATA['registry'].iterrows():
+            name = str(reg_row['name'])
+            ev = ev_scores.get(name, {})
+            evidence_idx = float(ev.get('evidence_index', 0.0))
+            # Apply consequence modifier
+            tier = int(reg_row.get('consequence_tier', 0) or 0)
+            if tier == 0 and evidence_idx > 0:
+                imp = min(10.0, evidence_idx * 1.3)
+            elif tier == 2:
+                imp = evidence_idx * 0.7
+            else:
+                imp = evidence_idx
+            impunity_rows.append({'name': name, 'impunity_index': round(imp, 1), 'evidence_index': round(evidence_idx, 1)})
+        DATA['impunity'] = pd.DataFrame(impunity_rows)
+        logger.info(f"Computed evidence-based impunity scores for {len(DATA['impunity'])} people")
+    elif 'features' in DATA and 'consequences' in DATA:
         DATA['impunity'] = compute_impunity_scores(
             DATA['features'], DATA['consequences']
         )
-        logger.info(f"Computed impunity scores for {len(DATA['impunity'])} people")
+        logger.info(f"Computed NLP impunity scores for {len(DATA['impunity'])} people (fallback)")
 
-    # Load edges
-    edges_path = base_path / "data" / "processed" / "edges.csv"
-    if edges_path.exists():
-        DATA['edges'] = pd.read_csv(edges_path)
     # Load edges (co-occurrence data for network graph)
     edges_path = base_path / "data" / "processed" / "edges.csv"
     if edges_path.exists():
         DATA['edges'] = pd.read_csv(edges_path)
+        logger.info(f"Loaded {len(DATA['edges'])} edges")
 
     # Load predictions
     predictions_path = base_path / "data" / "outputs" / "predictions.csv"
@@ -201,19 +236,35 @@ def load_data() -> None:
 
 
 def load_models() -> None:
-    """Load trained models."""
+    """Load trained ML model artifacts for live inference."""
     logger.info("Loading models...")
-
     base_path = Path(__file__).parent.parent
     models_path = base_path / "models"
 
-    # Load Gradient Boosting model
-    gb_path = models_path / "gradient_boosting_model.pkl"
-    if gb_path.exists():
-        MODELS['gradient_boosting'] = joblib.load(gb_path)
-        logger.info("Loaded Gradient Boosting model")
-    else:
-        logger.warning("Gradient Boosting model not found")
+    model_files = {
+        "majority_classifier": "majority_classifier.pkl",
+        # Prefer v2 models trained on full corpus; fall back to v1
+        "logistic_regression": "logistic_v2.pkl",
+        "random_forest_tfidf": "random_forest_tfidf.pkl",
+        "sentence_transformer_svc": "stsvc_v2.pkl",
+    }
+
+    fallbacks = {
+        "logistic_regression": "logistic_regression.pkl",
+        "sentence_transformer_svc": "stsvc.pkl",
+    }
+    for name, filename in model_files.items():
+        path = models_path / filename
+        if path.exists():
+            MODELS[name] = joblib.load(path)
+            logger.info(f"Loaded {name} from {filename}")
+        elif name in fallbacks:
+            fb_path = models_path / fallbacks[name]
+            if fb_path.exists():
+                MODELS[name] = joblib.load(fb_path)
+                logger.info(f"Loaded {name} from fallback {fallbacks[name]}")
+        else:
+            logger.warning(f"Model not found: {filename}")
 
 
 def get_severity_level(score: float) -> str:
@@ -229,24 +280,21 @@ def get_severity_level(score: float) -> str:
     else:
         return 'Minimal'
 
-@app.route('/')
-def index() -> str:
-    return render_template('index.html')
 
-def get_tier_badge(tier: int) -> Dict[str, str]:
-    """Get badge color and label for consequence tier."""
-    badges = {
-        0: {'color': 'none', 'label': 'No Consequence'},
-        1: {'color': 'soft', 'label': 'Soft Consequence'},
-        2: {'color': 'hard', 'label': 'Hard Consequence'}
-    }
-    return badges.get(tier, {'color': 'none', 'label': 'Unknown'})
-
+def clean_str(val: Any, default: str = '') -> str:
+    """Return clean string, replacing NaN/None/empty with default."""
+    if val is None:
+        return default
+    s = str(val).strip()
+    if s in ('nan', 'None', 'NaN', 'null', ''):
+        return default
+    return s
 
 # ── Page Routes ───────────────────────────────────────────────
 
 @app.route('/')
 def index() -> str:
+    """Render main dashboard."""
     return render_template('index.html')
 
 
@@ -254,65 +302,79 @@ def index() -> str:
 
 @app.route('/api/people')
 def get_all_people() -> Any:
-    """Get all people with impunity scores for grid and network."""
-    non_person_topics = {
-        "dentist", "gynecologist", "pregnant", "whoops",
-        "beef jerky", "pizza", "cream cheese",
-        "drugs", "bitcoin", "9/11", "zorro ranch",
-        "baal and occult references", "israel and mossad",
-        "dangene and jennie enterprise", "epstein suicide",
-        "qatar", "lifetouch",
-    }
+    """Get all people with impunity scores for grid and network.
+
+    Impunity score is derived purely from document evidence:
+      - Keyword co-occurrence with incriminating terms in DOJ PDFs, court docs, Wikipedia
+      - Mention frequency in evidence documents
+      - Flights on Epstein aircraft (public flight logs)
+      - Connection count and black book presence
+    No external severity scores from third-party sites are used.
+    """
+    # Build fast lookup indexes once
+    impunity_lookup = {}
+    if 'impunity' in DATA:
+        for _, r in DATA['impunity'].iterrows():
+            impunity_lookup[r['name']] = {
+                'impunity_index': float(r['impunity_index']),
+                'evidence_index': float(r['evidence_index']),
+            }
+
+    feature_lookup = {}
+    if 'features' in DATA:
+        for _, r in DATA['features'].iterrows():
+            feature_lookup[r['name']] = int(r.get('mention_count', 0))
+
+    # Evidence scores from corpus (replaces external severity_score)
+    evidence_scores = DATA.get('evidence_scores', {})
 
     people = []
 
-    if 'scores' in DATA:
-        for entry in DATA['scores']:
-            name = entry['name']
-            if name.lower().strip() in non_person_topics:
-                continue
+    if 'registry' in DATA:
+        for _, row in DATA['registry'].iterrows():
+            name = str(row['name'])
 
-            # Get impunity index (our derived metric)
-            imp_score = 0.0
-            evidence_idx = 0.0
-            if 'impunity' in DATA:
-                a_row = DATA['impunity'][DATA['impunity']['name'] == name]
-                if not a_row.empty:
-                    imp_score = float(a_row.iloc[0]['impunity_index'])
-                    evidence_idx = float(a_row.iloc[0]['evidence_index'])
+            # Priority 1: NLP-computed impunity index from features.csv (66 people)
+            imp_data = impunity_lookup.get(name, {})
+            imp_score = imp_data.get('impunity_index', 0.0)
+            evidence_idx = imp_data.get('evidence_index', 0.0)
 
-            level = get_impunity_level(imp_score)
+            # Priority 2: Evidence-based score from corpus (all 1264 people)
+            if imp_score == 0.0 and name in evidence_scores:
+                ev = evidence_scores[name]
+                imp_score = round(float(ev.get('evidence_index', 0.0)), 1)
+                evidence_idx = imp_score
+                # Apply consequence modifier: no consequence = higher impunity
+                consequence_tier = int(row.get('consequence_tier', 0) or 0)
+                if consequence_tier == 0 and imp_score > 0:
+                    imp_score = round(min(10.0, imp_score * 1.3), 1)
+                elif consequence_tier == 2:
+                    imp_score = round(imp_score * 0.7, 1)
 
-            # Get consequence info
-            consequence_tier = 0
-            consequence_desc = ''
-            if 'consequences' in DATA:
-                c_row = DATA['consequences'][DATA['consequences']['name'] == name]
-                if not c_row.empty:
-                    consequence_tier = int(c_row.iloc[0]['consequence_tier'])
-                    consequence_desc = str(c_row.iloc[0].get('consequence_description', ''))
+            consequence_tier = int(row.get('consequence_tier', 0) or 0)
+            consequence_desc = clean_str(row.get('consequence_description', ''), '')
 
-            # Get mention count
-            mention_count = 0
-            if 'features' in DATA:
-                f_row = DATA['features'][DATA['features']['name'] == name]
-                if not f_row.empty:
-                    mention_count = int(f_row.iloc[0].get('mention_count', 0))
-
-            # Image URL
             image_file = DATA.get('images', {}).get(name, 'placeholder.png')
             image_url = f"/static/images/people/{image_file}"
 
+            ev_data = evidence_scores.get(name, {})
             people.append({
                 'name': name,
                 'impunity_index': imp_score,
                 'evidence_index': evidence_idx,
-                'level': level,
+                'level': get_impunity_level(imp_score),
                 'consequence_tier': consequence_tier,
                 'consequence_description': consequence_desc,
                 'badge': get_tier_badge(consequence_tier),
-                'mention_count': mention_count,
-                'image_url': image_url
+                'mention_count': feature_lookup.get(name, int(ev_data.get('doc_mentions', 0))),
+                'sector': str(row.get('sector', '') or ''),
+                'country': str(row.get('country', 'Unknown') or 'Unknown'),
+                'nationality': str(row.get('nationality', '') or ''),
+                'flights': int(row.get('flights', 0) or 0),
+                'in_black_book': bool(row.get('in_black_book', False)),
+                'keyword_cooccurrence': int(ev_data.get('keyword_cooccurrence', 0)),
+                'doc_mentions': int(ev_data.get('doc_mentions', 0)),
+                'image_url': image_url,
             })
 
     return jsonify(people)
@@ -325,28 +387,83 @@ def get_edges() -> Any:
     return jsonify(DATA['edges'].to_dict('records'))
 
 
+def _build_score_reasoning(name: str, ev_data: dict, imp_score: float, evidence_idx: float, tier: int, flights: int, in_black_book: bool) -> str:
+    """Build a human-readable explanation of the impunity score."""
+    parts = []
+    jmail = int(ev_data.get('jmail_doc_count', 0))
+    mentions = int(ev_data.get('doc_mentions', 0))
+    cooc = int(ev_data.get('keyword_cooccurrence', 0))
+    conns = int(ev_data.get('connections', 0))
+
+    if jmail > 0:
+        parts.append(f"appears in {jmail:,} jmail documents")
+    if mentions > 0:
+        parts.append(f"mentioned {mentions} times across the DOJ corpus")
+    if cooc > 0:
+        parts.append(f"co-occurs with incriminating keywords {cooc} times")
+    if flights > 0:
+        parts.append(f"logged {flights} Epstein flight legs")
+    if conns > 0:
+        parts.append(f"connected to {conns} other individuals")
+    if in_black_book:
+        parts.append("listed in Epstein's black book")
+
+    if not parts:
+        return "Limited direct corpus evidence found."
+
+    reasoning = f"Evidence index {evidence_idx:.1f}/10 based on: {'; '.join(parts)}."
+    if tier == 0 and evidence_idx > 0:
+        reasoning += f" No legal consequences documented → impunity modifier ×1.3 → impunity index {imp_score:.1f}."
+    elif tier == 2:
+        reasoning += f" Hard legal consequence on record → modifier ×0.7 → impunity index {imp_score:.1f}."
+    elif tier == 1:
+        reasoning += f" Soft consequence on record → no modifier → impunity index {imp_score:.1f}."
+    return reasoning
+
+
 @app.route('/api/person/<name>')
 def get_person(name: str) -> Any:
-    """Get person profile with impunity index and NLP features."""
-    if 'merged' not in DATA:
-        return jsonify({'error': 'Data not loaded'}), 500
+    """Get person profile with impunity index and evidence-based features.
 
-    person_data = DATA['merged'][DATA['merged']['name'] == name]
-    if person_data.empty:
+    Falls back to registry + evidence_scores for people not in features.csv.
+    """
+    # Try NLP-features merged data first (66 people)
+    person = None
+    if 'merged' in DATA:
+        person_data = DATA['merged'][DATA['merged']['name'] == name]
+        if not person_data.empty:
+            person = person_data.iloc[0].to_dict()
+
+    # Fall back to registry for all 1264 people
+    reg_row = None
+    if 'registry' in DATA:
+        reg_data = DATA['registry'][DATA['registry']['name'] == name]
+        if not reg_data.empty:
+            reg_row = reg_data.iloc[0]
+
+    if person is None and reg_row is None:
         return jsonify({'error': 'Person not found'}), 404
 
-    person = person_data.iloc[0].to_dict()
-
-    tier = person.get('consequence_tier', 0)
-    tier = int(tier) if pd.notna(tier) else 0
-    badge = get_tier_badge(tier)
-
-    # Get source URL for consequence citation
+    # Consequence tier and description
+    tier = 0
+    consequence_desc = 'No information available'
     source_url = ''
+    if person is not None:
+        tier = person.get('consequence_tier', 0)
+        tier = int(tier) if pd.notna(tier) else 0
+        consequence_desc = clean_str(person.get('consequence_description', ''), '')
+    elif reg_row is not None:
+        tier = int(reg_row.get('consequence_tier', 0) or 0)
+        consequence_desc = clean_str(reg_row.get('consequence_description', ''), '')
+
     if 'consequences' in DATA:
         c_row = DATA['consequences'][DATA['consequences']['name'] == name]
         if not c_row.empty:
             source_url = str(c_row.iloc[0].get('source_url', '') or '')
+            if not consequence_desc or consequence_desc == 'No information available':
+                consequence_desc = clean_str(c_row.iloc[0].get('consequence_description', ''), consequence_desc)
+
+    badge = get_tier_badge(tier)
 
     # Get predictions
     predictions = {}
@@ -354,11 +471,22 @@ def get_person(name: str) -> Any:
         pred_data = DATA['predictions'][DATA['predictions']['name'] == name]
         if not pred_data.empty:
             pred_row = pred_data.iloc[0]
-            for col in pred_row.index:
-                if '_pred' in col:
-                    predictions[col.replace('_pred', '')] = (
-                        int(pred_row[col]) if pd.notna(pred_row[col]) else None
-                    )
+            # Extract model predictions with probabilities
+            model_keys = ['logistic_regression', 'sentence_transformer_svc', 'random_forest_tfidf', 'majority_classifier']
+            for model_key in model_keys:
+                pred_col = f'{model_key}_pred'
+                prob_col = f'{model_key}_prob'
+                if pred_col in pred_row.index and pd.notna(pred_row.get(pred_col)):
+                    predictions[model_key] = {
+                        'label': int(pred_row[pred_col]),
+                        'probability': round(float(pred_row[prob_col]), 4) if prob_col in pred_row.index and pd.notna(pred_row.get(prob_col)) else None,
+                    }
+            # Consensus
+            if 'consensus_prob' in pred_row.index and pd.notna(pred_row.get('consensus_prob')):
+                predictions['consensus'] = {
+                    'label': int(pred_row.get('consensus_label', 0)),
+                    'probability': round(float(pred_row['consensus_prob']), 4),
+                }
 
     # Connected people from edges
     connections = []
@@ -375,41 +503,86 @@ def get_person(name: str) -> Any:
     image_file = DATA.get('images', {}).get(name, 'placeholder.png')
     image_url = f"/static/images/people/{image_file}"
 
-    return jsonify({
-        'name': person['name'],
-        'impunity_index': imp_score,
-        'evidence_index': evidence_idx,
-        'level': get_impunity_level(imp_score),
-        'consequence_tier': tier,
-        'consequence_description': person.get('consequence_description', 'No information available'),
-        'badge': badge,
-        'predictions': predictions,
-        'connections': connections,
-        'image_url': image_url,
-        'has_summary': name in DATA.get('summaries', {}),
-        'features': {
+    # Impunity + evidence index — NLP features take priority
+    imp_score = 0.0
+    evidence_idx = 0.0
+    if 'impunity' in DATA:
+        imp_row = DATA['impunity'][DATA['impunity']['name'] == name]
+        if not imp_row.empty:
+            imp_score = float(imp_row.iloc[0]['impunity_index'])
+            evidence_idx = float(imp_row.iloc[0]['evidence_index'])
+
+    # Fall back to corpus evidence scores for registry-only people
+    ev_data = DATA.get('evidence_scores', {}).get(name, {})
+    if imp_score == 0.0 and ev_data:
+        evidence_idx = round(float(ev_data.get('evidence_index', 0.0)), 1)
+        imp_score = evidence_idx
+        if tier == 0 and imp_score > 0:
+            imp_score = round(min(10.0, imp_score * 1.3), 1)
+        elif tier == 2:
+            imp_score = round(imp_score * 0.7, 1)
+
+    # Features — from NLP pipeline if available, else from evidence scores
+    if person is not None:
+        features = {
             'mention_count': int(person.get('mention_count', 0)),
             'total_mentions': int(person.get('total_mentions', 0)),
             'mean_sentiment': float(person.get('mean_context_sentiment', 0)),
             'cooccurrence_score': int(person.get('cooccurrence_score', 0)),
             'doc_type_diversity': int(person.get('doc_type_diversity', 0)),
-            'in_subject_line': bool(person.get('name_in_subject_line', False))
+            'in_subject_line': bool(person.get('name_in_subject_line', False)),
         }
+    else:
+        features = {
+            'mention_count': int(ev_data.get('doc_mentions', 0)),
+            'total_mentions': int(ev_data.get('doc_mentions', 0)),
+            'mean_sentiment': 0.0,
+            'cooccurrence_score': int(ev_data.get('keyword_cooccurrence', 0)),
+            'doc_type_diversity': 0,
+            'in_subject_line': False,
+        }
+
+    # Registry metadata
+    sector = ''
+    country = 'Unknown'
+    nationality = ''
+    flights = 0
+    in_black_book = False
+    if reg_row is not None:
+        sector = str(reg_row.get('sector', '') or '')
+        country = str(reg_row.get('country', 'Unknown') or 'Unknown')
+        nationality = str(reg_row.get('nationality', '') or '')
+        flights = int(reg_row.get('flights', 0) or 0)
+        in_black_book = bool(reg_row.get('in_black_book', False))
+
+    return jsonify({
+        'name': name,
+        'impunity_index': imp_score,
+        'evidence_index': evidence_idx,
+        'level': get_impunity_level(imp_score),
+        'consequence_tier': tier,
+        'consequence_description': consequence_desc,
+        'source_url': source_url,
+        'badge': badge,
+        'predictions': predictions,
+        'connections': connections,
+        'image_url': image_url,
+        'has_summary': name in DATA.get('summaries', {}),
+        'sector': sector,
+        'country': country,
+        'nationality': nationality,
+        'flights': flights,
+        'in_black_book': in_black_book,
+        'keyword_cooccurrence': int(ev_data.get('keyword_cooccurrence', 0)),
+        'doc_mentions': int(ev_data.get('doc_mentions', 0)),
+        'features': features,
+        'score_reasoning': _build_score_reasoning(name, ev_data, imp_score, evidence_idx, tier, flights, in_black_book),
     })
 
 
 @app.route('/api/person/<name>/summary')
 def get_person_summary(name: str) -> Any:
-    if 'summaries' not in DATA:
-        return jsonify({'error': 'Summaries not available'}), 404
-    summary = DATA['summaries'].get(name)
-    if not summary:
-        return jsonify({'error': f'Summary not found for {name}'}), 404
-    return jsonify(summary)
-
-
-@app.route('/api/person/<name>/summary')
-def get_person_summary(name: str) -> Any:
+    """Get structured summary with document citations for a person."""
     if 'summaries' not in DATA:
         return jsonify({'error': 'Summaries not available'}), 404
     summary = DATA['summaries'].get(name)
@@ -420,6 +593,7 @@ def get_person_summary(name: str) -> Any:
 
 @app.route('/api/search')
 def search_person() -> Any:
+    """Search for people by name."""
     query = request.args.get('q', '').lower()
     if not query:
         return jsonify([])
@@ -429,15 +603,6 @@ def search_person() -> Any:
         ]['name'].tolist()
         return jsonify(matches[:10])
     return jsonify([])
-
-    if 'merged' in DATA:
-        matches = DATA['merged'][
-            DATA['merged']['name'].str.lower().str.contains(query, na=False)
-        ]['name'].tolist()
-        return jsonify(matches[:10])
-    return jsonify([])
-
-# ── API: Analysis & Charts ────────────────────────────────────
 
 # ── API: Analysis & Charts ────────────────────────────────────
 
@@ -471,10 +636,122 @@ def get_chart_data() -> Any:
             'evidence_index': float(row.get('evidence_index', 0)),
             'consequence_tier': int(row['consequence_tier']),
             'power_tier': str(row['power_tier']) if pd.notna(row['power_tier']) else 'Unknown',
-            'description': row.get('consequence_description', '')
+            'description': clean_str(row.get('consequence_description', ''), '')
         })
 
     return jsonify(chart_data)
+
+
+@app.route('/api/geo-data')
+def get_geo_data() -> Any:
+    """Get per-country counts and impunity data for geographic map."""
+    if 'registry' not in DATA:
+        return jsonify([])
+    reg = DATA['registry']
+    ev = DATA.get('evidence_scores', {})
+    imp_df = DATA.get('impunity', pd.DataFrame())
+
+    country_map = {}
+    for _, row in reg.iterrows():
+        country = clean_str(row.get('country', ''), 'Unknown')
+        if not country or country == 'Unknown':
+            continue
+        name = str(row['name'])
+        imp_score = 0.0
+        if not imp_df.empty:
+            imp_row = imp_df[imp_df['name'] == name]
+            if not imp_row.empty:
+                imp_score = float(imp_row.iloc[0]['impunity_index'])
+        if imp_score == 0.0:
+            imp_score = float(ev.get(name, {}).get('evidence_index', 0.0))
+        tier = int(row.get('consequence_tier', 0) or 0)
+        if country not in country_map:
+            country_map[country] = {'country': country, 'count': 0, 'avg_impunity': 0.0, 'no_consequence': 0, 'names': []}
+        country_map[country]['count'] += 1
+        country_map[country]['avg_impunity'] += imp_score
+        if tier == 0:
+            country_map[country]['no_consequence'] += 1
+        if imp_score > 0:
+            country_map[country]['names'].append({'name': name, 'impunity': round(imp_score, 1), 'tier': tier})
+
+    result = []
+    for c, d in country_map.items():
+        if d['count'] > 0:
+            d['avg_impunity'] = round(d['avg_impunity'] / d['count'], 2)
+            d['names'].sort(key=lambda x: x['impunity'], reverse=True)
+            d['names'] = d['names'][:5]  # top 5 per country
+        result.append(d)
+    result.sort(key=lambda x: x['count'], reverse=True)
+    return jsonify(result)
+
+
+@app.route('/api/semantic-space')
+def get_semantic_space() -> Any:
+    """Return t-SNE 2D projection of person embeddings for visualization."""
+    import numpy as np
+    base_path = Path(__file__).parent.parent
+    emb_path = base_path / "data" / "processed" / "person_embeddings.npy"
+    names_path = base_path / "data" / "processed" / "person_embedding_names.json"
+
+    if not emb_path.exists():
+        return jsonify({'error': 'Embeddings not built yet'}), 404
+
+    embeddings = np.load(str(emb_path))
+    with open(names_path) as f:
+        names = json.load(f)
+
+    # Filter to people with non-zero embeddings
+    nonzero_mask = embeddings.sum(axis=1) != 0
+    emb_filtered = embeddings[nonzero_mask]
+    names_filtered = [n for n, m in zip(names, nonzero_mask) if m]
+
+    # t-SNE (cache result to avoid recomputing on every request)
+    tsne_cache = base_path / "data" / "processed" / "tsne_coords.json"
+    if tsne_cache.exists():
+        with open(tsne_cache) as f:
+            cached = json.load(f)
+        if len(cached.get('names', [])) == len(names_filtered):
+            pass  # use cache below
+        else:
+            cached = None
+    else:
+        cached = None
+
+    if cached is None:
+        from sklearn.manifold import TSNE
+        tsne = TSNE(n_components=2, perplexity=min(30, len(emb_filtered) // 4),
+                    random_state=42, max_iter=1000, learning_rate='auto', init='pca')
+        coords = tsne.fit_transform(emb_filtered).tolist()
+        cached = {'names': names_filtered, 'coords': coords}
+        with open(tsne_cache, 'w') as f:
+            json.dump(cached, f)
+
+    # Attach metadata
+    ev = DATA.get('evidence_scores', {})
+    imp_df = DATA.get('impunity', pd.DataFrame())
+    reg = DATA.get('registry', pd.DataFrame())
+
+    points = []
+    for name, (x, y) in zip(cached['names'], cached['coords']):
+        imp_score = 0.0
+        if not imp_df.empty:
+            imp_row = imp_df[imp_df['name'] == name]
+            if not imp_row.empty:
+                imp_score = float(imp_row.iloc[0]['impunity_index'])
+        if imp_score == 0.0:
+            imp_score = float(ev.get(name, {}).get('evidence_index', 0.0))
+        tier = 0
+        if not reg.empty:
+            reg_row = reg[reg['name'] == name]
+            if not reg_row.empty:
+                tier = int(reg_row.iloc[0].get('consequence_tier', 0) or 0)
+        points.append({
+            'name': name, 'x': round(x, 3), 'y': round(y, 3),
+            'impunity': round(imp_score, 1), 'tier': tier,
+            'level': get_impunity_level(imp_score),
+        })
+
+    return jsonify(points)
 
 
 @app.route('/api/model-results')
@@ -496,16 +773,332 @@ def get_experiment_results() -> Any:
 
 @app.route('/api/ablation-results')
 def get_ablation_results() -> Any:
+    """Get feature ablation study results."""
     if 'ablation_results' not in DATA:
         return jsonify({'error': 'Ablation results not available'}), 404
     return jsonify(DATA['ablation_results'].to_dict('records'))
 
 
-@app.route('/api/ablation-results')
-def get_ablation_results() -> Any:
-    if 'ablation_results' not in DATA:
-        return jsonify({'error': 'Ablation results not available'}), 404
-    return jsonify(DATA['ablation_results'].to_dict('records'))
+# ── API: Live Inference ───────────────────────────────────────
+
+@app.route('/api/predict', methods=['POST'])
+def predict_consequence() -> Any:
+    """
+    Live consequence prediction endpoint.
+
+    Accepts a JSON body with person NLP features and returns
+    probability predictions from all trained models.
+
+    Request body (all fields optional, defaults to 0):
+        {
+            "name": "Person Name",        -- used to look up known features
+            "mention_count": 0,
+            "total_mentions": 0,
+            "mean_context_sentiment": 0.0,
+            "cooccurrence_score": 0,
+            "doc_type_diversity": 0,
+            "name_in_subject_line": 0,
+            "severity_score": 0.0
+        }
+
+    Response:
+        {
+            "name": "...",
+            "predictions": {
+                "logistic_regression": {"label": 0, "probability": 0.12},
+                "random_forest_tfidf": {"label": 0, "probability": 0.08},
+                ...
+            },
+            "consensus_label": 0,
+            "consensus_probability": 0.10,
+            "impunity_index": 2.4
+        }
+    """
+    data = request.get_json(force=True, silent=True) or {}
+
+    name = data.get("name", "Unknown")
+
+    # Build feature vector — prefer known features for existing people
+    feature_cols = [
+        'mention_count', 'total_mentions', 'mean_context_sentiment',
+        'cooccurrence_score', 'doc_type_diversity',
+        'name_in_subject_line', 'severity_score'
+    ]
+
+    features = {}
+    # Start with zeros
+    for col in feature_cols:
+        features[col] = 0.0
+
+    # Override with any known data from features CSV
+    if 'features' in DATA:
+        row = DATA['features'][DATA['features']['name'] == name]
+        if not row.empty:
+            for col in feature_cols:
+                if col in row.columns:
+                    features[col] = float(row.iloc[0].get(col, 0) or 0)
+
+    # Let request body override
+    for col in feature_cols:
+        if col in data:
+            features[col] = float(data[col])
+
+    X = np.array([[features[c] for c in feature_cols]])
+
+    predictions = {}
+
+    # Logistic Regression
+    if 'logistic_regression' in MODELS:
+        artifacts = MODELS['logistic_regression']
+        model = artifacts['model']
+        scaler = artifacts['scaler']
+        X_scaled = scaler.transform(X)
+        prob = float(model.predict_proba(X_scaled)[0, 1])
+        label = int(model.predict(X_scaled)[0])
+        predictions['logistic_regression'] = {'label': label, 'probability': round(prob, 4)}
+
+    # Random Forest + TF-IDF (tabular-only path when no text provided)
+    if 'random_forest_tfidf' in MODELS:
+        artifacts = MODELS['random_forest_tfidf']
+        model = artifacts['model']
+        scaler = artifacts['scaler']
+        tfidf = artifacts.get('tfidf')
+        X_tab = scaler.transform(X)
+        if tfidf is not None:
+            from scipy import sparse
+            text = data.get('text', '')
+            X_tfidf = tfidf.transform([text])
+            X_in = sparse.hstack([sparse.csr_matrix(X_tab), X_tfidf])
+        else:
+            X_in = X_tab
+        prob = float(model.predict_proba(X_in)[0, 1])
+        label = int(model.predict(X_in)[0])
+        predictions['random_forest_tfidf'] = {'label': label, 'probability': round(prob, 4)}
+
+    # SentenceTransformer + SVC
+    if 'sentence_transformer_svc' in MODELS:
+        artifacts = MODELS['sentence_transformer_svc']
+        model = artifacts['model']
+        scaler = artifacts['scaler']
+        encoder_name = artifacts.get('encoder_name', 'all-MiniLM-L6-v2')
+        name_to_text = artifacts.get('name_to_text', {})
+        try:
+            from sentence_transformers import SentenceTransformer
+            encoder = SentenceTransformer(encoder_name)
+            text = name_to_text.get(name, data.get('text', ''))
+            if text:
+                windows = [text[i:i+512] for i in range(0, min(len(text), 10000), 384) if text[i:i+512].strip()]
+                if windows:
+                    embs = encoder.encode(windows, show_progress_bar=False, convert_to_numpy=True)
+                    embedding = embs.mean(axis=0)
+                else:
+                    embedding = np.zeros(384)
+            else:
+                embedding = np.zeros(384)
+            X_tab_scaled = scaler.transform(X)
+            X_combined = np.hstack([embedding.reshape(1, -1), X_tab_scaled])
+            prob = float(model.predict_proba(X_combined)[0, 1])
+            label = int(model.predict(X_combined)[0])
+            predictions['sentence_transformer_svc'] = {'label': label, 'probability': round(prob, 4)}
+        except Exception as e:
+            logger.warning(f"ST+SVC inference failed: {e}")
+
+    if not predictions:
+        return jsonify({'error': 'No models loaded. Run scripts/model.py first.'}), 503
+
+    # Consensus: mean probability across all models
+    probs = [v['probability'] for v in predictions.values()]
+    consensus_prob = round(sum(probs) / len(probs), 4)
+    consensus_label = int(consensus_prob >= 0.5)
+
+    # Quick impunity index from features
+    mention_norm = min(1.0, features['mention_count'] / 50)
+    cooc_norm = min(1.0, features['cooccurrence_score'] / 20)
+    evidence_idx = round((mention_norm * 0.4 + cooc_norm * 0.3 + min(1.0, features['total_mentions'] / 200) * 0.15 + features['doc_type_diversity'] / 5 * 0.15) * 10, 1)
+
+    return jsonify({
+        'name': name,
+        'input_features': features,
+        'predictions': predictions,
+        'consensus_label': consensus_label,
+        'consensus_probability': consensus_prob,
+        'impunity_index': evidence_idx,
+        'models_used': list(predictions.keys()),
+    })
+
+
+@app.route('/api/person/<path:name>/citations')
+def get_person_citations(name: str) -> Any:
+    """
+    Get document citations for a person from local ChromaDB.
+
+    Queries the locally-built ChromaDB vector store containing chunks
+    from DOJ PDFs, court docs, and other Epstein case files.
+
+    Response:
+        {
+            "name": "...",
+            "citations": [
+                {
+                    "index": 1,
+                    "source": "doj_pdf",
+                    "url": "...",
+                    "date": "...",
+                    "efta_id": "EFTA01234567",
+                    "quote": "...",
+                    "score": 0.87
+                }, ...
+            ]
+        }
+    """
+    base_path = Path(__file__).resolve().parent.parent
+    chroma_dir = base_path / "chroma_db"
+
+    if not chroma_dir.exists():
+        return jsonify({
+            'name': name,
+            'citations': [],
+            'error': 'ChromaDB not yet built locally — run build_chromadb.py first'
+        }), 404
+
+    try:
+        import chromadb
+        from sentence_transformers import SentenceTransformer
+
+        client = chromadb.PersistentClient(path=str(chroma_dir))
+        collection = client.get_or_create_collection(
+            "epstein_docs",
+            metadata={"hnsw:space": "cosine"}
+        )
+
+        if collection.count() == 0:
+            return jsonify({'name': name, 'citations': [], 'error': 'ChromaDB collection is empty'}), 404
+
+        encoder = SentenceTransformer("all-MiniLM-L6-v2")
+        query = f"{name} Epstein connection evidence documents"
+        q_emb = encoder.encode([query]).tolist()
+
+        # First pass: query with name-specific query, require name match
+        results = collection.query(
+            query_embeddings=q_emb,
+            n_results=min(30, collection.count()),
+            include=["documents", "metadatas", "distances"],
+        )
+
+        citations = []
+        docs = results.get("documents", [[]])[0]
+        metas = results.get("metadatas", [[]])[0]
+        distances = results.get("distances", [[]])[0]
+
+        name_lower = name.lower()
+        # Use meaningful name parts (>3 chars) for matching
+        name_parts = [p for p in name_lower.split() if len(p) > 3]
+
+        for doc, meta, dist in zip(docs, metas, distances):
+            score = round(1 - dist, 4)
+            doc_lower = doc.lower()
+            name_found = name_parts and any(part in doc_lower for part in name_parts)
+
+            citation: Dict[str, Any] = {
+                "source": meta.get("source", ""),
+                "url": meta.get("url", ""),
+                "date": meta.get("date", ""),
+                "score": score,
+                "quote": doc[:250].replace("\n", " ").strip(),
+                "name_mentioned": name_found,
+            }
+            if meta.get("efta_id"):
+                citation["efta_id"] = meta["efta_id"]
+                citation["dataset"] = meta.get("dataset", "")
+
+            citations.append(citation)
+
+        # Prefer chunks that mention the name; fall back to top semantic matches
+        named = [c for c in citations if c.get("name_mentioned")]
+        if named:
+            final = sorted(named, key=lambda c: c["score"], reverse=True)[:8]
+        else:
+            # No direct mentions — return top semantic matches (contextually relevant docs)
+            final = sorted(citations, key=lambda c: c["score"], reverse=True)[:5]
+
+        for i, c in enumerate(final):
+            c["index"] = i + 1
+            c.pop("name_mentioned", None)
+
+        citations = final
+
+        return jsonify({
+            'name': name,
+            'citations': citations,
+            'total_found': len(citations),
+            'collection_size': collection.count(),
+        })
+
+    except ImportError as e:
+        return jsonify({
+            'name': name,
+            'citations': [],
+            'error': f'Missing dependency: {e}. Use paper-trail venv.'
+        }), 503
+    except Exception as e:
+        logger.error(f"Citations lookup failed for {name}: {e}")
+        return jsonify({'name': name, 'citations': [], 'error': str(e)}), 500
+
+
+@app.route('/api/registry')
+def get_registry() -> Any:
+    """
+    Get the full 1264-person registry with geographic and sector data.
+
+    Query params:
+        country=USA        -- filter by country
+        sector=finance     -- filter by sector
+        tier=0             -- filter by consequence tier (0/1/2)
+        limit=100          -- max records (default 100)
+        offset=0           -- pagination offset
+    """
+    if 'registry' not in DATA:
+        return jsonify({'error': 'Registry not loaded'}), 503
+
+    df = DATA['registry'].copy()
+
+    country = request.args.get('country')
+    sector = request.args.get('sector')
+    tier = request.args.get('tier')
+    limit = int(request.args.get('limit', 100))
+    offset = int(request.args.get('offset', 0))
+
+    if country:
+        df = df[df['country'].str.lower() == country.lower()]
+    if sector:
+        df = df[df['sector'].str.lower() == sector.lower()]
+    if tier is not None:
+        df = df[df['consequence_tier'] == int(tier)]
+
+    total = len(df)
+    page = df.iloc[offset:offset + limit]
+
+    records = []
+    for _, row in page.iterrows():
+        records.append({
+            'name': row.get('name', ''),
+            'sector': row.get('sector', ''),
+            'country': row.get('country', 'Unknown'),
+            'jurisdiction': row.get('jurisdiction', 'unknown'),
+            'nationality': row.get('nationality', ''),
+            'consequence_tier': int(row.get('consequence_tier', 0)),
+            'consequence_source': row.get('consequence_source', 'kaggle_only'),
+            'flights': int(row.get('flights', 0)),
+            'in_black_book': bool(row.get('in_black_book', False)),
+            'severity_score': float(row.get('severity_score', 0)),
+        })
+
+    return jsonify({
+        'total': total,
+        'offset': offset,
+        'limit': limit,
+        'results': records,
+    })
 
 
 # ── Error Handlers ────────────────────────────────────────────
@@ -524,6 +1117,7 @@ def internal_error(error) -> tuple:
 def main() -> None:
     logger.info("Starting Flask application...")
     load_data()
+    load_models()
     app.run(host='0.0.0.0', port=5001, debug=True)
 
 
