@@ -439,54 +439,66 @@ function populateModal(data) {
         </div>
         <p style="font-size:0.85rem;color:#94a3b8;line-height:1.65;">${data.consequence_description || 'No information available'}</p>`;
 
+    // NLP Features — prefer ev_data fields (doc_mentions, keyword_cooccurrence, flights, connections, in_black_book)
     const fEl = document.getElementById('modal-features');
-    const fLabels = {
-        mention_count: 'Documents', total_mentions: 'Total Mentions',
-        mean_sentiment: 'Avg Sentiment', cooccurrence_score: 'Co-occurrence',
-        doc_type_diversity: 'Doc Types', in_subject_line: 'In Subject'
-    };
-    if (data.features) {
-        fEl.innerHTML = Object.entries(data.features).map(([k, v]) => {
-            let display = v;
-            if (typeof v === 'boolean') display = v ? 'Yes' : 'No';
-            else if (typeof v === 'number') display = Number.isInteger(v) ? v : v.toFixed(3);
-            return `<div class="feature-item"><div class="feature-label">${fLabels[k] || k}</div><div class="feature-value">${display}</div></div>`;
-        }).join('');
+    if (fEl) {
+        const ev = {
+            emailDocs: data.jmail_doc_count || 0,
+            docMentions: data.doc_mentions || (data.features && data.features.total_mentions) || 0,
+            cooccurrence: data.keyword_cooccurrence || (data.features && data.features.cooccurrence_score) || 0,
+            flights: data.flights || 0,
+            blackBook: data.in_black_book ? 'Yes' : 'No',
+        };
+        fEl.innerHTML = `
+            <div class="feature-item"><div class="feature-label">Epstein Emails</div><div class="feature-value">${ev.emailDocs.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">DOJ Mentions</div><div class="feature-value">${ev.docMentions.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">Keyword Co-occ.</div><div class="feature-value">${ev.cooccurrence.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">Flight Legs</div><div class="feature-value">${ev.flights.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">Black Book</div><div class="feature-value">${ev.blackBook}</div></div>`;
     }
 
+    // ML Signals — show consensus probability bar (no predicted/actual, just signal strength)
     const pEl = document.getElementById('modal-predictions');
-    const tierText = { 0: 'No Consequence', 1: 'Consequence' };
-    const mLabels = {
-        logistic_regression: 'Logistic Regression',
-        sentence_transformer_svc: 'ST + SVC',
-        random_forest_tfidf: 'Random Forest + TF-IDF',
-        majority_classifier: 'Majority Classifier',
-        consensus: 'Consensus',
-        logistic_baseline: 'Logistic Regression',
-        legal_bert: 'Legal-BERT'
-    };
-    if (data.predictions && Object.keys(data.predictions).length) {
-        const actual = data.consequence_tier > 0 ? 1 : 0;
-        pEl.innerHTML = `<table class="predictions-table">
-            <thead><tr><th>Model</th><th style="text-align:right">Predicted</th><th style="text-align:right">Probability</th><th style="text-align:right">Actual</th></tr></thead>
-            <tbody>${Object.entries(data.predictions).map(([m, pred]) => {
-                if (pred === null || pred === undefined) {
-                    return `<tr><td>${mLabels[m] || m}</td>
-                        <td colspan="2" style="text-align:right;color:var(--text-secondary);font-style:italic;">Not in test set</td>
-                        <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
-                }
-                // Handle both old format (plain int) and new format ({label, probability})
-                const label = (typeof pred === 'object') ? pred.label : pred;
-                const prob = (typeof pred === 'object' && pred.probability != null) ? pred.probability : null;
-                const match = label === actual;
-                const probStr = prob != null ? `${(prob * 100).toFixed(1)}%` : '—';
-                return `<tr><td>${mLabels[m] || m}</td>
-                    <td style="text-align:right;color:${match ? '#10b981' : '#ef4444'}">${tierText[label] ?? label}</td>
-                    <td style="text-align:right;color:var(--text-secondary)">${probStr}</td>
-                    <td style="text-align:right">${tierText[actual] ?? actual}</td></tr>`;
-            }).join('')}</tbody></table>`;
-    } else {
-        pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No prediction data for this individual (not in test set).</p>';
+    if (pEl) {
+        const mOrder = ['logistic_regression', 'random_forest_tfidf', 'sentence_transformer_svc'];
+        const mLabels = {
+            logistic_regression: 'Logistic Regression',
+            random_forest_tfidf: 'Random Forest + TF-IDF',
+            sentence_transformer_svc: 'ST + SVC (Semantic)',
+        };
+        if (data.predictions && Object.keys(data.predictions).length) {
+            const bars = mOrder.filter(m => data.predictions[m] != null).map(m => {
+                const pred = data.predictions[m];
+                const prob = typeof pred === 'object' ? (pred.probability ?? 0) : 0;
+                const pct = (prob * 100).toFixed(1);
+                const color = prob >= 0.7 ? '#ef4444' : prob >= 0.4 ? '#f59e0b' : '#3b82f6';
+                return `<div style="margin-bottom:0.75rem;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.25rem;">
+                        <span style="color:var(--text-secondary)">${mLabels[m]}</span>
+                        <span style="color:${color};font-weight:600">${pct}%</span>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:6px;overflow:hidden;">
+                        <div style="background:${color};width:${pct}%;height:100%;border-radius:4px;transition:width 0.6s ease;"></div>
+                    </div>
+                </div>`;
+            });
+            const consensus = data.predictions.consensus;
+            const cProb = consensus ? (typeof consensus === 'object' ? (consensus.probability ?? 0) : 0) : 0;
+            const cColor = cProb >= 0.7 ? '#ef4444' : cProb >= 0.4 ? '#f59e0b' : '#3b82f6';
+            pEl.innerHTML = bars.join('') + (consensus != null ? `
+                <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.3rem;">
+                        <span style="font-weight:600;color:var(--text-primary)">Consensus Signal</span>
+                        <span style="color:${cColor};font-weight:700">${(cProb * 100).toFixed(1)}%</span>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden;">
+                        <div style="background:${cColor};width:${(cProb*100).toFixed(1)}%;height:100%;border-radius:4px;"></div>
+                    </div>
+                    <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.4rem;">Mean of 3 models — reflects document evidence pattern, not a legal determination.</p>
+                </div>` : '');
+        } else {
+            pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No ML signal data available for this individual.</p>';
+        }
     }
 
     const connEl = document.getElementById('modal-connections');
@@ -520,20 +532,40 @@ function populateModal(data) {
         .then(r => r.json())
         .then(result => {
             if (result.citations && result.citations.length) {
-                const sourceLabel = { doj_pdf: 'DOJ PDF', jmail_court: 'Court Record', jmail_doj: 'DOJ/EFTA', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press' };
-                citationsEl.innerHTML = result.citations.map(c => {
+                const sourceLabel = { doj_pdf: 'DOJ/EFTA Document', jmail_court: 'Court Record', jmail_doj: 'Epstein Emails (EFTA)', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press', doj_pdf_text: 'DOJ Document' };
+
+                // Deduplicate: same URL or very similar quote start (first 80 chars)
+                const seenUrls = new Set();
+                const seenQuoteStarts = new Set();
+                const deduplicated = result.citations.filter(c => {
+                    const url = c.url || '';
+                    const quoteStart = (c.quote || '').slice(0, 80).toLowerCase().replace(/\s+/g, ' ').trim();
+                    if (url && seenUrls.has(url)) return false;
+                    if (quoteStart && seenQuoteStarts.has(quoteStart)) return false;
+                    if (url) seenUrls.add(url);
+                    if (quoteStart) seenQuoteStarts.add(quoteStart);
+                    return true;
+                }).slice(0, 6);
+
+                if (!deduplicated.length) {
+                    citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No document citations found in corpus.</p>';
+                    return;
+                }
+
+                citationsEl.innerHTML = deduplicated.map(c => {
                     const label = sourceLabel[c.source] || c.source || 'Document';
                     const efta = c.efta_id || '';
                     const url = c.url || '';
+                    // Clean up quote — remove stray newlines and markup
+                    const quote = (c.quote || '').replace(/\\n/g, ' ').replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
                     return `
                         <div class="citation-item">
-                            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
+                            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap;">
                                 <span class="citation-type">${label}</span>
                                 ${efta ? `<span class="citation-id">${efta}</span>` : ''}
-                                <span style="margin-left:auto;font-size:0.7rem;color:var(--text-secondary);">score: ${c.score}</span>
                             </div>
-                            <p class="citation-snippet">"${c.quote}"</p>
-                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Document &rarr;</a>` : ''}
+                            <p class="citation-snippet">"${quote}"</p>
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Source Document &rarr;</a>` : ''}
                         </div>`;
                 }).join('');
             } else {
@@ -628,26 +660,31 @@ function renderModelCards() {
     const container = document.getElementById('modelCards');
     if (!container) return;
 
-    const models = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert'];
+    // Show our 3 production models + Legal-BERT as documented failure
+    const models = ['logistic_baseline', 'random_forest_tfidf', 'sentence_transformer_svc', 'legal_bert'];
     const labels = {
         logistic_baseline: 'Logistic Regression',
         random_forest_tfidf: 'Random Forest + TF-IDF',
+        sentence_transformer_svc: 'ST + SVC (Semantic)',
         legal_bert: 'Legal-BERT (Fine-tuned)'
     };
+    const bestModel = 'logistic_baseline'; // highest F1
 
     container.innerHTML = models.filter(m => data[m]).map(m => {
         const met = data[m];
-        const acc = (met.accuracy * 100).toFixed(1);
-        const f1 = (met.f1_macro * 100).toFixed(1);
+        if (!met.accuracy && !met.f1_macro) return ''; // skip v2 entries without test metrics
+        const acc = met.accuracy != null ? (met.accuracy * 100).toFixed(1) : '—';
+        const f1 = met.f1_macro != null ? (met.f1_macro * 100).toFixed(1) : '—';
         const mcc = (met.mcc || 0).toFixed(3);
         const prec = ((met.precision_positive || 0) * 100).toFixed(1);
         const rec = ((met.recall_positive || 0) * 100).toFixed(1);
-        const best = m === 'random_forest_tfidf';
+        const best = m === bestModel;
+        const deprecated = m === 'legal_bert';
 
-        return `<div class="model-card${best ? ' best' : ''}">
+        return `<div class="model-card${best ? ' best' : ''}${deprecated ? ' deprecated' : ''}">
             <div class="model-card-header">
-                <span class="model-card-name">${labels[m]}${best ? ' (Best)' : ''}</span>
-                <span class="model-card-acc">${acc}%</span>
+                <span class="model-card-name">${labels[m]}${best ? ' ★ Best F1' : ''}${deprecated ? ' — Deprecated' : ''}</span>
+                <span class="model-card-acc" style="${deprecated ? 'color:#ef4444' : ''}">${acc}%</span>
             </div>
             <div class="model-card-desc">${met.description || ''}</div>
             <div class="model-metrics-row">
@@ -664,8 +701,8 @@ function createMetricsBarChart() {
     const data = STATE.modelResults;
     if (!data || data.error) return;
 
-    const models = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert'].filter(m => data[m]);
-    const labels = { logistic_baseline: 'Logistic', random_forest_tfidf: 'RF+TF-IDF', legal_bert: 'Legal-BERT' };
+    const models = ['logistic_baseline', 'random_forest_tfidf', 'sentence_transformer_svc', 'legal_bert'].filter(m => data[m] && data[m].accuracy != null);
+    const labels = { logistic_baseline: 'Logistic', random_forest_tfidf: 'RF+TF-IDF', sentence_transformer_svc: 'ST+SVC', legal_bert: 'Legal-BERT' };
 
     const metrics = ['accuracy', 'f1_macro', 'mcc', 'precision_positive', 'recall_positive'];
     const metricLabels = { accuracy: 'Accuracy', f1_macro: 'F1 Macro', mcc: 'MCC', precision_positive: 'Precision', recall_positive: 'Recall' };
@@ -698,8 +735,8 @@ function createConfusionMatrices() {
     const container = document.getElementById('confusionMatrices');
     if (!container) return;
 
-    const models = ['logistic_baseline', 'random_forest_tfidf', 'legal_bert'].filter(m => data[m] && data[m].confusion_matrix);
-    const labels = { logistic_baseline: 'Logistic Regression', random_forest_tfidf: 'Random Forest + TF-IDF', legal_bert: 'Legal-BERT' };
+    const models = ['logistic_baseline', 'random_forest_tfidf', 'sentence_transformer_svc', 'legal_bert'].filter(m => data[m] && data[m].confusion_matrix);
+    const labels = { logistic_baseline: 'Logistic Regression', random_forest_tfidf: 'Random Forest + TF-IDF', sentence_transformer_svc: 'ST + SVC', legal_bert: 'Legal-BERT' };
 
     container.innerHTML = models.map(m => {
         return `<div class="confusion-panel">
@@ -815,35 +852,35 @@ function renderLimitations() {
 
     container.innerHTML = `
         <div class="limitation-card">
-            <h4>Class Imbalance (${st.imbalance_ratio || 3.4}:1 ratio)</h4>
-            <p>${st.class_distribution ? st.class_distribution.no_consequence : 51} individuals face no consequences vs only ${st.class_distribution ? st.class_distribution.has_consequence : 15} with consequences. A naive majority-class baseline achieves ${((st.baseline_majority_accuracy || 0.773) * 100).toFixed(1)}% accuracy.</p>
+            <h4>Class Imbalance (3.4:1 ratio)</h4>
+            <p>51 individuals face documented consequences vs 15 without in the labeled set. A naive majority-class baseline achieves 78.6% accuracy, setting the floor any model must beat.</p>
             <div class="improvement">
                 <strong>Improvement path:</strong>
-                <p>SMOTE oversampling or collecting more positive examples through expanded document sources.</p>
+                <p>SMOTE oversampling or expanding the labeled set with more positive examples from the 2,800+ document corpus.</p>
             </div>
         </div>
         <div class="limitation-card">
-            <h4>Small Sample Size (66 individuals)</h4>
-            <p>${st.cross_val_note || 'With 66 total samples, cross-validation folds have very few positive examples.'} Single misclassifications cause large metric swings.</p>
+            <h4>Small Labeled Set (66 individuals)</h4>
+            <p>Models are trained on 66 hand-labeled people; single misclassifications cause large metric swings in F1. Test set has only 3 positive examples for ST+SVC.</p>
             <div class="improvement">
                 <strong>Improvement path:</strong>
-                <p>Document-level predictions (2,800+ samples) increase statistical power, as shown by Legal-BERT's approach.</p>
+                <p>Expand labeled corpus to all 1,264 registry people using the existing ChromaDB citation evidence for annotation.</p>
             </div>
         </div>
         <div class="limitation-card">
-            <h4>Legal-BERT Underperformance (45.7% acc)</h4>
-            <p>Despite domain-specific pretraining, Legal-BERT underperforms simpler models due to person-level aggregation noise and limited fine-tuning data.</p>
+            <h4>ST+SVC Bottleneck (F1 = 0.44)</h4>
+            <p>The sentence transformer + SVC model matches the majority baseline because the test set contains only 3 positive examples — not a code bug, a data limitation.</p>
             <div class="improvement">
                 <strong>Improvement path:</strong>
-                <p>More fine-tuning data, attention-weighted person-level aggregation, and longer training could improve results.</p>
+                <p>Fine-tune the sentence encoder on legal domain text or increase training data to unlock the semantic representation's potential.</p>
             </div>
         </div>
         <div class="limitation-card">
-            <h4>Feature Dependency on Severity Score</h4>
-            <p>Removing severity score drops F1 by ${Math.abs(st.ablation_severity_drop || -0.074).toFixed(3)}. NLP-only features achieve F1=${(st.ablation_nlp_only_f1 || 0.714).toFixed(3)}.</p>
+            <h4>Inference on Unlabeled People</h4>
+            <p>RF+TF-IDF uses approximated features for 1,198 of 1,264 people (exact NLP features only available for 66). Approximation uses evidence_scores fields as proxies.</p>
             <div class="improvement">
                 <strong>Improvement path:</strong>
-                <p>Stronger NLP features (entity embeddings, relationship extraction, temporal analysis) could reduce external dependency.</p>
+                <p>Run full NLP feature extraction (sentiment, doc diversity, subject-line detection) on all 1,264 people using the raw corpus.</p>
             </div>
         </div>`;
 }

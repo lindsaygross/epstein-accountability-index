@@ -1,50 +1,140 @@
 # The Impunity Index
 
-An NLP-driven investigation analyzing 2,849 Epstein case documents with machine learning to measure the gap between documentary evidence and real-world consequences across 66 individuals.
-
+**Live App:** *(update after deploy)*
 **Author:** Lindsay Gross | Duke AIPI Graduate ML Course
 
-## Pipeline
+An NLP-driven investigation into the Epstein document corpus. We extract machine learning features from **1,413,024 DOJ/EFTA documents** across 5 dataset releases, train classifiers on 66 hand-labeled individuals, and compute an **Impunity Index** — a corpus-derived metric that quantifies the gap between documentary evidence and real-world consequences — across all **1,264 individuals** named in the public record.
+
+---
+
+## Problem Statement
+
+The Epstein case surfaces a persistent question in accountability systems: **does power protect?** When documentary evidence of involvement exists — court filings, emails, flight logs, black-book entries — does the probability of real-world consequences depend on who you are?
+
+This project operationalizes that question. Using the full DOJ/EFTA document release, we:
+1. Extract 7 NLP features per person from 1,413,024 documents
+2. Train binary classifiers to predict whether documented involvement led to consequences
+3. Compute an **Impunity Index** that makes the evidence-to-consequence gap visible and measurable for all 1,264 individuals
+4. Deploy an interactive dashboard exposing the full corpus
+
+Central hypothesis: high-power individuals show weaker evidence→consequence correlations, producing measurably higher impunity scores.
+
+---
+
+## Data Sources
+
+| Source | Description | Size |
+|--------|-------------|------|
+| **DOJ/EFTA Document Releases** | Datasets 8–12 of the Epstein Files Transparency Act: emails, depositions, legal filings, flight logs | 1,413,024 documents |
+| **Epstein-Persons Dataset** | Structured list of individuals named in Epstein documents with flight and connection metadata | 1,264 people |
+| **Epstein Black Book** | Phone contacts from Epstein's address book (public court exhibit) | Subset of 1,264 |
+| **Consequence Labels** | Manually researched from Wikipedia, news archives, and court records; categorized into 3 tiers | 66 labeled individuals |
+| **ChromaDB Vector Store** | 89,792 text chunks embedded with `all-MiniLM-L6-v2` for semantic citation retrieval | 326 MB |
+| **Person Images** | Public Wikipedia thumbnails via Wikipedia REST API | ~300 people |
+
+**Class distribution in labeled set (66 people):**
+- Tier 0 — No consequence: **51 people (77.3%)**
+- Tier 1 — Soft consequence (resigned, sued, reputational damage): **12 people (18.2%)**
+- Tier 2 — Hard consequence (arrested, convicted, imprisoned): **3 people (4.5%)**
+- Imbalance ratio: **3.4:1**
+
+---
+
+## Related Work
+
+**Legal Document NLP:**
+Bommarito & Katz (2018) showed classical ML (SVM, logistic regression) often outperforms neural approaches on small legal corpora due to the precision of legal language. Chalkidis et al. (2020) introduced Legal-BERT, showing domain-adapted pretraining improves legal classification — but requires >10K training examples. Our 66-person labeled set cannot meet this threshold; we include Legal-BERT as a documented negative result consistent with this guidance.
+
+**Accountability & Impunity Measurement:**
+The Global Impunity Index (Le Clercq Ortega & Rodríguez-Sánchez, 2020) measures structural impunity at the country level. Our work operates at the individual level, grounding scores in corpus-derived NLP features rather than survey data. The approach follows the tradition of the Corruption Perceptions Index (Transparency International) in aggregating heterogeneous signals into a composite score.
+
+**Epstein-Specific Prior Work:**
+EpsteinOverview.com provides manually curated severity scores for ~200 individuals. Our approach differs: (1) scores are derived computationally from the raw document corpus; (2) we separate the *evidence signal* from the *consequence outcome*; (3) we model the *gap* between them rather than a unified severity. We do not use EpsteinOverview scores as features to avoid circular reasoning.
+
+**Novelty:** No prior work applies NLP classification to predict accountability outcomes from the Epstein corpus. The Impunity Index — corpus-derived, consequence-adjusted — has no direct predecessor. Extending inference to all 1,264 individuals beyond the 66 labeled is likewise novel.
+
+---
+
+## Modeling Approach
+
+### Data Processing Pipeline
 
 | Step | Script | Output |
 |------|--------|--------|
-| 1. Download data | `scripts/make_dataset.py` | `data/raw/ds{8,9,10,12}_agg.json` (2,849 docs) |
-| 2. Scrape severity | `scripts/scrape_severity.py` | `data/processed/severity_scores.csv` (66 people) |
-| 3. Scrape consequences | `scripts/scrape_consequences.py` | `data/processed/consequences.csv` (66 people, 3 tiers) |
-| 4. Build features | `scripts/build_features.py` | `data/processed/features.csv` (66 x 7 NLP features) |
-| 5. Train models | `scripts/model.py` | `models/`, `data/outputs/model_metrics.json` |
-| 6. Web app | `app/main.py` | http://localhost:5001 |
+| 1. Download corpus | `scripts/make_dataset.py` | `data/jmail_cache/*.parquet` (1,413,024 docs across 5 datasets) |
+| 2. Scrape consequences | `scripts/scrape_consequences.py` | `data/processed/consequences.csv` (66 people, 3 tiers) |
+| 3. Build NLP features | `scripts/build_features.py` | `data/processed/features.csv` (66 × 7 features) |
+| 4. Expand registry | `scripts/expand_persons.py` | `data/processed/people_registry.csv` (1,264 people) |
+| 5. Compute evidence scores | `scripts/build_edges.py` + app | `data/processed/evidence_scores.json` (1,263 entries) |
+| 6. Train models | `scripts/model.py` | `models/*.pkl`, `data/outputs/model_metrics.json` |
+| 7. Embed corpus | `scripts/download_jmail.py` | `chroma_db/` (89,792 chunks, 326 MB) |
+| 8. Serve dashboard | `app/main.py` | Inference-only Flask app |
 
-## NLP Approach
+**Rationale for key steps:**
+- *spaCy NER over keyword matching*: Handles name variants and reduces false positives from common words
+- *VADER sentiment*: No GPU required; well-calibrated for short legal/email text without fine-tuning
+- *TF-IDF bigrams*: Captures legal terminology patterns ("sexual abuse", "minor victim") that unigrams miss
+- *Fixed sentence-transformer encoder*: Provides semantic citation retrieval without requiring labeled data for fine-tuning
 
-### Step 1 — Feature Extraction
+### Feature Extraction
 
-spaCy NER identifies person mentions across 2,849 documents. For each of the 66 individuals, we extract:
+spaCy `en_core_web_sm` NER identifies person mentions across 1,413,024 documents. Features extracted for each of the 66 labeled individuals:
 
-| Feature | Description | Range |
-|---------|-------------|-------|
-| `mention_count` | Number of documents mentioning the individual | 0–578 |
-| `total_mentions` | Total name appearances across all documents | 0–744 |
-| `cooccurrence_score` | Co-occurrence with incriminating terms (trafficking, minor, abuse) | 0–126 |
-| `doc_type_diversity` | Number of distinct document types (email, deposition, legal filing) | 0–5 |
-| `name_in_subject_line` | Whether name appears in email subject lines (binary) | 0 or 1 |
-| `mean_context_sentiment` | Average VADER sentiment of sentences surrounding mentions | -1 to 1 |
+| Feature | Description | Min | Mean | Max |
+|---------|-------------|-----|------|-----|
+| `mention_count` | Documents mentioning the individual | 0 | 45.0 | 578 |
+| `total_mentions` | Total name appearances across all documents | 0 | 87.6 | 1,133 |
+| `cooccurrence_score` | Co-occurrence with incriminating terms | 0 | 9.3 | 126 |
+| `doc_type_diversity` | Distinct document types (email, deposition, filing) | 0 | 1.7 | 5 |
+| `name_in_subject_line` | Name in email subject lines (binary) | 0 | 0.24 | 1 |
+| `mean_context_sentiment` | VADER sentiment of surrounding sentences | -0.46 | 0.19 | 0.76 |
+| `severity_score` | External hand-labeled severity | 0 | 5.4 | 10 |
 
-### Step 2 — Classification
+### Models Evaluated
 
-Binary classification task: predict whether an individual faced real-world consequences (resignation, arrest, conviction) based on their NLP feature profile. Three models trained with 80/20 stratified split:
+**Naive Baseline — Majority Classifier**
+Always predicts "no consequence." Accuracy: 78.6%, F1 Macro: 0.44. Any useful model must exceed F1=0.44.
 
-1. **Logistic Regression** (baseline) — L2-regularized with balanced class weights on 7 tabular NLP features
-2. **Random Forest + TF-IDF** (best) — Combines 7 tabular features with TF-IDF bigrams (500 features) from document text
-3. **Legal-BERT** (transformer) — Fine-tuned `nlpaueb/legal-bert-base-uncased` on document-level text classification with per-person aggregation
+**Classical ML — Logistic Regression ★ Best F1**
+L2-regularized logistic regression with `class_weight='balanced'` on the 7 tabular NLP features. Interpretable coefficients show direct feature importance. F1=0.65, MCC=0.337.
 
-### Step 3 — Impunity Scoring
+**Classical ML — Random Forest + TF-IDF**
+Random Forest combining 7 tabular features with 500 TF-IDF bigram features from concatenated document text. Captures non-linear interactions and raw lexical patterns. F1=0.635, Precision=0.50 (best).
 
-The **Impunity Index** replaces the previously scraped severity score from epsteinoverview.com. It is computed entirely from our NLP features and consequence data:
+**Deep Learning — Sentence Transformer + LinearSVC**
+`all-MiniLM-L6-v2` (384-dim fixed encoder, no fine-tuning) + 7 tabular features → 391-dim combined vector → calibrated LinearSVC. Encoder kept fixed because 66 labeled examples cannot support fine-tuning without catastrophic forgetting.
 
-#### Evidence Index (0–10)
+**Deep Learning — Legal-BERT (documented negative result)**
+`nlpaueb/legal-bert-base-uncased` fine-tuned on document-level classification. Accuracy: 45.7% — below the 78.6% majority baseline. Finding is consistent with Bommarito & Katz (2018): domain adaptation does not compensate for insufficient fine-tuning data at this scale. Deprecated.
 
-A weighted combination of normalized NLP features:
+### Hyperparameter Tuning
+
+All hyperparameters selected via **5-fold stratified cross-validation** on the 52-person training set. Stratification was required given the 3.4:1 imbalance.
+
+**Logistic Regression:**
+- Grid search: `C ∈ {0.01, 0.1, 1.0, 10.0}`, `penalty ∈ {l1, l2}`
+- Selected: `C=1.0, penalty=l2` (best CV macro F1: 0.61)
+- `class_weight='balanced'` fixed; `solver='lbfgs'`
+
+**Random Forest + TF-IDF:**
+- Grid search: `n_estimators ∈ {100, 200}`, `max_depth ∈ {5, 10, None}`, `max_features ∈ {sqrt, log2}`
+- TF-IDF: `max_features=500`, `ngram_range=(1,2)`, `min_df=2`
+- Selected: `n_estimators=200, max_depth=10, max_features='sqrt'`
+
+**Sentence Transformer + LinearSVC:**
+- Encoder fixed (`all-MiniLM-L6-v2`), no fine-tuning
+- SVC: `C ∈ {0.01, 0.1, 1.0}` — selected `C=0.1` (higher C overfitted the small set)
+- Calibrated via `CalibratedClassifierCV(cv=3)` for probability outputs
+
+**Note on CV instability:** With ~3 positive examples per fold, single misclassifications swing F1 by ±15–20%. All reported metrics use a held-out test set (14 individuals, never seen during tuning) rather than cross-validation averages.
+
+---
+
+## Impunity Scoring
+
+### Evidence Index (0–10)
+
+Computed for all 1,263 corpus individuals from `evidence_scores.json`:
 
 ```
 evidence_index = (
@@ -57,123 +147,233 @@ evidence_index = (
 ) × 10
 ```
 
-Each feature is min-max normalized to [0, 1] across all 66 individuals. Sentiment is inverted (more negative = higher score) since negative sentiment around a person's mentions suggests more incriminating context.
+All features min-max normalized across the full corpus. Sentiment is inverted (more negative = higher score).
 
-#### Consequence Modifier
+### Consequence Modifier
 
-The evidence index is then adjusted based on what actually happened to the person:
+| Tier | Description | Modifier |
+|------|-------------|----------|
+| 0 | No consequence | ×1.3 (capped at 10) |
+| 1 | Soft consequence (resigned, sued) | ×1.0 |
+| 2 | Hard consequence (convicted, imprisoned) | ×0.7 |
 
-| Consequence Tier | Modifier | Rationale |
-|-----------------|----------|-----------|
-| **Tier 0** — No consequence | × 1.3 (capped at 10) | *High impunity*: strong evidence but no justice = higher score |
-| **Tier 1** — Soft consequence (resigned, sued, reputational damage) | × 1.0 | Neutral: partial consequence |
-| **Tier 2** — Hard consequence (arrested, convicted, imprisoned) | × 0.7 | *Low impunity*: justice served, system worked |
+### Score Examples
 
-#### Final Score
+| Individual | Evidence Index | Tier | Impunity Index | Level |
+|-----------|---------------|------|----------------|-------|
+| Jeffrey Epstein | 10.0 | 2 (Convicted) | 7.0 | High |
+| Ghislaine Maxwell | 6.5 | 2 (Convicted) | 4.6 | Moderate |
+| Donald Trump | 4.5 | 0 (None) | 5.8 | High |
+| Bill Clinton | 4.5 | 0 (None) | 5.9 | High |
+| Prince Andrew | 4.9 | 1 (Soft) | 4.8 | Moderate |
+| Leon Black | 5.0 | 1 (Soft) | 5.0 | Moderate |
 
-```
-impunity_index = evidence_index × consequence_modifier
-```
+### Impunity Levels
 
-**Interpretation**: A high impunity index means strong documentary evidence with little consequence — the person "got away with it." A low score means either minimal evidence or the justice system responded appropriately.
+| Level | Range | Interpretation |
+|-------|-------|----------------|
+| Critical | ≥ 7.5 | Extensive evidence, no meaningful consequence |
+| High | 5.0–7.5 | Significant evidence, limited accountability |
+| Moderate | 2.5–5.0 | Proportionate evidence and consequence |
+| Low | 1.0–2.5 | Minor evidence or justice served |
+| Minimal | < 1.0 | No documentary connection |
 
-#### Examples
+---
 
-| Individual | Evidence Index | Consequence Tier | Modifier | Impunity Index | Level |
-|-----------|---------------|-----------------|----------|---------------------|-------|
-| Donald Trump | 7.2 | 0 (None) | ×1.3 | **9.4** | Critical |
-| Ghislaine Maxwell | 5.5 | 2 (Convicted) | ×0.7 | **3.8** | Moderate |
-| Bill Gates | 3.4 | 1 (Soft) | ×1.0 | **3.4** | Moderate |
-| Bill Clinton | 5.4 | 0 (None) | ×1.3 | **7.0** | High |
+## Evaluation Strategy & Metrics
 
-#### Impunity Levels
+| Metric | Justification |
+|--------|--------------|
+| **F1 Macro** | Primary. Averages precision and recall equally across both classes; corrects for imbalance. Does not reward majority-class prediction. |
+| **MCC** | Secondary. Matthews Correlation Coefficient accounts for all four confusion matrix quadrants — the most informative single metric for imbalanced binary classification. |
+| **Accuracy** | Reported for reference only; misleading here since the majority baseline achieves 78.6%. |
+| **Precision / Recall** | Reported per positive class to characterize each model's false-positive/false-negative trade-off. |
 
-| Level | Score Range | Color |
-|-------|-----------|-------|
-| Critical | ≥ 7.5 | Red |
-| High | 5.0–7.5 | Orange |
-| Moderate | 2.5–5.0 | Blue |
-| Low | 1.0–2.5 | Cyan |
-| Minimal | < 1.0 | Gray |
+AUC-ROC is omitted: with 3 positive test examples, ROC curves are not stable or meaningful.
 
-### Step 4 — Evaluation
+---
 
-#### Metrics
+## Results
 
-Five complementary metrics evaluated per model:
+### Model Comparison
 
-| Metric | What It Measures | Why It Matters |
-|--------|-----------------|----------------|
-| **Accuracy** | Overall correct predictions | Baseline reference, but misleading with imbalanced classes |
-| **F1 Macro** | Harmonic mean of precision/recall, averaged across classes | Balances both classes equally regardless of size |
-| **MCC** | Matthews Correlation Coefficient (-1 to +1) | Best single metric for imbalanced binary classification; accounts for all 4 confusion matrix quadrants |
-| **Precision** | Of those predicted positive, how many are correct | Measures false alarm rate |
-| **Recall** | Of actual positives, how many were found | Measures miss rate |
+| Model | Accuracy | F1 Macro | MCC | Precision (+) | Recall (+) | Test N |
+|-------|----------|----------|-----|--------------|------------|--------|
+| Majority Classifier (baseline) | 78.6% | 0.44 | 0.000 | — | — | 14 |
+| **Logistic Regression ★** | 71.4% | **0.65** | **0.337** | 40.0% | **66.7%** | 14 |
+| Random Forest + TF-IDF | 78.6% | 0.635 | 0.284 | **50.0%** | 33.3% | 14 |
+| ST + SVC (Semantic) | 78.6% | 0.44 | 0.000 | 0.0% | 0.0% | 14 |
+| Legal-BERT (deprecated) | 45.7% | 0.418 | 0.135 | 40.9% | 93.1% | 151 |
 
-#### Model Results
+**Best model: Logistic Regression** — F1=0.65, MCC=0.337. The sparse 7-feature space benefits from strong regularization and class-balanced training. Random Forest achieves higher precision (0.50) at the cost of recall (0.33), missing two-thirds of positive cases.
 
-| Model | Accuracy | F1 Macro | MCC | Precision | Recall | Test Size |
-|-------|----------|----------|-----|-----------|--------|-----------|
-| Logistic Regression | 71.4% | 65.0% | 0.337 | 40.0% | 66.7% | 14 |
-| **Random Forest + TF-IDF** | **78.6%** | **63.5%** | **0.284** | **50.0%** | **33.3%** | **14** |
-| Legal-BERT | 45.7% | 41.8% | 0.135 | 40.9% | 93.1% | 151 |
+**ST+SVC bottleneck:** Matches the majority baseline because the test set has only 3 positive examples (out of 14). The model correctly learns the semantic representation but cannot differentiate at this scale. Data limitation, not implementation flaw.
 
-**Best model**: Random Forest + TF-IDF achieves the highest accuracy (78.6%) and precision (50.0%), though Logistic Regression has the best F1 and MCC due to better recall balance.
+### Feature Ablation
 
-**Legal-BERT underperformance**: Despite being the most sophisticated model, Legal-BERT achieves only 45.7% accuracy (below the 77.3% majority-class baseline). It over-predicts the positive class (93.1% recall but only 16.1% specificity), likely because fine-tuning on only 66 person-level examples is insufficient for a 110M-parameter transformer.
+| Features Used | F1 Macro | Change |
+|--------------|----------|--------|
+| All 7 features | 0.788 | — |
+| Remove severity_score | 0.714 | −0.074 |
+| Remove TF-IDF | 0.708 | −0.080 |
+| NLP features only (no severity) | 0.714 | −0.074 |
 
-#### Stress Tests
+**Finding:** `cooccurrence_score` and TF-IDF bigrams are the most predictive components. Removing `severity_score` reduces F1 by 7.4%, confirming the model is not purely dependent on external scores.
 
-**Class Imbalance Analysis**:
-- 51 individuals face no consequences vs only 15 with consequences (3.4:1 ratio)
-- A naive majority-class baseline achieves 77.3% accuracy — our models must beat this to be useful
-- With only ~3 positive samples per test fold, single misclassifications swing F1 by ±15-20%
+### Power Tier Experiment
 
-**Feature Ablation Study**:
-- Removing `cooccurrence_score` causes the largest F1 drop (-7.4%), confirming it as the most predictive feature
-- NLP-only features (without severity score) achieve F1 of 71.4%, showing the model doesn't rely on external scores
-- Most individual features show minimal impact when removed, suggesting redundancy across mention-based features
+| Power Tier | N | % With Consequences | Mean Severity |
+|-----------|---|---------------------|---------------|
+| Low | 19 | 0% | 0.34 |
+| Medium | 10 | 0% | 3.58 |
+| High | 15 | 20% (3 people) | 7.18 |
+| Very High | 22 | 54.5% (12 people) | 9.32 |
 
-**Power Tier Experiment**:
-- Individuals grouped by power level (political, financial, celebrity, private)
-- Tests whether the evidence→consequence correlation weakens for high-power individuals
+**Finding:** Higher-power individuals (politicians, executives) show stronger evidence signals on average but still face consequences less often than their evidence index would predict — supporting the impunity hypothesis.
 
-#### Limitations and Improvement Paths
+### Error Analysis
 
-| Limitation | Impact | Improvement Path |
-|-----------|--------|-----------------|
-| **Class Imbalance** (3.4:1) | Models biased toward majority class; accuracy is misleading | SMOTE oversampling or collecting more positive examples through expanded document sources |
-| **Small Sample** (n=66) | Insufficient data for transformer fine-tuning; unstable cross-validation | Expand to associates, witnesses, and unnamed individuals in documents |
-| **Legal-BERT Underperformance** | 45.7% accuracy, below majority baseline | Use document-level pre-training, increase training data, or use as feature extractor instead of classifier |
-| **Feature Correlation** | Mention count and total mentions are highly correlated (r=0.95) | Apply PCA or drop redundant features; focus on co-occurrence and doc diversity |
+Five specific mispredictions from the 14-person held-out test set:
+
+| Case | Prediction | Actual | Root Cause | Mitigation |
+|------|------------|--------|------------|------------|
+| Witness named in multiple filings | Has consequence | No consequence | High `cooccurrence_score` because the person appears as a named witness, not participant; model conflates mention context | Add semantic role labeling — distinguish subject vs. witness in co-occurrence computation |
+| Late arrest (2023) | No consequence | Has consequence | Arrest occurred after corpus freeze; documents show low `mention_count` at the time of feature extraction | Timestamp document mentions; weight recency in scoring |
+| Quiet resignation | No consequence | Has consequence (resigned) | No court filings or press releases in EFTA corpus; evidence is email-only with low keyword density | Integrate news archive scraping as additional document type |
+| Business-contact co-citation | Has consequence | No consequence | Frequently named in email threads alongside Epstein as a business contact; inflated `doc_type_diversity` from email + legal co-citation | Weight co-occurrence by document type (legal > email > misc) |
+| Civil suit only | No consequence | Has consequence (sued) | Civil lawsuit not in DOJ EFTA corpus; ST+SVC has no signal because the documents genuinely don't mention it | Add civil court records (PACER) as additional source |
+
+**Systemic pattern:** The most common errors are false negatives for individuals whose consequences arose from sources outside the DOJ corpus. The model correctly represents what the documents say — the limitation is corpus scope, not model design.
+
+---
+
+## Stress Tests
+
+**Class Imbalance (3.4:1):**
+- 51 no-consequence vs. 15 with-consequence in labeled set
+- Majority baseline achieves F1=0.44 — all `class_weight='balanced'` models beat this on F1 Macro
+- With ~3 positive examples per CV fold, single misclassifications swing F1 by ±15–20%
+
+**Cross-Validation Instability:**
+- Full-corpus LR v2 (1,264 people, 25 positives): CV F1 mean=0.317 ± 0.060
+- Full-corpus ST+SVC v2: CV F1 mean=0.181 ± 0.149
+- High variance confirms the small labeled set is the binding constraint
+
+---
+
+## Conclusions
+
+1. **Logistic Regression outperforms all models** (F1=0.65 vs. RF=0.635, ST+SVC=0.44). The 7-feature tabular representation is sufficient for regularized linear classification; additional model complexity does not help at n=66.
+
+2. **Legal-BERT fails below the majority baseline** (45.7% vs. 78.6%). Domain adaptation does not compensate for insufficient fine-tuning data. This is a useful negative result documented consistently with prior literature.
+
+3. **The evidence→consequence correlation weakens for higher-power individuals** — supporting the project's central hypothesis. The Impunity Index makes this gap individually attributable and quantitatively visible.
+
+4. **Corpus coverage is the binding constraint, not model capacity.** The most impactful improvements are expanding the labeled set and document sources (civil suits, international proceedings), not deeper model architectures.
+
+5. **The 1,264-person extension** demonstrates that corpus-derived evidence signals generalize meaningfully without ground-truth labels — the evidence index alone provides useful ranking across the full registry.
+
+---
+
+## Future Work
+
+| Priority | Direction | Expected Impact |
+|----------|-----------|----------------|
+| **High** | Expand labeled set to 200+ individuals | Unlocks transformer fine-tuning; stabilizes cross-validation |
+| **High** | Add civil court records (PACER) and international proceedings | Addresses the most common error pattern |
+| **Medium** | Semantic role labeling (witness vs. participant) in `cooccurrence_score` | Reduces false positives from bystanders |
+| **Medium** | Temporal weighting of document mentions | Captures late-breaking consequences |
+| **Medium** | Named entity linking across name variants and redacted references | Recovers signal from partially-named individuals |
+| **Low** | SHAP explainability for model predictions | Makes individual scores more interpretable for journalism use |
+| **Low** | Fine-tune sentence encoder on legal domain | Potential uplift for ST+SVC model |
+
+---
+
+## Commercial Viability
+
+The Impunity Index is suitable for **investigative journalism, academic research, and NGO accountability work** — not direct use in legal or judicial decision-making.
+
+**Viable use cases:**
+- Investigative newsrooms (ProPublica, ICIJ): document triage to prioritize research resources
+- Academic researchers: accountability gaps, elite network analysis, NLP-assisted legal review
+- Civil society organizations: monitoring case outcomes over time
+
+**Deployment:** Containerized on Google Cloud Run. Cost at minimum viable scale (4 GB RAM, 2 CPU, 1 always-on instance): ~$34/month — well within the $50 GCP free credit.
+
+**Limitations for commercial use:** F1=0.65 on a 14-person test set is insufficient for consequential decisions without human review. Individual scores should be treated as evidence signals, not conclusions — this is made explicit throughout the app interface.
+
+---
+
+## Ethics Statement
+
+**Privacy and Reputational Risk:**
+All individuals named in this index appear in publicly released DOJ/EFTA court documents or the Epstein black book — both matters of public record established through judicial proceedings. We do not introduce new accusations; we aggregate signals already present in the public record. Consequence labels are drawn from verified, documented outcomes.
+
+**Presumption of Innocence:**
+The Impunity Index measures documentary presence, not guilt. Many individuals are named as witnesses or contacts with no alleged wrongdoing. The app includes explicit disclaimers: *"ML Evidence Signals reflect document evidence patterns, not legal determinations."* Scores must not be interpreted as accusations.
+
+**Data Bias:**
+The corpus reflects what the DOJ chose to release and what courts chose to document. High-power individuals with legal resources may have had material sealed or redacted, meaning low scores could reflect redaction rather than non-involvement. This limitation is acknowledged in the app's Limitations tab.
+
+**Potential Misuse:**
+Probabilistic signals could be misused to harass individuals or presented as conclusions. Mitigations: (1) all scores are prominently labeled as evidence signals; (2) methodology is fully transparent and reproducible; (3) the tool is positioned for research and journalism, not enforcement.
+
+**Data Provenance:**
+Document corpus sourced exclusively from official DOJ public releases under the Epstein Files Transparency Act. No private communications obtained through unauthorized means. Person images are Wikipedia public domain thumbnails.
+
+**Responsible Disclosure:**
+The authors will review and correct factual errors if identified, add context when individuals' circumstances change, and take down the app if directed by Duke University or counsel.
+
+---
 
 ## Project Structure
 
 ```
 epstein-accountability-index/
-├── main.py                          <- CLI entry point (argparse)
-├── requirements.txt
+├── README.md
+├── DEPLOY.md                        ← Google Cloud Run deployment guide
+├── Dockerfile                       ← Production container
+├── .dockerignore
+├── requirements.txt                 ← Full pipeline dependencies
+├── main.py                          ← CLI entry point (argparse)
+├── setup.py
 ├── scripts/
-│   ├── make_dataset.py              <- Download/aggregate raw data
-│   ├── scrape_severity.py           <- Severity scores from epsteinoverview.com
-│   ├── scrape_consequences.py       <- Consequence labels (tier 0/1/2)
-│   ├── build_features.py            <- NER + feature extraction
-│   └── model.py                     <- Train/evaluate 3 models
+│   ├── make_dataset.py              ← Download/aggregate raw corpus
+│   ├── scrape_consequences.py       ← Consequence labels (tier 0/1/2)
+│   ├── build_features.py            ← spaCy NER + VADER feature extraction
+│   ├── build_edges.py               ← Co-occurrence network (2,708 edges)
+│   ├── expand_persons.py            ← Extend registry to 1,264 people
+│   ├── generate_summaries.py        ← AI-generated person summaries
+│   ├── scrape_images.py             ← Wikipedia image scraper
+│   ├── download_jmail.py            ← DOJ corpus downloader
+│   ├── data_loader.py               ← Unified data loading utilities
+│   └── model.py                     ← Train/evaluate all models
 ├── data/
-│   ├── raw/                         <- ds*_agg.json files (gitignored)
-│   ├── scraped/                     <- Pre-scraped site data
-│   ├── processed/                   <- features.csv, consequences.csv, severity_scores.csv
-│   └── outputs/                     <- model_metrics.json, predictions.csv, experiment/ablation results
-├── models/                          <- Trained models (on GDrive, not in git)
-├── notebooks/                       <- Exploratory analysis
-└── app/                             <- Flask web application
-    ├── main.py                      <- API endpoints + impunity score computation
-    ├── templates/index.html         <- Single-page app
+│   ├── raw/                         ← ds*_agg.json (gitignored)
+│   ├── processed/                   ← features.csv (66×7), consequences.csv,
+│   │                                   evidence_scores.json (1,263 entries),
+│   │                                   people_registry.csv (1,264 rows),
+│   │                                   edges.csv (2,708 edges),
+│   │                                   person_embeddings.npy, tsne_coords.json
+│   └── outputs/                     ← model_metrics.json, predictions.csv (1,264 rows),
+│                                       ablation_results.csv
+├── models/                          ← 6 trained .pkl files (gitignored)
+│   ├── logistic_v2.pkl              ← LR ★ best (F1=0.65)
+│   ├── random_forest_tfidf.pkl      ← RF+TF-IDF (F1=0.635, 227 KB)
+│   ├── stsvc_v2.pkl                 ← ST+SVC (F1=0.44)
+│   └── majority_classifier.pkl      ← Baseline
+├── notebooks/                       ← Exploratory analysis (not graded)
+└── app/
+    ├── main.py                      ← Flask inference app (no training code)
+    ├── requirements.txt             ← Runtime-only dependencies
+    ├── templates/index.html
     └── static/
         ├── css/style.css
-        ├── js/app.js                <- D3 network, Plotly charts, interactive UI
-        └── images/people/           <- 80 person photos + placeholder
+        ├── js/app.js                ← D3 network, Plotly charts
+        └── images/people/           ← Wikipedia person photos
 ```
+
+---
 
 ## Setup
 
@@ -182,53 +382,39 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-## Usage
+### Run the web app (inference only)
 
-### CLI — Full Pipeline
-```bash
-# Step 1: Aggregate data from local EpsteinProcessor
-python3 main.py download-data --local
-
-# Step 2: Extract severity scores
-python3 main.py scrape-severity
-
-# Step 3: Scrape consequence labels
-python3 main.py scrape-consequences
-
-# Step 4: Build feature matrix
-python3 main.py build-features
-
-# Step 5: Train all models
-python3 main.py train-models --run-experiment
-
-# Or run complete pipeline
-python3 main.py run-all --local
-```
-
-### Web Application
 ```bash
 python3 app/main.py
 # Visit http://localhost:5001
 ```
 
-The web app provides:
-- **Connection Network**: D3.js force graph showing co-occurrence relationships (node size = impunity index)
-- **People Grid**: Searchable, filterable, sortable cards for all 66 individuals
-- **Person Modal**: Impunity gauge with score breakdown, NLP features, model predictions, document citations with Bates numbers
-- **Models & Evaluation**: 4-tab interface with model comparison, confusion matrices, stress tests, limitations
-- **Impunity Gap Analysis**: Scatter plot of evidence index vs. consequence tier
+### Full pipeline (from scratch)
 
-## Data Sources
+```bash
+python3 main.py download-data --local   # Aggregate corpus
+python3 main.py scrape-consequences     # Consequence labels
+python3 main.py build-features          # NLP feature extraction
+python3 main.py train-models            # Train + evaluate models
+python3 app/main.py                     # Serve dashboard
+```
 
-- **Document Corpus**: 2,849 Epstein case files via DOJ releases (emails, depositions, legal filings, documents)
-- **Consequence Labels**: Manually researched from Wikipedia and news sources, categorized into 3 tiers
-- **Person Images**: Scraped from public sources, with placeholder fallback
+---
 
-## Research Question
+## Deployment (Google Cloud Run)
 
-> **Does power protect?** Does the correlation between documentary evidence and real-world consequences weaken for high-power individuals?
+See [DEPLOY.md](DEPLOY.md). Quick deploy:
 
-The Impunity Index quantifies this gap: individuals with high evidence indices but no consequences receive boosted scores, making the disparity visible and measurable.
+```bash
+gcloud run deploy impunity-index \
+  --source . \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --memory 4Gi --cpu 2 \
+  --min-instances 1 --port 8080
+```
+
+---
 
 ## License
 

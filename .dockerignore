@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info
+dist/
+build/
+
+# Training artifacts (not needed at inference time)
+notebooks/
+scripts/
+data/raw/
+data/jmail_cache/
+data/scraped/
+
+# Large model files not used in serving
+models/legal_bert/
+models/distilbert/
+models/*.pt
+models/*.pth
+models/logistic_regression.pkl
+models/stsvc.pkl
+
+# Dev/local config
+.env
+*.env
+CLAUDE.md
+.venv/
+venv/
+
+# CI/CD
+.github/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Temp files
+/tmp/
+*.log
