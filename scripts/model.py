@@ -3,14 +3,17 @@
 """
 Train and evaluate classification models for consequence prediction.
 
-This script trains three models to predict whether an individual faced
+This script trains four models to predict whether an individual faced
 consequences (binary: 0 = none, 1 = any consequence) based on NLP features
 extracted from Epstein case documents.
 
 Models:
+    0. MajorityClassifier  — naive baseline (always predicts majority class)
     1. Logistic Regression  — balanced baseline on 7 tabular features
     2. Random Forest + TF-IDF — combines document text with tabular features
-    3. Legal-BERT — fine-tuned nlpaueb/legal-bert-base-uncased on document text
+    3. SentenceTransformer + LinearSVC — deep learning: all-MiniLM-L6-v2
+       embeddings (fixed encoder, no fine-tuning) + tabular features + SVM
+    (Legacy) Legal-BERT — fine-tuned nlpaueb/legal-bert-base-uncased (deprecated)
 
 Note: With only 66 people (51 no-consequence, 15 with consequences),
 we use binary classification and careful cross-validation. The 3-class
@@ -28,10 +31,13 @@ import numpy as np
 import pandas as pd
 from scipy import sparse
 from scipy.stats import pearsonr
+from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
+from sklearn.svm import LinearSVC
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import (
     accuracy_score, f1_score, classification_report,
     confusion_matrix
@@ -139,6 +145,69 @@ class ModelTrainer:
         else:
             logger.warning(f"No text corpora found at {corpora_file}. "
                           f"RF+TF-IDF will use tabular features only.")
+
+    # ------------------------------------------------------------------
+    # MODEL 0: MajorityClassifier (naive baseline — rubric requirement)
+    # ------------------------------------------------------------------
+    def train_majority_classifier(self) -> Dict[str, Any]:
+        """
+        Train a naive majority-class baseline.
+
+        Always predicts the most frequent class (no consequence). This is
+        the rubric-required naive baseline — any useful model must beat it.
+
+        Returns:
+            Dictionary with model and metrics
+        """
+        logger.info("=" * 60)
+        logger.info("MODEL 0: MajorityClassifier (Naive Baseline)")
+        logger.info("=" * 60)
+
+        model = DummyClassifier(strategy="most_frequent", random_state=42)
+        model.fit(self.X_train, self.y_train)
+
+        y_pred = model.predict(self.X_test)
+        # DummyClassifier supports predict_proba for most_frequent
+        y_prob = model.predict_proba(self.X_test)[:, 1]
+
+        accuracy = accuracy_score(self.y_test, y_pred)
+        f1 = f1_score(self.y_test, y_pred, average='macro', zero_division=0)
+        conf_matrix = confusion_matrix(self.y_test, y_pred)
+
+        majority_class = self.y_train.mode()[0]
+        class_dist = self.y_train.value_counts(normalize=True).to_dict()
+
+        logger.info(
+            f"Majority class: {majority_class} "
+            f"(training distribution: {class_dist})"
+        )
+        logger.info(f"MajorityClassifier - Accuracy: {accuracy:.4f}, F1: {f1:.4f}")
+        logger.info(
+            "NOTE: F1 is low because majority classifier never predicts "
+            "the minority class (consequence), so macro avg is penalized."
+        )
+        logger.info(f"Confusion Matrix:\n{conf_matrix}")
+        logger.info(
+            f"Classification Report:\n"
+            f"{classification_report(self.y_test, y_pred, target_names=['None', 'Consequence'], zero_division=0)}"
+        )
+
+        # Save model
+        model_dir = _resolve_path("models")
+        model_dir.mkdir(parents=True, exist_ok=True)
+        joblib.dump({'model': model}, model_dir / "majority_classifier.pkl")
+        logger.info(f"Saved MajorityClassifier to {model_dir / 'majority_classifier.pkl'}")
+
+        return {
+            'model': model,
+            'accuracy': accuracy,
+            'f1_macro': f1,
+            'confusion_matrix': conf_matrix.tolist(),
+            'predictions': y_pred,
+            'probabilities': y_prob,
+            'majority_class': int(majority_class),
+            'class_distribution': {str(k): float(v) for k, v in class_dist.items()},
+        }
 
     # ------------------------------------------------------------------
     # MODEL 1: Logistic Regression (replaces DummyClassifier)
@@ -693,6 +762,226 @@ class ModelTrainer:
         }
 
     # ------------------------------------------------------------------
+    # MODEL 3b: SentenceTransformer + LinearSVC (deep learning model)
+    # ------------------------------------------------------------------
+    def train_sentence_transformer_svc(
+        self,
+        model_name: str = "all-MiniLM-L6-v2",
+        corpus_path: Optional[str] = None,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Train LinearSVC on top of SentenceTransformer embeddings.
+
+        Architecture:
+            1. Embed each person's document corpus with all-MiniLM-L6-v2
+               (384-dim), using mean-pooling over overlapping windows.
+            2. Concatenate 384-dim semantic vector with 7 tabular features
+               → 391-dim combined representation.
+            3. Train LinearSVC (C grid-search) with class_weight='balanced'.
+            4. Wrap with CalibratedClassifierCV to get calibrated probabilities.
+
+        The encoder is used as a FIXED FEATURE EXTRACTOR — no fine-tuning.
+        The model builds its own semantic space from the Epstein corpus.
+
+        Falls back gracefully if sentence-transformers is not installed.
+
+        Args:
+            model_name: sentence-transformers model identifier.
+            corpus_path: Override path to corpus JSONL.  If None, uses
+                         the paper-trail sibling repo corpus.
+
+        Returns:
+            Dictionary with model and metrics, or None if deps missing.
+        """
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError:
+            logger.warning(
+                "sentence-transformers not installed. "
+                "Install it in the paper-trail venv: "
+                "pip install sentence-transformers"
+            )
+            return None
+
+        logger.info("=" * 60)
+        logger.info("MODEL 3b: SentenceTransformer + LinearSVC (deep learning)")
+        logger.info("=" * 60)
+        logger.info(f"Encoder: {model_name}  (fixed — no fine-tuning)")
+
+        # ── Resolve corpus path ──────────────────────────────────────────
+        if corpus_path is None:
+            # Try sibling paper-trail repo first (2,492 docs)
+            sibling = _resolve_path("..") / "epstein-paper-trail" / "data" / "raw" / "raw_corpus.jsonl"
+            # Fall back to local person_corpora.json
+            local_corpora = _resolve_path("data/processed/person_corpora.json")
+            use_jsonl = sibling.exists()
+        else:
+            sibling = Path(corpus_path)
+            use_jsonl = sibling.exists()
+            local_corpora = _resolve_path("data/processed/person_corpora.json")
+
+        # ── Build per-person text corpus ─────────────────────────────────
+        name_to_text: Dict[str, str] = {}
+
+        if use_jsonl:
+            logger.info(f"Loading corpus from {sibling} ...")
+            import json as _json
+            per_person: Dict[str, List[str]] = {}
+            with open(sibling, encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        rec = _json.loads(line)
+                    except Exception:
+                        continue
+                    text = (rec.get("text") or "").strip()
+                    if not text:
+                        continue
+                    # Attribute this chunk to any person name it mentions
+                    text_lower = text.lower()
+                    for name in self.df["name"].tolist():
+                        if name.lower() in text_lower:
+                            per_person.setdefault(name, []).append(text)
+
+            for name, chunks in per_person.items():
+                name_to_text[name] = " ".join(chunks)[:50_000]  # cap at 50k chars
+
+            logger.info(f"  Found text for {len(name_to_text)}/{len(self.df)} people")
+
+        elif local_corpora.exists():
+            import json as _json
+            with open(local_corpora) as fh:
+                raw = _json.load(fh)
+            name_to_text = {k: v[:50_000] for k, v in raw.items() if v}
+            logger.info(f"  Loaded local corpora: {len(name_to_text)} people")
+
+        # ── Load encoder ─────────────────────────────────────────────────
+        logger.info(f"Loading SentenceTransformer: {model_name} ...")
+        encoder = SentenceTransformer(model_name)
+
+        # ── Build embeddings per person ──────────────────────────────────
+        def _embed_person(name: str) -> np.ndarray:
+            """Mean-pool embeddings of 512-char windows over corpus text."""
+            text = name_to_text.get(name, "")
+            if not text:
+                # Zero vector if no corpus — model sees only tabular features
+                return np.zeros(384, dtype=np.float32)
+
+            # Overlapping windows (512 chars, 128 overlap)
+            windows = []
+            step = 384
+            for i in range(0, len(text), step):
+                window = text[i: i + 512]
+                if window.strip():
+                    windows.append(window)
+
+            if not windows:
+                return np.zeros(384, dtype=np.float32)
+
+            embs = encoder.encode(windows, batch_size=32, show_progress_bar=False,
+                                  convert_to_numpy=True)
+            return embs.mean(axis=0)
+
+        logger.info("Embedding all people ...")
+        all_names = self.df["name"].tolist()
+        all_embeddings = np.vstack([_embed_person(n) for n in all_names])
+        logger.info(f"  Embedding matrix: {all_embeddings.shape}")
+
+        # ── Combine embeddings with tabular features ─────────────────────
+        scaler = StandardScaler()
+        X_tab = scaler.fit_transform(self.X)       # All 66 people, 7 features
+        X_combined = np.hstack([all_embeddings, X_tab])  # (66, 391)
+
+        # Re-split using same indices as the rest of training
+        X_train_c = X_combined[self.X_train.index]
+        X_test_c = X_combined[self.X_test.index]
+
+        logger.info(f"  Combined feature dim: {X_combined.shape[1]}")
+        logger.info(f"  Train: {X_train_c.shape}, Test: {X_test_c.shape}")
+
+        # ── Train LinearSVC with calibration (for probabilities) ─────────
+        param_grid = {"estimator__C": [0.01, 0.1, 1.0, 10.0]}
+
+        base_svc = LinearSVC(
+            class_weight="balanced",
+            max_iter=5000,
+            random_state=42,
+        )
+        # CalibratedClassifierCV wraps SVC to give predict_proba
+        calibrated = CalibratedClassifierCV(base_svc, cv=3, method="sigmoid")
+
+        cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+
+        grid_search = GridSearchCV(
+            calibrated,
+            param_grid,
+            cv=cv,
+            scoring="f1",
+            n_jobs=-1,
+            verbose=0,
+        )
+
+        grid_search.fit(X_train_c, self.y_train)
+        logger.info(f"Best params: {grid_search.best_params_}")
+        logger.info(f"Best CV F1:  {grid_search.best_score_:.4f}")
+
+        model = grid_search.best_estimator_
+
+        # ── Evaluate ─────────────────────────────────────────────────────
+        y_pred = model.predict(X_test_c)
+        y_prob = model.predict_proba(X_test_c)[:, 1]
+
+        accuracy = accuracy_score(self.y_test, y_pred)
+        f1 = f1_score(self.y_test, y_pred, average="macro", zero_division=0)
+        conf_matrix = confusion_matrix(self.y_test, y_pred)
+
+        logger.info(
+            f"SentenceTransformer+SVC - Accuracy: {accuracy:.4f}, F1: {f1:.4f}"
+        )
+        logger.info(f"Confusion Matrix:\n{conf_matrix}")
+        logger.info(
+            f"Classification Report:\n"
+            f"{classification_report(self.y_test, y_pred, target_names=['None', 'Consequence'], zero_division=0)}"
+        )
+
+        # ── Save model artifacts ─────────────────────────────────────────
+        model_dir = _resolve_path("models")
+        model_dir.mkdir(parents=True, exist_ok=True)
+
+        artifacts = {
+            "model": model,
+            "scaler": scaler,
+            "encoder_name": model_name,
+            "feature_cols": self.feature_cols,
+            "name_to_text": name_to_text,  # for inference on new names
+        }
+        joblib.dump(artifacts, model_dir / "stsvc.pkl")
+        logger.info(f"Saved ST+SVC model to {model_dir / 'stsvc.pkl'}")
+
+        # Store per-person probabilities for use in impunity scoring
+        person_probs: Dict[str, float] = {}
+        for idx, name in zip(self.X_test.index, self.df.loc[self.X_test.index, "name"]):
+            row_pos = list(self.X_test.index).index(idx)
+            person_probs[name] = float(y_prob[row_pos])
+
+        return {
+            "model": model,
+            "scaler": scaler,
+            "encoder_name": model_name,
+            "accuracy": accuracy,
+            "f1_macro": f1,
+            "confusion_matrix": conf_matrix.tolist(),
+            "predictions": y_pred,
+            "probabilities": y_prob,
+            "person_probabilities": person_probs,
+            "embedding_dim": 384,
+            "combined_dim": X_combined.shape[1],
+            "corpus_coverage": len(name_to_text),
+        }
+
+    # ------------------------------------------------------------------
     # EXPERIMENT: Power Tier Analysis
     # ------------------------------------------------------------------
     def run_experiment(self) -> pd.DataFrame:
@@ -945,9 +1234,17 @@ class ModelTrainer:
     # ------------------------------------------------------------------
     # ORCHESTRATION
     # ------------------------------------------------------------------
-    def train_all_models(self, skip_bert: bool = False) -> Dict[str, Dict]:
+    def train_all_models(
+        self,
+        skip_bert: bool = True,
+        skip_st: bool = False,
+    ) -> Dict[str, Dict]:
         """
         Train all models and return results.
+
+        Args:
+            skip_bert: Skip Legal-BERT (deprecated, defaults to True).
+            skip_st:   Skip SentenceTransformer+SVC model.
 
         Returns:
             Dictionary with results for all models
@@ -956,13 +1253,22 @@ class ModelTrainer:
 
         results = {}
 
+        # Model 0: MajorityClassifier (naive baseline)
+        results['majority_classifier'] = self.train_majority_classifier()
+
         # Model 1: Logistic Regression
         results['logistic_baseline'] = self.train_logistic_regression()
 
         # Model 2: Random Forest + TF-IDF
         results['random_forest_tfidf'] = self.train_random_forest_tfidf()
 
-        # Model 3: Legal-BERT
+        # Model 3b: SentenceTransformer + LinearSVC (deep learning)
+        if not skip_st:
+            st_result = self.train_sentence_transformer_svc()
+            if st_result is not None:
+                results['sentence_transformer_svc'] = st_result
+
+        # Model 3 (Legacy): Legal-BERT — skip by default (deprecated)
         if not skip_bert:
             bert_result = self.train_legal_bert()
             if bert_result is not None:
@@ -1057,8 +1363,16 @@ def main() -> None:
         help="Run power tier experiment after training"
     )
     parser.add_argument(
-        "--skip-bert", action="store_true",
-        help="Skip Legal-BERT training (faster)"
+        "--skip-bert", action="store_true", default=True,
+        help="Skip Legal-BERT training (deprecated; defaults to True)"
+    )
+    parser.add_argument(
+        "--run-bert", action="store_true",
+        help="Enable Legal-BERT training (slow, deprecated)"
+    )
+    parser.add_argument(
+        "--skip-st", action="store_true",
+        help="Skip SentenceTransformer+SVC model"
     )
     parser.add_argument(
         "--run-ablation", action="store_true",
@@ -1072,7 +1386,8 @@ def main() -> None:
         corpora_path=args.corpora_path,
     )
 
-    trainer.train_all_models(skip_bert=args.skip_bert)
+    skip_bert = not args.run_bert  # default: skip Legal-BERT
+    trainer.train_all_models(skip_bert=skip_bert, skip_st=args.skip_st)
     trainer.evaluate_all_models()
 
     if args.run_experiment:

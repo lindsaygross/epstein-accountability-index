@@ -132,3 +132,7 @@ models/legal_bert/
 *.pth
 .DS_Store
 .claude/
+
+# Local vector DB / embedding artifacts
+chroma_db/
+data/processed/person_embeddings.npy

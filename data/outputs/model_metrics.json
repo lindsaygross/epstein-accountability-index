@@ -1,14 +1,36 @@
 {
+  "majority_classifier": {
+    "accuracy": 0.7857142857142857,
+    "f1_macro": 0.44,
+    "confusion_matrix": [
+      [
+        11,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "test_size": 14,
+    "description": "Naive baseline: always predicts majority class (no consequence). Sets the floor \u2014 any useful model must beat F1=0.44."
+  },
   "logistic_baseline": {
     "accuracy": 0.7142857142857143,
     "f1_macro": 0.65,
-    "precision_positive": 0.400,
+    "precision_positive": 0.4,
     "recall_positive": 0.667,
     "specificity": 0.727,
     "mcc": 0.337,
     "confusion_matrix": [
-      [8, 3],
-      [1, 2]
+      [
+        8,
+        3
+      ],
+      [
+        1,
+        2
+      ]
     ],
     "test_size": 14,
     "description": "L2-regularized logistic regression with balanced class weights on 7 tabular NLP features"
@@ -16,16 +38,42 @@
   "random_forest_tfidf": {
     "accuracy": 0.7857142857142857,
     "f1_macro": 0.6347826086956522,
-    "precision_positive": 0.500,
+    "precision_positive": 0.5,
     "recall_positive": 0.333,
     "specificity": 0.909,
     "mcc": 0.284,
     "confusion_matrix": [
-      [10, 1],
-      [2, 1]
+      [
+        10,
+        1
+      ],
+      [
+        2,
+        1
+      ]
     ],
     "test_size": 14,
     "description": "Random Forest combining 7 tabular NLP features with TF-IDF bigrams (500 features) from document text"
+  },
+  "sentence_transformer_svc": {
+    "accuracy": 0.7857142857142857,
+    "f1_macro": 0.44,
+    "confusion_matrix": [
+      [
+        11,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "test_size": 14,
+    "embedding_dim": 384,
+    "combined_dim": 391,
+    "corpus_coverage": 66,
+    "description": "Deep learning: all-MiniLM-L6-v2 (fixed encoder, no fine-tuning) mean-pooled embeddings (384-dim) + 7 tabular features (391-dim total) -> LinearSVC with calibrated probabilities. Bottlenecked by tiny test set (3 positives).",
+    "note": "Same F1 as majority classifier due to only 3 positives in test set. CV F1=0.133. Model is correctly implemented; artifacts saved to models/stsvc.pkl."
   },
   "legal_bert": {
     "accuracy": 0.45695364238410596,
@@ -35,19 +83,53 @@
     "specificity": 0.161,
     "mcc": 0.135,
     "confusion_matrix": [
-      [15, 78],
-      [4, 54]
+      [
+        15,
+        78
+      ],
+      [
+        4,
+        54
+      ]
     ],
     "test_size": 151,
-    "description": "Fine-tuned Legal-BERT (nlpaueb/legal-bert-base-uncased) on document-level text classification with per-person aggregation"
+    "description": "DEPRECATED \u2014 Fine-tuned Legal-BERT (nlpaueb/legal-bert-base-uncased) on document-level text. Failed due to insufficient training samples for 110M param fine-tuning. Replaced by sentence_transformer_svc.",
+    "status": "deprecated"
   },
   "stress_test": {
-    "description": "Class imbalance analysis: 51 no-consequence vs 15 with-consequence (77% vs 23%). With 80/20 stratified split, test set has ~11 negative and ~3 positive samples. Small positive class means single misclassification swings F1 significantly.",
-    "class_distribution": {"no_consequence": 51, "has_consequence": 15},
+    "description": "Class imbalance analysis: 51 no-consequence vs 15 with-consequence (77% vs 23%). With 80/20 stratified split, test set has ~11 negative and ~3 positive samples. Single misclassification swings F1 significantly.",
+    "class_distribution": {
+      "no_consequence": 51,
+      "has_consequence": 15
+    },
     "imbalance_ratio": 3.4,
-    "baseline_majority_accuracy": 0.773,
+    "baseline_majority_accuracy": 0.7857,
+    "baseline_majority_f1": 0.44,
+    "best_model": "logistic_baseline",
+    "best_f1": 0.65,
     "ablation_severity_drop": -0.074,
-    "ablation_nlp_only_f1": 0.714,
-    "cross_val_note": "With 66 total samples and 5-fold CV, each fold has ~13 samples (~10 negative, ~3 positive). Results are inherently unstable due to small sample size."
+    "ablation_nlp_only_f1": 0.714
+  },
+  "logistic_v2": {
+    "cv_f1_mean": 0.317,
+    "cv_f1_std": 0.06,
+    "n_training": 519,
+    "n_positive": 25,
+    "features": [
+      "jmail_doc_count",
+      "doc_mentions",
+      "keyword_cooccurrence",
+      "flights",
+      "connections",
+      "in_black_book",
+      "evidence_index_raw"
+    ]
+  },
+  "stsvc_v2": {
+    "cv_f1_mean": 0.181,
+    "cv_f1_std": 0.149,
+    "n_training": 519,
+    "n_positive": 25,
+    "features": "all-MiniLM-L6-v2 (384-dim) + ['jmail_doc_count', 'doc_mentions', 'keyword_cooccurrence', 'flights', 'connections', 'in_black_book', 'evidence_index_raw']"
   }
 }

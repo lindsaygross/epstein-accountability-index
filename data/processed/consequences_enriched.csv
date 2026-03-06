@@ -1,0 +1,1265 @@
+name,consequence_tier,consequence_description,source_url,category,sector,nationality,country,jurisdiction,flights,connections,in_black_book,consequence_source
+(b) (7) (E),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+*D - CBP OFFCR-C,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+*D - CBP Officer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+*D - CBP Officer-C,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+*F - CBP OFFCR-C,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+*F - CBP Officer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+*F - CBP Officer-C,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+5|<y1ER,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+A. Marie Villapania,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+ACT LT,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+AD Thompson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+AJN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+ALEX,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+ALEXANDER ROSSMILLER,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+AMY,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+ANDREW ROHRBACH,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Abbe David Lowell,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Abramson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Activities Lieutenant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Adam Back,0,,,business,finance,British,UK,uk,0,0,False,kaggle_only
+Adam Hollander,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Adam Johnson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Adam Mueller,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Adam Shand Kydd,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Adler,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Adnan Khashoggi,0,,,business,finance,Saudi,Saudi Arabia,middle_east,0,0,True,kaggle_only
+Adriana Ross,0,,,associate,associate,Polish,Poland,other,43,27,True,kaggle_only
+Adriel Bettelheim,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Aerin Lauder,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Ahmed Assed,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Al Gore,0,,,politician,politics,American,USA,us_federal,0,0,True,paper_trail
+Al Seckel,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Alan Dershowitz,1,,,legal,legal,American,USA,us_federal,33,12,True,paper_trail
+Alan Greenberg,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Alan Greenspan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alan Grubman,0,,,legal,legal,American,USA,us_federal,0,0,True,kaggle_only
+Alan Stone,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Alan Stopeck,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alastair Campbell,0,,,politician,politics,British,UK,uk,0,0,True,kaggle_only
+Albert Bryan Jr.,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+Alberto Mugrabi,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Alberto Pinto,0,,,other,other,French,France,eu,0,0,True,kaggle_only
+Alberto Vilar,0,,,business,finance,Cuban-American,USA,us_federal,0,0,True,kaggle_only
+Alec Baldwin,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Alejandra Villarreal,0,,,socialite,socialite,Mexican,Mexico,other,0,0,True,kaggle_only
+Alexander,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alexander Acosta,1,,,legal,legal,American,USA,us_federal,0,9,False,paper_trail
+Alexandra Dixon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alfred Taubman,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Alfredo Rodriguez,0,,,associate,associate,American,USA,us_federal,280,18,False,kaggle_only
+Alice,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alice Fisher,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alicia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alicia Arden,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Alina,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Alison Moe,0,,,legal,legal,American,USA,us_federal,0,1,False,kaggle_only
+Alison Nathan,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Alix de Ligne,0,,,socialite,socialite,Belgian,Belgium,eu,0,0,True,kaggle_only
+Amanda,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Amanda Brudenell-Bruce,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Amber,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Amir Elichai,0,,,business,finance,Israeli,Israel,israel,0,2,False,kaggle_only
+Amir Taaki,0,,,business,finance,British-Iranian,UK,uk,0,0,False,kaggle_only
+Andre Matevousian,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andrea K. Johnstone,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andrea Mitrovich,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+"Andrea, S",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andres Pastrana,0,,,politician,politics,Colombian,Colombia,other,0,0,True,kaggle_only
+Andrew Cuomo,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Andrew FLINKELMAN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andrew Farkas,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Andrew Lourie,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andrew Luster,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Andrew Oosterbaan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andrew Stein,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Andy Dios,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Andy Stewart,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Anil Ambani,0,,,business,finance,Indian,Indian,other,0,2,False,kaggle_only
+Anita De Domenico,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Anna,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Anna Wintour,0,,,other,other,British-American,USA,uk,0,0,True,kaggle_only
+Annabi,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Annie Farmer,0,,,other,other,American,USA,us_federal,0,5,False,kaggle_only
+Anthony Correra,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Antonio Damasio,0,,,academic,academia,Portuguese-American,USA,us_federal,0,0,False,kaggle_only
+Antonio Villaraigosa,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ari Ben-Menashe,0,,,military-intelligence,intelligence,Israeli,Israel,israel,0,0,False,kaggle_only
+Ariane de Rothschild,0,,,business,finance,French,France,eu,0,0,False,kaggle_only
+Ariel Stoddard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Arnold J. Rael,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Arpad Busson,0,,,business,finance,French,France,eu,0,0,True,kaggle_only
+Arthur L. Aidala,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+"Ash, Lorinda",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ashley,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ashley Davis,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Associate Warden,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Associate Warden 1,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Associate Warden of Programs,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Audrey Strauss,0,,,associate,associate,,Unknown,unknown,0,11,False,kaggle_only
+Austin Hill,0,,,business,finance,Canadian,Canada,canada,0,0,False,kaggle_only
+Autumn Allen,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+BENHAM OPR/DAVID,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+BROOKE BEDOYA,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bahna,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Barack Obama,0,No consequences related to Epstein; minimal documented connection,https://en.wikipedia.org/wiki/Barack_Obama,politician,politics,American,USA,us_federal,0,0,False,hand_labeled
+Barbara Burns,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Barbara J. Burns,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Barbara Walters,0,,,celebrity,entertainment,American,USA,us_federal,1,3,True,kaggle_only
+Baron Jean de Gunzburg,0,,,socialite,socialite,French,France,eu,0,0,True,kaggle_only
+Barry Diller,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Barry Josephson,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Barry Krischer,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+"Beaudouin, Robert MD",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Beef Knuckles,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bella Klein,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Ben Goertzel,0,,,academic,academia,Brazilian-American,USA,brazil,0,2,False,kaggle_only
+Ben Stiller,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Bennett L. Gershman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Berke,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bernard Arnault,0,,,business,finance,French,France,eu,0,0,True,kaggle_only
+Bernard L. Schwartz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bernard Madoff,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bernard Rapoport,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bernie Ecclestone,0,,,business,finance,British,UK,uk,0,0,True,kaggle_only
+Bernie Steinberg,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Bhavna,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bill Clinton,0,No legal consequences related to Epstein; denied wrongdoing,https://en.wikipedia.org/wiki/Bill_Clinton,politician,politics,American,USA,us_federal,38,11,True,hand_labeled
+Bill Cosby,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bill Gates,1,Epstein meetings cited as factor in divorce from Melinda Gates (2021); faced sustained reputational damage,https://en.wikipedia.org/wiki/Bill_Gates,business,finance,American,USA,us_federal,1,8,False,hand_labeled
+Bill Hammond,0,,,associate,associate,American,USA,us_federal,44,16,False,kaggle_only
+Bill Richardson,0,Denied allegations; died September 2023 before further proceedings,https://en.wikipedia.org/wiki/Bill_Richardson,politician,politics,American,USA,us_federal,6,8,True,hand_labeled
+Billy Barou,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Billy Dimauro,0,,,associate,associate,,Unknown,unknown,2,0,False,kaggle_only
+Billy G. Smith,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Blaine Trump,0,,,socialite,socialite,American,USA,us_federal,0,0,True,kaggle_only
+Bob Colacello,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Bob Denham,0,,,legal,legal,American,USA,us_federal,0,0,True,kaggle_only
+Bob Weinstein,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Bob Wright,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Bobbi C. Sternheim,0,,,associate,associate,,Unknown,unknown,0,7,False,kaggle_only
+Bono,0,,,celebrity,entertainment,Irish,Irish,other,0,0,True,kaggle_only
+Borge Brende,0,,,business,finance,Norwegian,Norway,eu,0,0,False,kaggle_only
+Boris Nikolic,0,,,academic,academia,Croatian-American,USA,us_federal,0,3,False,kaggle_only
+Boustani,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brad Karp,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Brad Nowell,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bradley Edwards,0,,,legal,legal,American,USA,us_federal,0,5,False,kaggle_only
+Bradley T Gross,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brandon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brendan Henry,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brent Bradbury,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brett Ratner,0,,,celebrity,entertainment,American,USA,us_federal,3,4,True,kaggle_only
+Brian F. Egolf,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brian Mathis,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Brian Roberts,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Britney,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brittany,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Brock Pierce,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Bruce A. Green,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bruce Castor,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bruce Willis,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Bryan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Bryan Bishop,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+"Buchwald, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Burt Minkoff,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Byron,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Byron Elrod,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+C. Edge,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+C. Iali,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+CAPTAIN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+CEOLILIA STEEN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+CHRISTIAN R. EVERDELL,0,,,associate,associate,,Unknown,unknown,0,7,False,kaggle_only
+CLAUDIUS ENGLISH,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+CMC (Case Management Coordinator),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Calhan/Thomas,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Caliendo,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Cameron Diaz,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Camille S. Biros,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Cappelletti,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Caren Casey,0,,,associate,associate,American,USA,us_federal,11,22,True,kaggle_only
+Carl Icahn,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Carl Roderfer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Carla,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Carla Bruni,0,,,celebrity,entertainment,Italian-French,France,eu,0,0,True,kaggle_only
+Carlos Gallegos Jr.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Carlos Slim,0,,,business,finance,Mexican,Mexico,other,0,0,True,kaggle_only
+Carly Simon,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Carol Alt,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Caroline Lang,0,,,celebrity,entertainment,French,France,eu,0,0,False,kaggle_only
+Carolyn Andriano,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Carrie Yackee,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Case Management Coordinator,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Casey Tegreene,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Casey Wasserman,1,Artists and clients publicly departed his talent agency after Epstein file revelations (2026),,business,finance,American,USA,us_federal,0,0,False,hand_labeled
+Casey/Caroline,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Cate Blanchett,0,,,celebrity,entertainment,Australian,Australia,australia,0,0,False,kaggle_only
+Catherine Conrad/Rosa,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Catherine Derby,0,,,associate,associate,,Unknown,unknown,3,9,False,kaggle_only
+Catherine Morgan Conrad,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Cecile de Jongh,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Cecilia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Cecilie,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Celina Midelfart,0,,,socialite,socialite,Norwegian,Norway,eu,1,2,True,kaggle_only
+Charisma Edge Lamine,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Charisma Owens,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Charles Delevingne,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Charles Gasparino,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Charles Spencer,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Charlie Rose,0,,,celebrity,entertainment,American,USA,us_federal,2,3,True,kaggle_only
+Chauntae Davies,0,,,other,other,American,USA,us_federal,20,11,False,kaggle_only
+Chels-ifer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Chelsea Clinton,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+Chelsea Handler,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Chelsey,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Chief Psychologist,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Chris Dodd,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Chris Tucker,1,,,celebrity,entertainment,American,USA,us_federal,7,6,False,paper_trail
+Chris Wagner,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Christian Kjaer,0,,,associate,associate,Danish,Danish,other,0,0,False,kaggle_only
+Christie Brinkley,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Christine,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Christine Maxwell,0,,,socialite,socialite,British-American,USA,uk,0,0,True,kaggle_only
+Christine Mazzella,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Christine Murray,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Christof Koch,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Christopher Bryant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Christopher Mason,0,,,other,other,British-American,USA,uk,0,0,True,kaggle_only
+Chuck,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Chuck Yeager,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Cindy Crawford,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Cindy Lopez (Buklarewicz),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Clare Hazell-Iveagh,0,,,socialite,socialite,British,UK,uk,1,2,True,kaggle_only
+Clare Watts,0,,,associate,associate,,Unknown,unknown,17,3,False,kaggle_only
+Claudia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Claudia Schiffer,0,,,celebrity,entertainment,German,Germany,eu,0,0,True,kaggle_only
+Cledus McTavern,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Colleen,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Colleen Maloof,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Colleen McMahon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Colon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Colón,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Connie Rodgers,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Conrad Black,0,,,business,finance,Canadian-British,UK,canada,0,0,True,kaggle_only
+Conrad Hilton,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Corina Tarnita,0,Princeton professor; no consequences related to Epstein,,academic,academia,Romanian-American,USA,us_federal,0,0,False,hand_labeled
+Cosima von Bulow,0,,,socialite,socialite,American,USA,us_federal,0,0,True,kaggle_only
+Cosmo Fry,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Courtney Love,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,paper_trail
+Courtney Wild,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Craig Brubaker,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Crew members,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Crown Princess Mette-Marit,0,,,royalty,royalty,Norwegian,Norway,eu,0,0,False,kaggle_only
+Cy Vance,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+D. Mebane,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+D.S.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+DAMIAN WILLIAMS,0,,,associate,associate,,Unknown,unknown,0,5,False,kaggle_only
+DOJ Redaction,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dan Ariely,0,,,academic,academia,Israeli-American,USA,israel,0,0,False,kaggle_only
+Dana,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dana Burns,0,,,associate,associate,,Unknown,unknown,3,7,False,kaggle_only
+Daniel,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Daniel Aronoff,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Daniel D. Villanueva,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Daniel Dennett,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Daniel Redefie,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Daniel Redgate,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Daniel Rodgers,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Danielle,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Daniels, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Danny Hillis,0,,,academic,academia,American,USA,us_federal,0,0,True,kaggle_only
+Dara,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Darren Indyke,0,,,associate,associate,American,USA,us_federal,18,11,True,kaggle_only
+Darrin,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Darrin Howard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dashawn Robertson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dave,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David A. Ross,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+David Benhamou,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Blaine,0,,,celebrity,entertainment,American,USA,us_federal,2,2,True,kaggle_only
+David Boies,0,,,legal,legal,American,USA,us_federal,4,9,False,kaggle_only
+David Bowie,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+David Copperfield,1,,,celebrity,entertainment,American,USA,us_federal,0,0,True,paper_trail
+David Elbaum,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Geffen,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+David Gelernter,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+David Gross,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+David Hodge,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David K. Parse,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Koch,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+David L. Stone,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Lal,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+David Ledefus,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Malekian,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Manners,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+David Martinez,0,,,business,finance,Mexican,Mexico,other,0,0,True,kaggle_only
+David Nodgyne,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Oscar Markus,0,,,associate,associate,,Unknown,unknown,0,3,False,kaggle_only
+David P. Podgurski,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Parse,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+David Pedgeon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Perry QC,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+David Pottruck,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+David R. Ridgway,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David R. Roberts,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David R. Rutledge,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Reddage,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Redding,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Redeker,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Redfearn,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Redlinger,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Remnick,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+David Rockefeller,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+David Rockyn,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Rodafe,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Roddy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Rodgers,0,,,associate,associate,American,USA,us_federal,1,9,True,kaggle_only
+David Roth,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Steiner,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+David Yarovesky,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Day Watch Operations Lieutenant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Day Watch SHU Officer in Charge,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+DeRosa,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Deborah,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Debra C. Freeman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Deepak Chopra,0,,,celebrity,entertainment,Indian-American,USA,us_federal,0,0,False,kaggle_only
+Delphine Collin-Vézina,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Demi Moore,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Denis Field,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Denise George,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Dennis Donahue,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dennis J. Lerner,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dennis M. Langley,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Derrick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Derron,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Detective,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Detective 2,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Detective Allen Dix,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Deutsche Bank (Institutional),0,,,business,finance,German,Germany,eu,0,0,False,kaggle_only
+Diana Fabi Samson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Diana MacArthur,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Diana Ross,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Diane Denish,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Diane von Furstenberg,0,,,business,finance,Belgian-American,USA,eu,0,0,True,kaggle_only
+Dick Painter,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Djamel Beghal,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Domenico Dolce,0,,,business,finance,Italian,Italy,eu,0,0,True,kaggle_only
+Donald Barr,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Donald P. Parkyns,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Donald Trump,0,No legal consequences related to Epstein; served as 45th and 47th President,https://en.wikipedia.org/wiki/Donald_Trump,politician,politics,American,USA,us_federal,3,14,True,hand_labeled
+Donatella Versace,0,,,business,finance,Italian,Italy,eu,0,0,True,kaggle_only
+Donna Guerin,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Donna Karan,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Dorothy Mantooth,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dorothy [REDACTED],0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Doss/Michael,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dottie Wilson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Doug,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Doug Band,0,,,politician,politics,American,USA,us_federal,33,7,True,kaggle_only
+Doug Hammond,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Dr. Beard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Benedict H. Gross,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Elizabeth F. Loftus,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Jack Shephard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Jarecki,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Lisa M. Rocchio,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Mehmet Oz,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Dr. Moskowitz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Park Dietz,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Dr. Richard Hall,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dr. Rocchio,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Drew Faust,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Duren,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Dustin Hoffman,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+E. Simmonds,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+E/W CONTROL CENTER OFFICER,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+EARL IV,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+ESCORT OFF #1,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+EVENING WATCH OPERATIONS LIEUTENANT,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eating Emo Kids For Breakfast,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ed Romero,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ed Tuttle,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+"Edelstein, R. S.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Edgar Bronfman Sr.,0,,,business,finance,Canadian-American,USA,canada,2,3,True,kaggle_only
+Edmund Healy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Edouard Stern,0,,,business,finance,French,France,eu,0,0,True,kaggle_only
+Edward Garcia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Edward R. Broida,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ehud Barak,0,Faced media scrutiny over Epstein visits; no formal consequences,https://en.wikipedia.org/wiki/Ehud_Barak,politician,politics,Israeli,Israel,israel,15,6,True,hand_labeled
+Ehud Olmert,0,,,politician,politics,Israeli,Israel,israel,0,0,True,kaggle_only
+Eileen Guggenheim,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Electronics Technician,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eley,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eli Broad,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Elie Wiesel,0,,,academic,academia,Romanian-American,USA,us_federal,0,0,True,kaggle_only
+"Elissa R. Miller, Psy.D.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Elizabeth (Libit) Johnson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Elizabeth Hurley,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Elizabeth Kofman,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Elizabeth Stein,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+Elle Macpherson,0,,,celebrity,entertainment,Australian,Australia,australia,0,0,True,kaggle_only
+Ellen Brockman,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+Ellen Spencer,0,,,socialite,socialite,American,USA,us_federal,0,0,True,kaggle_only
+Elon Musk,0,No consequences related to Epstein; denied close relationship,https://en.wikipedia.org/wiki/Elon_Musk,business,finance,American,USA,us_federal,0,3,False,hand_labeled
+Emmy Tayler,0,,,associate,associate,British,UK,uk,0,0,True,kaggle_only
+Employee-1,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eric,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eric Anderson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eric Fischl,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Eric Schmidt,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Estate Manager,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Eva Andersson-Dubin,1,Named in civil lawsuits; faced public scrutiny over relationship with Epstein,https://en.wikipedia.org/wiki/Glenn_Dubin,socialite,socialite,Swedish-American,USA,eu,8,8,True,hand_labeled
+Eve,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Evelyn de Rothschild,0,,,business,finance,British,UK,uk,0,0,True,kaggle_only
+Evelyne,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ewan McGregor,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Executive Staff,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+FBI agents,0,,,associate,associate,,Unknown,unknown,0,4,False,kaggle_only
+Facilities Assistant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Flavio Briatore,0,,,business,finance,Italian,Italy,eu,1,3,True,kaggle_only
+Forensic Psychologist 1,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Forrest Sawyer,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Francis Ward,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Francisco Villacis,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Francois Levy,0,,,business,finance,French,France,eu,0,0,True,kaggle_only
+Francois Pinault,0,,,business,finance,French,France,eu,0,0,True,kaggle_only
+Frank J. Rosa,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Frank Wilczek,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Frank Zaitshik,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Fred Ehrsam,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Frederic Fekkai,0,,,celebrity,entertainment,French-American,USA,eu,0,0,False,kaggle_only
+French legal expert,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Furman, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+G.Tali Colon Meade,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gabrielle,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Gany, Eric",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Garrett Stein,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Garrett Thornburg,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Garth,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gary Johnson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gary McKinnon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gary Roxburgh,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Gavin Andresen,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Gavin Maloof,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Geoffrey Berman,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+George Church,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+George Mitchell,1,,,politician,politics,American,USA,us_federal,6,3,True,paper_trail
+George Stephanopoulos,0,,,celebrity,entertainment,American,USA,us_federal,2,3,True,kaggle_only
+Gerald Grosvenor,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Gerald Kessler,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gerald Lefcourt,0,,,legal,legal,American,USA,us_federal,2,1,False,kaggle_only
+Gerald Peters,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gerald Sussman,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Gerard 't Hooft,0,,,academic,academia,Dutch,Netherlands,eu,0,0,False,kaggle_only
+Ghislaine Maxwell,2,Convicted of sex trafficking and conspiracy; sentenced to 20 years in federal prison (2022),https://en.wikipedia.org/wiki/Ghislaine_Maxwell,associate,associate,British,UK,uk,413,123,True,hand_labeled
+Ghislaine Maxwell's spouse,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ghislaine Nogueras,0,,,socialite,socialite,American,USA,us_federal,0,0,True,kaggle_only
+Ghulam J. Khan Maxwell,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gianni Agnelli,0,,,business,finance,Italian,Italy,eu,0,0,True,kaggle_only
+Girl From Ipanema,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Giuseppe Cipriani,0,,,business,finance,Italian,Italy,eu,0,0,True,kaggle_only
+"Gleeson, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Glen,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Glen Ritchie,0,,,associate,associate,British,UK,uk,0,0,True,kaggle_only
+Glenn Dubin,1,Named in civil lawsuits; faced public scrutiny and allegations related to Epstein,https://en.wikipedia.org/wiki/Glenn_Dubin,business,finance,American,USA,us_federal,15,5,True,hand_labeled
+Gonzalez,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Graydon Carter,0,,,other,other,Canadian-American,USA,canada,0,0,True,kaggle_only
+Greg Norman,0,,,celebrity,entertainment,Australian,Australia,australia,0,0,True,kaggle_only
+Griffin Dunne,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Guy Dellal,0,,,business,finance,British,UK,uk,0,0,True,kaggle_only
+Guy Lewis,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Guy Riordan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Gwendolyn Beck,0,,,associate,associate,American,USA,us_federal,3,3,True,kaggle_only
+HYPERION AIR INC,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Haddon Morgan Foreman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Haley Robson,0,,,associate,associate,American,USA,us_federal,0,3,False,kaggle_only
+Hall,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Hans Peterson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Hardeep Singh Puri,0,,,politician,politics,Indian,Indian,other,0,0,False,kaggle_only
+Harry Beller,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Harvey Weinstein,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Hasnat Khan,0,,,other,other,British-Pakistani,UK,uk,0,0,True,kaggle_only
+Helena Bonham Carter,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Helena Christensen,0,,,celebrity,entertainment,Danish,Danish,other,0,0,True,kaggle_only
+Henry Kissinger,0,,,politician,politics,American,USA,us_federal,1,3,True,kaggle_only
+Henry Kravis,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Henry Pittman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Henry Rosovsky,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Heriberto Tellez,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Hillary Clinton,0,No consequences related to Epstein; minimal documented connection,https://en.wikipedia.org/wiki/Hillary_Clinton,politician,politics,American,USA,us_federal,0,0,False,hand_labeled
+Holly Robson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Howard Gardner,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Howard Lutnick,0,No consequences related to Epstein,https://en.wikipedia.org/wiki/Howard_Lutnick,business,finance,American,USA,us_federal,0,0,False,hand_labeled
+Hugh,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Hugh J. Hurwitz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Hyatt Bass,0,,,socialite,socialite,American,USA,us_federal,0,0,True,kaggle_only
+IGGY,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+IGGY Mandy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ian & Tara Maxwell,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ian Maxwell,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Igor Zinoviev,0,,,associate,associate,Russian-American,USA,russia,19,30,True,kaggle_only
+Ilan Epstein,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Iman,0,,,celebrity,entertainment,Somali-American,USA,us_federal,0,0,True,kaggle_only
+Inmate 3,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Inmate Reyes, Efrain",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Inspector,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ira Magaziner,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Isabel Maxwell,0,,,socialite,socialite,British-American,USA,uk,0,0,True,kaggle_only
+Isiah,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Itamar Arel,0,,,academic,academia,Israeli-American,USA,israel,0,2,False,kaggle_only
+Itzhak Perlman,0,,,celebrity,entertainment,Israeli-American,USA,israel,0,0,True,kaggle_only
+Ivan Rosh,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ivana Trump,0,,,socialite,socialite,Czech-American,USA,us_federal,0,0,True,kaggle_only
+J. A. Keller,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+J. E.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+J. Eakin,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+J. Ray Ormond,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+J.F.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JEANNIE BREANON,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JEFFREY S. PAGLIUCA,0,,,associate,associate,,Unknown,unknown,0,5,False,kaggle_only
+JEGE INC,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JENNIFER GAFFNEY,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JGreen,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JOHN M. LEVENTHAL,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JONATHAN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+JP Morgan (Institutional),0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Jack A. Goldberger,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jack Goldberg,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jack Horner,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Jack Lang,0,,,politician,politics,French,France,eu,0,0,False,kaggle_only
+Jack P. Hill,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jack Scarola,0,,,legal,legal,American,USA,us_federal,0,3,False,kaggle_only
+Jacob Rothschild,0,,,business,finance,British,UK,uk,0,0,True,kaggle_only
+James C. Wills,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+James Christe,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+James Goldston,0,,,other,other,British,UK,uk,0,0,True,kaggle_only
+James L. Brochin,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+James Peterson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+James Petrucci,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+James Stunt,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Jamie Dimon,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Jane,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Jane Doe #1,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jane Doe #2,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jane Doe No. #3,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jane Doe No. 4,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jane Does,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Jane, Annie, Kate, Carolyn, Virginia, and Melissa",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Janice Dickinson,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Janusz Banasiak,0,,,associate,associate,Polish-American,USA,us_federal,0,0,True,kaggle_only
+Jason Calacanis,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Jay Clayton,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jay Lefkowitz,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Jean Luc Bernard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jean Pierre Bourgeois,0,,,other,other,French,France,eu,0,0,True,kaggle_only
+Jean-Georges Vongerichten,0,,,other,other,French-American,USA,eu,0,0,True,kaggle_only
+Jean-Jacques Galtier,0,,,other,other,French,France,eu,0,0,True,kaggle_only
+Jean-Luc Brunel,2,,,associate,associate,French,France,eu,21,12,True,paper_trail
+Jean-Marie Le Pen,0,,,politician,politics,French,France,eu,0,0,True,kaggle_only
+Jeff Bezos,0,No consequences related to Epstein; minimal documented connection,https://en.wikipedia.org/wiki/Jeff_Bezos,business,finance,American,USA,us_federal,0,0,True,hand_labeled
+Jeff Holman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeff Koons,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Jeff Schantz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeff Sloman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeffcy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeffery Pagliuca,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeffrey Epstein,2,,,other,other,American,USA,us_federal,553,119,False,paper_trail
+Jeffrey Fuller,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Jeffrey Jones,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Jeffrey Keller,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeffrey M. Herman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeffrey Oestericher,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeffrey Sachs,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+"Jeffrey, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jennie Saunders,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jennifer Araoz,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Jennifer Kalin,0,,,associate,associate,American,USA,us_federal,10,15,False,kaggle_only
+Jenny,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jenson Smith,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jeremy Rubin,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Jerome,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jerry Goldsmith,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jerry Perenchio,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jes Staley,1,Resigned as Barclays CEO (2021); fined by UK regulators over Epstein ties; sued by JPMorgan,https://en.wikipedia.org/wiki/Jes_Staley,business,finance,American,USA,us_federal,6,4,True,hand_labeled
+Jesse,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jessica de Rothschild,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Jibby,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jibby 2j,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jim Worden,0,,,associate,associate,,Unknown,unknown,3,1,False,kaggle_only
+Jimmy Buffett,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Jimmy Cayne,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Jo Jo,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Joan Rivers,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Joanna Rubinstein,0,,,other,other,Swedish,Sweden,eu,0,0,False,kaggle_only
+Joe,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Johanna,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Johanna Sjoberg,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+John,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+John Barrow,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+John Brockman,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+John Catsimatidis,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+John Cleese,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+John Csakany,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+John Duffy,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+John Glenn,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+John Kerry,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+John M O'Quinn,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+John M. Eaves,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+John Paulson,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+John Phelan,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+John Turner,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+John de Jongh,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+"Johnson, C.J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Joi Ito,1,,,academic,academia,Japanese-American,USA,us_federal,1,1,False,paper_trail
+Jonathan Mano,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jools Holland,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+"Jordana (""Jordy"") H. Feldman",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Jose Maria Aznar,0,,,politician,politics,Spanish,Spain,eu,2,3,True,kaggle_only
+Joseph Pecorino,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Joseph Recarey,0,,,legal,legal,American,USA,us_federal,0,2,False,kaggle_only
+Josh,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Josh Harris,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+José A. Cabranes,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Joulia Starodoumovit,0,,,associate,associate,,Unknown,unknown,3,5,False,kaggle_only
+Juan Alessi,0,,,associate,associate,American,USA,us_federal,2,8,True,kaggle_only
+Juan Pablo Molyneux,0,,,other,other,Chilean,Chilean,other,0,0,True,kaggle_only
+Judge Engelmayer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Judge Kaplan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Judge Netman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Judge Pauley,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Judge Sullivan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Judge Van Graafeiland,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Julia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Julian Schnabel,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Julie Blackman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Julie K. Brown,0,,,other,other,American,USA,us_federal,0,7,False,kaggle_only
+Juliette Bryant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Juror ID: 50,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Juror No. 1 (Catherine Conrad),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Juror No. 1 (Ms. Conrad),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Juror Number 50,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Juror number one,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Justice Stevens,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+KAYTLYN MARIE,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+KRISTY RODGERS,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kandace Blanchard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Karen Duffy,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Karin Gustafson,0,,,associate,associate,Swedish,Sweden,eu,0,0,True,kaggle_only
+Karyna Shuliak,0,Epstein's girlfriend; not charged with any crimes,,associate,associate,Belarusian,Belarusian,other,0,1,False,hand_labeled
+Katarina Witt,0,,,celebrity,entertainment,German,Germany,eu,0,0,True,kaggle_only
+Kate,0,,,other,other,British,UK,uk,0,0,False,kaggle_only
+Katherine Slick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kathryn Ruemmler,0,Former Obama White House Counsel; met with Epstein; no formal consequences,https://en.wikipedia.org/wiki/Kathryn_Ruemmler,legal,legal,American,USA,us_federal,0,0,False,hand_labeled
+Kathy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Katie,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Katie Couric,0,,,celebrity,entertainment,American,USA,us_federal,1,3,True,kaggle_only
+Katielynn Boyd Townsend,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Katrina vanden Heuvel,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Keith E. Rooney,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kelli,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kelly Bovino Umekubo,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kellyanne Conway,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Ken Griffin,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Ken Hart,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ken Newton,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Kenneth A. Polite, Jr.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kenneth Hyle,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kenneth Lipper,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Kenneth Marra,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Kenneth R. Feinberg,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kenneth Starr,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Kevin Maxwell,0,,,socialite,socialite,British,UK,uk,2,2,True,kaggle_only
+Kevin Pistro,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Kevin Rudd,0,,,politician,politics,Australian,Australia,australia,0,0,False,kaggle_only
+Kevin Spacey,1,,,celebrity,entertainment,American,USA,us_federal,6,6,True,paper_trail
+Kevin Thompson,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Kip Thorne,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+L. Cristina Griffith,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+L. N'Diaye,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+L. Rafael Reif,0,,,academic,academia,Venezuelan-American,USA,us_federal,0,0,False,kaggle_only
+L0vEabLe d0rKk,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+LARRY,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lady Robin Innes-Ker,0,,,associate,associate,British,UK,uk,2,2,False,kaggle_only
+Lady Victoria Hervey,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Lamine N'DiayeLee Plourde,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lana Catterton,0,,,associate,associate,,Unknown,unknown,8,15,False,kaggle_only
+Lana Pozhidaeva,0,,,associate,associate,Russian,Russia,russia,0,0,True,kaggle_only
+Lance Calloway,0,,,associate,associate,American,USA,us_federal,3,12,False,kaggle_only
+Lanna Belholovick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lanna Leigh Belohlavek,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lara Elizabeth Pomerantz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Larry Ellison,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Larry Gagosian,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Larry Laudan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Larry Morrisson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Larry Page,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Larry Summers,0,Acknowledged meeting Epstein; no consequences,https://en.wikipedia.org/wiki/Lawrence_Summers,politician,politics,American,USA,us_federal,5,5,True,hand_labeled
+Larry Visoski,0,,,associate,associate,American,USA,us_federal,281,19,True,kaggle_only
+Laura Edelstein,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Laura Menninger,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Laurie Edelstein,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lawrence Krauss,0,,,academic,academia,American,USA,us_federal,1,4,False,kaggle_only
+Lea,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Leah,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Leah Jean,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Leah Kleman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Leah S. Saffian,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lee,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lee J Loftus,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lee Plourde,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lenny Kravitz,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Leo Sims,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Leon Black,1,Stepped down as CEO of Apollo Global Management (2021) following scrutiny of Epstein payments,https://en.wikipedia.org/wiki/Leon_Black,business,finance,American,USA,us_federal,9,5,True,hand_labeled
+Leon Botstein,0,Bard College president; received Epstein donations; no formal consequences,https://en.wikipedia.org/wiki/Leon_Botstein,academic,academia,American,USA,us_federal,0,0,False,hand_labeled
+Leonard A. Lauder,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Leonardo DiCaprio,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Leonic Leonov,0,,,other,other,,Unknown,unknown,0,0,False,kaggle_only
+Les Moonves,0,,,business,finance,American,USA,us_federal,2,3,True,kaggle_only
+Les Wexner,1,Stepped down as L Brands CEO (2020); severed ties with Epstein; admitted Epstein misappropriated funds,https://en.wikipedia.org/wiki/Les_Wexner,business,finance,American,USA,us_federal,15,6,True,hand_labeled
+Lesley Groff,0,,,associate,associate,American,USA,us_federal,92,36,True,kaggle_only
+Leslie (NY Office),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lieut B.F. Cong,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Lilly Ann Sanchez, Esq.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lilly Ann Sansbeez,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Linda,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Linda Evangelista,0,,,celebrity,entertainment,Canadian,Canada,canada,0,0,True,kaggle_only
+Linda Purl,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Linds,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lisa Geese-ah,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lisa Marie Rocchio,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lisa Randall,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Lloyd Blankfein,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Local TV show host,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lord Campbell-Gray,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+Loretta Preska,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Lou Dog,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lourie,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lt. [redacted],0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lucian,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Lynn Forester de Rothschild,0,,,business,finance,American-British,USA,us_federal,1,2,True,kaggle_only
+M. Colon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+M. D. Carvajal,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+M. Schanz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+M/W CONTROL CENTER OFFICER,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MARK,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MARTHA VAZQUEZ,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MDC (Metropolitan Detention Center),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MEG,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MICHAEL THOMAS,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+MLP,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MORNING WATCH LIEUTENANT CAPTAIN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MORNING WATCH OPERATIONS LIEUTENANT,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MR. AGNIFILO,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MR. DAVIS,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MR. GAIR,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MR. LEFKOWITZ,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MR. SHIECHTMAN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MS. BRUNE,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MS. McCARTHY,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MS. PENZA,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Magistrate Judge Briones,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mandy Ellison,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Manuela,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Marc Allan Fernich,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Marc Rowan,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Maria Bartiromo,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Maria Farmer,0,,,other,other,American,USA,us_federal,0,4,False,kaggle_only
+Mariana Braylovskiy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Marie Villafana,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Mark Bostick,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Mark Cohen,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mark DeMarco,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mark Epstein,0,,,associate,associate,American,USA,us_federal,5,3,True,kaggle_only
+Mark Filip,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mark Fisher,0,,,other,other,British,UK,uk,0,0,True,kaggle_only
+Mark Getty,0,,,business,finance,British-American,USA,uk,0,0,True,kaggle_only
+Mark Lloyd,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Mark Tramo,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Mark Zuckerberg,0,No consequences related to Epstein; minimal documented connection,https://en.wikipedia.org/wiki/Mark_Zuckerberg,business,finance,American,USA,us_federal,0,0,False,hand_labeled
+"Marrero, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Martha Stewart,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Martha of Colonial Bank,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Marti Licom-Vitale,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Martin Nowak,0,,,academic,academia,Austrian-American,USA,eu,0,0,False,kaggle_only
+Martin Weinberg,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Marvin Minsky,1,,,academic,academia,American,USA,us_federal,0,0,False,paper_trail
+Mary,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mary Erdoes,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Maryon Davies Lewis,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Masha Drokova,0,,,business,finance,Russian-American,USA,russia,0,0,False,kaggle_only
+Matt,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Matt Groening,0,,,celebrity,entertainment,American,USA,us_federal,0,0,False,kaggle_only
+Matthew I. Menchel,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Maurene Comey,0,,,legal,legal,American,USA,us_federal,0,3,False,kaggle_only
+Maurine Dickey,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Max,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MeG-a-LyNn (Megan),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+MeLiSsA,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Medical Examiner,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+Megan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Megan (MeG-a-LyNn),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mel-Y-ssa,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Melanie Walker,0,,,academic,academia,American,USA,us_federal,0,6,False,kaggle_only
+Melissa Dalton,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Melissa Desori,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Melissa Madrigal,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Menchel,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Merda,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Baden,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Bloomberg,0,,,politician,politics,American,USA,us_federal,1,3,True,kaggle_only
+Michael Carroll,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Carvajal,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Cherry,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Michael Colhoun,0,,,associate,associate,British,UK,uk,0,0,True,kaggle_only
+Michael Dell,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Michael E. Horowitz,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Michael Fifer,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Michael Genovese,0,,,legal,legal,American,USA,us_federal,0,0,True,kaggle_only
+Michael Greco,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Hammer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael J. Fitzpatrick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Jackson,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Michael Kennedy,0,,,legal,legal,American,USA,us_federal,0,0,True,kaggle_only
+Michael Ovitz,0,,,business,finance,American,USA,us_federal,2,3,True,kaggle_only
+Michael Reiter,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Michael Salnick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Saylor,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Michael Steinhardt,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Michael Stroll,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Michael Toporek,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michael Wolff,0,Journalist/author; no consequences related to Epstein,https://en.wikipedia.org/wiki/Michael_Wolff_(journalist),other,other,American,USA,us_federal,0,0,True,hand_labeled
+Michelle,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michelle Healey,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Michelle Licata,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Mick Jagger,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Mike,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mike Edmondson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mike Wallace,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Miles Alexander,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Miles Alexander Tooby,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Miles Taylor,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Minnie Driver,0,,,celebrity,entertainment,British-American,USA,uk,0,0,True,kaggle_only
+Minor Victim 4,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Minor Victim-1,0,,,associate,associate,,Unknown,unknown,0,10,False,kaggle_only
+Minor Victim-2,0,,,associate,associate,,Unknown,unknown,0,10,False,kaggle_only
+Minor Victim-3,0,,,associate,associate,,Unknown,unknown,0,10,False,kaggle_only
+Minor Victim-5,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Minor Victim-6,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Minor Victim-7,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mira Nair,0,,,celebrity,entertainment,Indian-American,USA,us_federal,0,0,False,kaggle_only
+Miranda,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Miroslav Lajcak,0,,,politician,politics,Slovak,Slovakia,other,0,0,False,kaggle_only
+Mohamed Hadid,0,,,business,finance,Palestinian-American,USA,us_federal,0,0,True,kaggle_only
+Mohammed bin Salman,0,,,royalty,royalty,Saudi,Saudi Arabia,middle_east,0,0,False,kaggle_only
+Moira Penza,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mona Juul,0,,,politician,politics,Norwegian,Norway,eu,0,0,False,kaggle_only
+Mort Janklow,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Mort Zuckerman,0,,,business,finance,American,USA,us_federal,4,4,True,kaggle_only
+Mr. Benhamou,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Berke,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Berry,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Daugerdas,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. DeMARCO,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Glassman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. HOBSON,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Hernandez,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Jack Goldberger,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. John Wallace,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Johnson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Jones,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Jules Burney,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Kim,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Leopold,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Madelson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Nardello,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Pagliucca,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Parse,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Perry,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Robertson,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Mr. Rotert,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Schoeman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Sloman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Mr. Tein,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Mr. Vega,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Ms. Conrad,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Davis,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Edelstein,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Ms. George,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Jane,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Maxwell's husband,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Sophia Papapetru,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Sterntheim,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms. Trizaskoma,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ms.Villaflana,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Murray Gell-Mann,0,,,academic,academia,American,USA,us_federal,0,0,True,kaggle_only
+N'Diaye Skipper-Scott,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"N'Diaye, Warden",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+N.F.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+NER Regional Director,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+NYM,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nacho Figueras,0,,,celebrity,entertainment,Argentine,Argentina,other,0,0,True,kaggle_only
+Nadia Bjorlin,0,,,celebrity,entertainment,Swedish-American,USA,eu,0,0,False,kaggle_only
+Nadia Marcinkova,0,,,associate,associate,Slovakian,Slovakia,other,140,33,True,kaggle_only
+Nancy Ayers,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nancy Ma,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Naomi Campbell,1,,,celebrity,entertainment,British,UK,uk,5,4,True,paper_trail
+Nat Rothschild,0,,,business,finance,British,UK,uk,0,0,True,kaggle_only
+Natalie Bennett,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Natalya Malyshev,0,,,associate,associate,Russian,Russia,russia,3,14,False,kaggle_only
+Natasha,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nathan Myhrvold,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Nathan Siegel,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nathan Wolfe,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Nelson Shanks,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Nicholas Christakis,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Nicholas Cutaia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nicholas Gruenberg,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Nicholas Negroponte,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Nick,0,,,associate,associate,,Unknown,unknown,1,5,False,kaggle_only
+Nicola Caputo,0,,,other,other,,Unknown,unknown,0,0,False,kaggle_only
+Nicolas Berggruen,0,,,business,finance,German-American,USA,eu,0,0,True,kaggle_only
+Nicole Hesse,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nicole Junkermann,0,,,socialite,socialite,German,Germany,eu,1,3,True,kaggle_only
+Nicole Simmons,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nikki,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nili Priel,0,,,other,other,Israeli,Israel,israel,0,0,False,kaggle_only
+Nina Zagat,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Noam Chomsky,0,,,academic,academia,American,USA,us_federal,1,3,False,kaggle_only
+Noel Allx,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Nolan H. Brunson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+None explicitly mentioned,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Norman K. Moon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Not specified,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+OPS LT,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Odis Echols,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Officer performing checks,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Officer performing the check,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Officer signing off the checks,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Olga Kurylenko,0,,,celebrity,entertainment,Ukrainian-French,France,eu,0,0,True,kaggle_only
+Oliver Sacks,0,,,academic,academia,British-American,USA,uk,0,0,True,kaggle_only
+Olivier Laude,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Operations Lieutenant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Orly Paris,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Ormond, Ray",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Orville D. McDonald,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Oscar S. Wyatt Jr.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Oscar de la Renta,0,,,business,finance,Dominican-American,USA,us_federal,0,0,True,kaggle_only
+PIMP JUICE,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Pamela J. Bondi,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Park Dietz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Parker, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Pat Benatar,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Patrick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Patrick J. Smith,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Paul,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Paul A. Engel Mayer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Paul Allen,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Paul Blanchard,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Paul Cassell,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Paul E. Cook,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Paul H. Schoeman, Esq.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Paul Harris,0,,,associate,associate,British,UK,uk,0,0,True,kaggle_only
+Paul M. Daugerdas,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+Paul Morris,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Paul Shechtman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Paul Tudor Jones,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Paula Epsilon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Peggy Siegal,1,Dropped by clients and socially ostracized after Epstein connections became public,https://en.wikipedia.org/wiki/Peggy_Siegal,socialite,socialite,American,USA,us_federal,1,2,True,hand_labeled
+Pepe Fanjul,0,,,business,finance,Cuban-American,USA,us_federal,1,4,True,kaggle_only
+Perry Lang/Adam,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Peter Attia,1,Resigned from CBS News contributor role after Epstein file revelations (2026),https://en.wikipedia.org/wiki/Peter_Attia,academic,academia,American,USA,us_federal,0,0,False,hand_labeled
+Peter Brant,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Peter Cook,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Peter Dubinin,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Peter Gabriel,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Peter Listerman,0,,,associate,associate,Russian,Russia,russia,0,4,True,kaggle_only
+Peter Mandelson,0,Named in documents; denied wrongdoing; no formal consequences,https://en.wikipedia.org/wiki/Peter_Mandelson,politician,politics,British,UK,uk,2,4,True,hand_labeled
+Peter Marino,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Peter Nygard,0,,,business,finance,Canadian,Canada,canada,0,0,True,kaggle_only
+Peter Skinner,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+Peter Soros,0,,,business,finance,American,USA,us_federal,2,2,True,kaggle_only
+Peter Thiel,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Phil Collins,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Philip Barden,0,,,associate,associate,British,UK,uk,0,0,True,kaggle_only
+Philippe JAIGLIF,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Philippe JAIGLÉ,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Physician Assistant (PA),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Pia Salazar,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Pierre N. Leval,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Pinchas Buchris,0,,,military-intelligence,intelligence,Israeli,Israel,israel,0,0,False,kaggle_only
+Plourde Lee,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Potential Defense Witnesses,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Pralaya Cuomo,0,,,other,other,American,USA,us_federal,3,13,False,kaggle_only
+Preet Bharara,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Preska, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Prince Albert of Monaco,0,,,royalty,royalty,Monegasque,Monegasque,other,0,0,True,kaggle_only
+Prince Andrew,1,Stripped of military titles and royal patronages; settled civil lawsuit with Virginia Giuffre (2022),"https://en.wikipedia.org/wiki/Prince_Andrew,_Duke_of_York",royalty,royalty,British,UK,uk,26,13,True,hand_labeled
+Prince Bandar bin Sultan,0,,,royalty,royalty,Saudi,Saudi Arabia,middle_east,0,0,True,kaggle_only
+Prince Karim Aga Khan IV,0,,,royalty,royalty,British-Portuguese,UK,uk,0,0,True,kaggle_only
+Prince Michael of Kent,0,,,royalty,royalty,British,UK,uk,0,0,True,kaggle_only
+Prince Pavlos of Greece,0,,,royalty,royalty,Greek,Greek,other,0,0,True,kaggle_only
+Princess Jenny,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Psy.D.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+R. Bart Rutledge,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+R. Craig Brubaker,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+R. Ormond,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+REC OFFICER #1,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+REC OFFICER #2,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+REYES,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+ROBERT GLASSMAN,0,,,associate,associate,,Unknown,unknown,0,3,False,kaggle_only
+ROBERT W. SWEET,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ralph Fiennes,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Ralph Lauren,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Ralph Nader,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Ramona Alaggia,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Rande Gerber,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Randy Kim,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ray,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Raymond J. Lohier, Jr.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Regina Chacon,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Reid Hoffman,0,,,business,finance,American,USA,us_federal,0,1,False,kaggle_only
+Reid Weingarten,0,,,legal,legal,American,USA,us_federal,0,2,True,kaggle_only
+Reyes #85993-054,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ric Bradshaw,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Riccardo Mazzucchelli,0,,,socialite,socialite,Italian,Italy,eu,0,0,True,kaggle_only
+Richard Berman,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Richard Branson,0,,,business,finance,British,UK,uk,0,0,True,kaggle_only
+Richard C. Wesley,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Richard Dawkins,0,,,academic,academia,British,UK,uk,0,0,False,kaggle_only
+Richard Epstein,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Richard J. Durbin,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Richard J. Sullivan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Richard Kahn,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Richard L. Fisher,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Richard Parsons,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Richard Plepler,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Rina Danielson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Rina Oh,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Rinaldo Rizzo,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Rioux,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ro Khanna,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+Robert A. Katzmann,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Robert Bass,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Robert De Niro,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Robert F. Kennedy Jr.,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Robert Gascoyne-Cecil,0,,,politician,politics,British,UK,uk,0,0,True,kaggle_only
+Robert J. Conrad,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Robert Maxwell,0,,,military-intelligence,intelligence,British,UK,uk,0,0,False,kaggle_only
+Robert Meister,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Robert Menendez,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Robert Mueller,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Robert Thurman,0,,,academic,academia,American,USA,us_federal,0,0,True,kaggle_only
+Robert Trivers,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Robert Trump,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Robert Y. Lewis,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Roberta Flack,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Robson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Robyn,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ron Burkle,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Ronald Perelman,0,,,business,finance,American,USA,us_federal,2,3,True,kaggle_only
+Rosa Monckton,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Rosemary Vrablic,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Rosie McGoldrick,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Roy Black,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Rupert Murdoch,0,No consequences related to Epstein,https://en.wikipedia.org/wiki/Rupert_Murdoch,business,finance,American,USA,us_federal,0,0,True,hand_labeled
+Rusan Lateef,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ruslana Korshunova,0,,,other,other,Kazakhstani,Kazakhstani,other,1,7,False,kaggle_only
+Ruslana Korshunova,0,,,other,other,Kazakh,Kazakh,other,1,7,False,kaggle_only
+Ruth Pickholz,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+S. Allen Counter,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+S. Skipper-Scott,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+SHU Lieutenant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+SIS Lieutenant,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"STANLEY J. OKULA, JR.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sacksle,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sadler,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Salvatore Nuara,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Samatha,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Sanchez, Carlos",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sandra,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sandy Berger,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+Sandy Weill,0,,,business,finance,American,USA,us_federal,1,3,True,kaggle_only
+Sara,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sarah Ferguson,1,Publicly distanced from Prince Andrew; reputational damage from association,"https://en.wikipedia.org/wiki/Sarah,_Duchess_of_York",royalty,royalty,British,UK,uk,2,4,True,hand_labeled
+Sarah Kellen,0,,,associate,associate,American,USA,us_federal,364,74,True,kaggle_only
+Sarah Ransome,0,,,other,other,South African,South Africa,other,0,2,False,kaggle_only
+Savell Clifford,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Schoettle/Douglas,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Schulte,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Scott Lamine,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Scotty David,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Sean Koo,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Sergey Brin,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Seth Lloyd,0,,,academic,academia,American,USA,us_federal,0,1,False,kaggle_only
+Sgt Frick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sharon R. Bock,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Shaun Nedwick,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Shawn [REDACTED],0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Shayna Casdorph,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Shechtman,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sheena,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sheldon Adelson,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Shelley Harrison,0,,,socialite,socialite,American,USA,us_federal,0,0,True,kaggle_only
+Shelley Lewis,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Si Newhouse,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Sigrid McCawley,0,,,legal,legal,American,USA,us_federal,0,4,False,kaggle_only
+Simon Le Bon,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+"Skipper-Scott, AW",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Skipper-Scott, Shirley V.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Skyler,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Solomon D. Trujillo,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sonya Thompson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Soon-Yi Previn,0,,,other,other,American,USA,us_federal,9,3,False,kaggle_only
+Sophie Birdle-Hakim,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sophie Dahl,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Staff Member Preparing Out Count,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Stanley J. Okula,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Stanley Pottinger,0,,,associate,associate,,Unknown,unknown,0,3,False,kaggle_only
+Stavros Niarchos IV,0,,,socialite,socialite,Greek,Greek,other,0,0,True,kaggle_only
+Stefanie Tidwell,0,,,associate,associate,,Unknown,unknown,2,8,False,kaggle_only
+Stephanie Seymour,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Stephen A. Cozen,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Stephen Flatley,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Stephen Gillers,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Stephen Hawking,0,,,academic,academia,British,UK,uk,3,4,False,kaggle_only
+Stephen Kosslyn,0,,,academic,academia,American,USA,us_federal,0,0,False,kaggle_only
+Stephen Schwarzman,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Stephen Sills,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+Steve Anthony,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Steve Bannon,0,No Epstein-related consequences; separate legal issues unrelated to Epstein,https://en.wikipedia.org/wiki/Steve_Bannon,business,finance,American,USA,us_federal,0,0,False,hand_labeled
+Steve Scully,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Steve Wynn,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Steven Andrew,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Steven Mnuchin,0,,,politician,politics,American,USA,us_federal,0,0,True,kaggle_only
+Steven Pinker,1,,,academic,academia,Canadian-American,USA,canada,0,0,False,paper_trail
+Steven Sinofsky,0,,,business,finance,American,USA,us_federal,0,1,False,kaggle_only
+Steven Spielberg,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Steven Tisch,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Sting,0,,,celebrity,entertainment,British,UK,uk,0,0,True,kaggle_only
+Strauss Zelnick,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Stuart S. Mermelstein,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Suann Ingle,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sublimehottie (blog author),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Sultan Ahmed bin Sulayem,0,,,business,finance,Emirati,UAE,middle_east,0,4,False,kaggle_only
+Sumner Redstone,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Susan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Susan Elizabeth Brune,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Svetlana,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+TODD A. SPODEK,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+TODD BLANCHE,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+TOWN DRIVER,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tanmy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tatiana,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tatiana Sorokina,0,,,associate,associate,Russian,Russia,russia,0,0,True,kaggle_only
+Tatyana Simanava,0,,,associate,associate,,Unknown,unknown,2,3,False,kaggle_only
+Ted Turner,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Teddy Forstmann,0,,,business,finance,American,USA,us_federal,3,4,True,kaggle_only
+Teresa Helm,0,,,other,other,American,USA,us_federal,0,0,False,kaggle_only
+Terje Roed-Larsen,0,,,politician,politics,Norwegian,Norway,eu,2,3,True,kaggle_only
+Theodore J. Leopold,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Theresa,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Theresa Trzaskoma,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+Thierry Despont,0,,,other,other,French-American,USA,eu,0,0,True,kaggle_only
+Thomas M. Valenzuela,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Thomas Massie,0,,,politician,politics,American,USA,us_federal,0,0,False,kaggle_only
+Thomas Pritzker,0,,,business,finance,American,USA,us_federal,1,3,True,kaggle_only
+Thorbjorn Jagland,0,,,politician,politics,Norwegian,Norway,eu,0,0,False,kaggle_only
+Tiffany Gramza,0,,,associate,associate,American,USA,us_federal,1,3,False,kaggle_only
+Tim,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tim Summers,0,,,associate,associate,American,USA,us_federal,0,0,True,kaggle_only
+Tim Zagat,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Timothy Donovan,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+Timothy J. Ambrose,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tina Brown,0,,,celebrity,entertainment,British-American,USA,uk,0,0,False,kaggle_only
+Todd Boehly,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Tom,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tom Barrack,0,,,business,finance,American,USA,us_federal,1,2,True,kaggle_only
+Tom Ford,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Tom Hicks,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Tom Rutherford,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tom Worrell,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tommy Hughes,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Toni,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tony,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tony Bennett,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Tony Blair,0,,,politician,politics,British,UK,uk,0,0,True,kaggle_only
+Tony Figueroa,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Tony Randall,0,,,celebrity,entertainment,American,USA,us_federal,0,0,True,kaggle_only
+Tovah Noel,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Tracy Amaladas,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Trevor Loy,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Ugly Ken Hart,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Undisclosed Individual,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Unit Manager,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Unknown,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Unknown/Inmate ID,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Unknown/Inmate ID Numbers,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Unknown/Not specified,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Unknown/Redacted,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+VI THOMAS,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Valdson Cotrin,0,,,associate,associate,,Unknown,unknown,1,10,False,kaggle_only
+Valentino Garavani,0,,,business,finance,Italian,Italy,eu,0,0,True,kaggle_only
+Vanessa Breuer,0,,,associate,associate,,Unknown,unknown,2,11,False,kaggle_only
+Various Correctional Officers (C/O),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Various correctional officers,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Various individuals and organizations,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Vera Wang,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Vic Rasheed,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Vicky Ward,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Victor M. Serby,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+VinnY,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Virginia Giuffre,1,,,other,other,American-Australian,USA,us_federal,48,12,False,paper_trail
+Vittorio Assaf,0,,,business,finance,Italian-American,USA,eu,0,0,True,kaggle_only
+Vivienne Stapp,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Voices,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+WAKE UP THE DEAD,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Wafic Said,0,,,business,finance,Syrian-Saudi,Saudi Arabia,middle_east,0,0,True,kaggle_only
+Walter Cronkite,0,,,celebrity,entertainment,American,USA,us_federal,1,8,False,kaggle_only
+Warren Spector,0,,,business,finance,American,USA,us_federal,0,0,False,kaggle_only
+Wayne A. Reaud,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Wendi Deng Murdoch,0,,,socialite,socialite,Chinese-American,USA,us_federal,0,0,True,kaggle_only
+Wendy Olson,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Wilbur Ross,0,,,business,finance,American,USA,us_federal,0,0,True,kaggle_only
+Will,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+William Astor,0,,,socialite,socialite,British,UK,uk,0,0,True,kaggle_only
+William Barr,0,,,legal,legal,American,USA,us_federal,0,0,False,kaggle_only
+"William H. Pauley, III",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+William JULIÉ,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+William Kermode,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+William O'Donohue,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+William Styron,0,,,other,other,American,USA,us_federal,0,0,True,kaggle_only
+William Tucker,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"Woods, J.",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Woody Allen,0,,,celebrity,entertainment,American,USA,us_federal,9,3,True,paper_trail
+Yana Evans,0,,,associate,associate,American,USA,us_federal,0,0,False,kaggle_only
+Zack,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+Zurab Mikeladze,0,,,other,other,,Unknown,unknown,0,0,False,kaggle_only
+[Redacted] Esq.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+"[b(6), b(7)(C)]",0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted],0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] @bop.gov,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] DDS,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] MD,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] MLP,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] PA-C,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] Ph.D.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] PhD/Chief Psychologist,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] Psy.D.,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+[redacted] RN,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+a retired federal judge,0,,,associate,associate,,Unknown,unknown,0,2,False,kaggle_only
+amy lynn,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+b(6); b(7)(C) MD,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+b(6); b(7)(C) PhD/Chief Psychologist,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+b(7)(F),0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+imCORE,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+lynds,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+parties involved in the case,0,,,associate,associate,,Unknown,unknown,0,1,False,kaggle_only
+preston77,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+sam,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+speer,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+steph,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+supervisors at MCC,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
+zach bryan,0,,,associate,associate,,Unknown,unknown,0,0,False,kaggle_only
