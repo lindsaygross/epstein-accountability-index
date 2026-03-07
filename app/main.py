@@ -1065,14 +1065,14 @@ def get_person_citations(name: str) -> Any:
             # Strip .pdf suffix if present
             efta_clean = str(efta_id_raw).replace(".pdf", "").strip() if efta_id_raw else ""
             if efta_clean:
-                doc_url = f"https://jmail.world/drive/documents/{efta_clean}"
+                doc_url = f"https://jmail.world/drive"
             elif raw_url and "jmail.world" in raw_url:
                 doc_url = raw_url
             elif raw_url and "justice.gov" in raw_url:
                 # Extract EFTA ID from DOJ URL and remap to jmail.world
                 import re as _re
                 m = _re.search(r'(EFTA\d+)', raw_url)
-                doc_url = f"https://jmail.world/drive/documents/{m.group(1)}" if m else raw_url
+                doc_url = f"https://jmail.world/drive" if m else raw_url
             else:
                 doc_url = raw_url
 
@@ -1148,16 +1148,6 @@ def get_person_citations(name: str) -> Any:
     })
 
 
-def _efta_to_doj_url(efta_id: str) -> str:
-    """Convert an EFTA document ID to a DOJ justice.gov PDF URL."""
-    clean = efta_id.replace('.pdf', '').strip()
-    # Extract just the EFTA number (e.g., EFTA01683591)
-    import re as _re
-    m = _re.search(r'(EFTA\d+)', clean)
-    if m:
-        return f"https://www.justice.gov/d9/2025-01/{m.group(1)}.pdf"
-    return ""
-
 
 def _get_summary_citations(name: str) -> list:
     """Extract document citations from summaries.json for a person."""
@@ -1182,8 +1172,8 @@ def _get_summary_citations(name: str) -> list:
         if efta_id:
             seen_efta.add(efta_id)
 
-        # Build document URL — use jmail.world viewer (always accessible; justice.gov links are dead)
-        url = f"https://jmail.world/drive/documents/{efta_id}" if efta_id else ''
+        # Build document URL — link to jmail.world drive (search by EFTA ID)
+        url = f"https://jmail.world/drive" if efta_id else ''
 
         # Determine source label
         source_label = {

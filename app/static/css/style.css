@@ -400,91 +400,107 @@ body {
 }
 .modal-overlay.active { display: block; animation: fadeIn 0.3s ease; }
 .modal-panel {
-    max-width: 960px; margin: 0 auto; background: var(--bg-card);
+    max-width: 900px; margin: 0 auto; background: var(--bg-card);
     border: 1px solid var(--border-subtle); border-radius: var(--radius);
-    padding: 2.5rem 3rem; position: relative; animation: slideUp 0.4s ease;
+    padding: 2rem 2.5rem; position: relative; animation: slideUp 0.4s ease;
+    overflow: hidden;
 }
 .modal-close {
     position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px;
     display: flex; align-items: center; justify-content: center;
     background: none; border: 1px solid var(--border-subtle); color: var(--text-secondary);
     font-size: 1.2rem; cursor: pointer; border-radius: 50%; transition: var(--transition);
+    z-index: 2;
 }
 .modal-close:hover { color: var(--text-accent); border-color: var(--accent-blue); transform: rotate(90deg); }
-.modal-header-content { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-right: 2.5rem; }
+.modal-header-content {
+    display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem;
+    padding-right: 3rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
 .modal-person-image {
-    width: 68px; height: 68px; border-radius: 50%; object-fit: cover;
+    width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
     border: 2px solid var(--border-subtle); background: var(--bg-surface); flex-shrink: 0;
 }
 .modal-person-name { font-family: var(--font-heading); font-size: 1.8rem; color: var(--text-accent); letter-spacing: -0.01em; }
 .modal-impunity-badge {
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 0.25rem 0.6rem; border-radius: 4px; background: rgba(255,255,255,0.05);
+    padding: 0.25rem 0.65rem; border-radius: 4px; background: rgba(255,255,255,0.06);
+    display: inline-block; margin-top: 0.3rem;
 }
 :root[data-theme="light"] .modal-impunity-badge { background: rgba(0,0,0,0.05); }
 
 /* Score Breakdown */
 .score-breakdown {
-    margin-top: 1rem; padding: 1rem 1.2rem; background: var(--bg-surface);
+    margin-top: 0.8rem; padding: 0.8rem 1rem; background: var(--bg-surface);
     border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
 }
 .score-breakdown .breakdown-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 0.45rem 0; border-bottom: 1px solid var(--border-subtle);
+    padding: 0.4rem 0; border-bottom: 1px solid var(--border-subtle);
 }
 .score-breakdown .breakdown-row:last-child { border-bottom: none; }
 .score-breakdown .breakdown-label { color: var(--text-secondary); font-size: 0.88rem; }
 .score-breakdown .breakdown-value { color: var(--text-accent); font-weight: 600; font-family: var(--font-heading); font-size: 0.95rem; }
 .score-breakdown .breakdown-formula {
-    margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid var(--border-subtle);
+    margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-subtle);
     font-size: 0.88rem; color: var(--text-secondary); text-align: center; font-style: italic;
 }
 .score-breakdown .breakdown-explain {
-    margin-top: 0.5rem; font-size: 0.78rem; color: var(--accent-blue); text-align: center;
+    margin-top: 0.35rem; font-size: 0.78rem; color: var(--accent-blue); text-align: center;
 }
-.modal-body-content {}
-.modal-columns { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-bottom: 1.5rem; }
+.modal-body-content { overflow: hidden; }
+.modal-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
 .modal-section-title {
-    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--text-secondary); margin-bottom: 0.8rem; font-weight: 600;
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-secondary); margin-bottom: 0.7rem; font-weight: 600;
 }
-.modal-gauge-wrapper, .modal-consequence-wrapper, .modal-features-wrapper, .modal-predictions-wrapper { margin-bottom: 1.2rem; }
-.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.feature-item { background: var(--bg-surface); border-radius: 6px; padding: 0.8rem 0.9rem; }
-.feature-item .feature-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 0.25rem; }
-.feature-item .feature-value { font-size: 1.15rem; font-weight: 600; color: var(--text-accent); }
-.predictions-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.modal-gauge-wrapper { margin-bottom: 1rem; }
+.modal-consequence-wrapper { margin-bottom: 1.2rem; }
+.modal-features-wrapper, .modal-predictions-wrapper { margin-bottom: 1rem; }
+.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.feature-item {
+    background: var(--bg-surface); border-radius: 6px; padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border-subtle);
+}
+.feature-item .feature-label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-secondary); margin-bottom: 0.15rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.feature-item .feature-value { font-size: 1.1rem; font-weight: 600; color: var(--text-accent); }
+.predictions-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 .predictions-table th {
     padding: 0.5rem 0; text-align: left; color: var(--text-secondary);
-    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
     font-weight: 500; border-bottom: 1px solid var(--border-subtle);
 }
 .predictions-table td { padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .modal-connections-wrapper { padding-top: 1.2rem; border-top: 1px solid var(--border-subtle); }
 .connections-list .person-pill {
-    display: inline-block; padding: 0.3rem 0.7rem; margin: 0.2rem;
+    display: inline-block; padding: 0.25rem 0.6rem; margin: 0.15rem;
     background: rgba(59, 130, 246, 0.06); border: 1px solid var(--border-subtle);
-    border-radius: 16px; font-size: 0.82rem; color: var(--text-primary);
+    border-radius: 16px; font-size: 0.8rem; color: var(--text-primary);
     cursor: pointer; transition: var(--transition); text-decoration: none;
 }
 .connections-list .person-pill:hover { background: rgba(59, 130, 246, 0.12); border-color: var(--accent-blue); }
 
 /* SUMMARY & CITATIONS */
-.modal-summary-wrapper { padding-top: 1.2rem; border-top: 1px solid var(--border-subtle); margin-top: 1rem; }
-.summary-text { font-size: 0.92rem; color: var(--text-primary); line-height: 1.75; margin-bottom: 1rem; }
-.citations-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 300px; overflow-y: auto; }
+.modal-summary-wrapper { padding-top: 1.2rem; border-top: 1px solid var(--border-subtle); margin-top: 0.5rem; }
+.summary-text { font-size: 0.9rem; color: var(--text-primary); line-height: 1.75; margin-bottom: 0.8rem; }
+.citations-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 280px; overflow-y: auto; }
 .citation-item {
-    background: var(--bg-surface); border-radius: 6px; padding: 0.7rem 0.8rem;
+    background: var(--bg-surface); border-radius: 6px; padding: 0.65rem 0.8rem;
     border-left: 2px solid var(--accent-blue);
 }
 .citation-type {
-    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em;
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
     color: var(--accent-cyan); margin-right: 0.4rem; font-weight: 600;
 }
-.citation-id { font-size: 0.78rem; color: var(--text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; }
-.citation-snippet { font-size: 0.85rem; color: #94a3b8; margin: 0.35rem 0; line-height: 1.6; }
-.citation-link { font-size: 0.82rem; color: var(--accent-cyan); text-decoration: none; }
+.citation-id { font-size: 0.75rem; color: var(--text-secondary); font-family: 'SF Mono', 'Fira Code', monospace; }
+.citation-snippet { font-size: 0.82rem; color: #94a3b8; margin: 0.3rem 0; line-height: 1.6; }
+.citation-link { font-size: 0.8rem; color: var(--accent-cyan); text-decoration: none; }
 .citation-link:hover { text-decoration: underline; }
 
 /* FOOTER */

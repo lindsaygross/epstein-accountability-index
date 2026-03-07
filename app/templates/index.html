@@ -266,6 +266,7 @@
                 </div>
             </header>
             <div class="modal-body-content">
+                <!-- Row 1: Gauge + NLP Features -->
                 <div class="modal-columns">
                     <div class="modal-col-left">
                         <div class="modal-gauge-wrapper">
@@ -273,27 +274,36 @@
                             <div id="modal-gauge"></div>
                             <div id="modal-score-breakdown" class="score-breakdown"></div>
                         </div>
-                        <div class="modal-consequence-wrapper">
-                            <h3 class="modal-section-title">Consequence</h3>
-                            <div id="modal-consequence"></div>
-                        </div>
                     </div>
                     <div class="modal-col-right">
                         <div class="modal-features-wrapper">
                             <h3 class="modal-section-title">NLP Features</h3>
                             <div id="modal-features" class="features-grid"></div>
                         </div>
+                    </div>
+                </div>
+                <!-- Row 2: Consequence + ML Evidence (full width) -->
+                <div class="modal-columns" style="margin-bottom:1rem;">
+                    <div>
+                        <div class="modal-consequence-wrapper">
+                            <h3 class="modal-section-title">Consequence</h3>
+                            <div id="modal-consequence"></div>
+                        </div>
+                    </div>
+                    <div>
                         <div class="modal-predictions-wrapper">
                             <h3 class="modal-section-title">ML Evidence Signals</h3>
                             <div id="modal-predictions"></div>
                         </div>
                     </div>
                 </div>
+                <!-- Citations -->
                 <div class="modal-summary-wrapper" id="modal-summary-section">
-                    <h3 class="modal-section-title">Score Reasoning &amp; Document Citations</h3>
-                    <p id="modal-summary-text" class="summary-text" style="margin-bottom:0.75rem;font-size:0.82rem;color:var(--text-secondary);line-height:1.6;"></p>
+                    <h3 class="modal-section-title">Document Citations</h3>
+                    <p id="modal-summary-text" class="summary-text" style="margin-bottom:0.6rem;font-size:0.85rem;color:var(--text-secondary);line-height:1.6;"></p>
                     <div id="modal-citations" class="citations-list"></div>
                 </div>
+                <!-- Connections -->
                 <div class="modal-connections-wrapper">
                     <h3 class="modal-section-title">Connected Individuals</h3>
                     <div id="modal-connections" class="connections-list" role="list"></div>

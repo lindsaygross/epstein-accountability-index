@@ -456,10 +456,10 @@ function populateModal(data) {
     const cEl = document.getElementById('modal-consequence');
     const cColor = data.badge?.color === 'hard' ? '#ef4444' : data.badge?.color === 'soft' ? '#f59e0b' : '#475569';
     cEl.innerHTML = `
-        <div style="margin-bottom:0.6rem;">
-            <span style="font-size:0.92rem;padding:0.3rem 0.8rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};font-weight:500;">${data.badge?.label || 'Unknown'}</span>
+        <div style="margin-bottom:0.5rem;">
+            <span style="font-size:0.85rem;padding:0.25rem 0.7rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};font-weight:500;">${data.badge?.label || 'Unknown'}</span>
         </div>
-        <p style="font-size:0.92rem;color:#94a3b8;line-height:1.7;">${data.consequence_description || 'No information available'}</p>`;
+        <p style="font-size:0.85rem;color:#94a3b8;line-height:1.65;">${data.consequence_description || 'No information available'}</p>`;
 
     // NLP Features — prefer ev_data fields (doc_mentions, keyword_cooccurrence, flights, connections, in_black_book)
     const fEl = document.getElementById('modal-features');
@@ -474,7 +474,7 @@ function populateModal(data) {
         fEl.innerHTML = `
             <div class="feature-item"><div class="feature-label">Epstein Emails</div><div class="feature-value">${ev.emailDocs.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">DOJ Mentions</div><div class="feature-value">${ev.docMentions.toLocaleString()}</div></div>
-            <div class="feature-item"><div class="feature-label">Keyword Co-occ.</div><div class="feature-value">${ev.cooccurrence.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">Co-occurrence</div><div class="feature-value">${ev.cooccurrence.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Flight Legs</div><div class="feature-value">${ev.flights.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Black Book</div><div class="feature-value">${ev.blackBook}</div></div>`;
     }
@@ -489,18 +489,23 @@ function populateModal(data) {
             sentence_transformer_svc: 'ST + SVC (Semantic)',
         };
         if (data.predictions && Object.keys(data.predictions).length) {
+            const mShortLabels = {
+                logistic_regression: 'Log. Regression',
+                random_forest_tfidf: 'RF + TF-IDF',
+                sentence_transformer_svc: 'ST + SVC',
+            };
             const bars = mOrder.filter(m => data.predictions[m] != null).map(m => {
                 const pred = data.predictions[m];
                 const prob = typeof pred === 'object' ? (pred.probability ?? 0) : 0;
                 const pct = (prob * 100).toFixed(1);
                 const color = prob >= 0.7 ? '#ef4444' : prob >= 0.4 ? '#f59e0b' : '#3b82f6';
-                return `<div style="margin-bottom:0.85rem;">
-                    <div style="display:flex;justify-content:space-between;font-size:0.88rem;margin-bottom:0.3rem;">
-                        <span style="color:var(--text-secondary)">${mLabels[m]}</span>
+                return `<div style="margin-bottom:0.6rem;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.2rem;">
+                        <span style="color:var(--text-secondary)">${mShortLabels[m]}</span>
                         <span style="color:${color};font-weight:600">${pct}%</span>
                     </div>
-                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden;">
-                        <div style="background:${color};width:${pct}%;height:100%;border-radius:4px;transition:width 0.6s ease;"></div>
+                    <div style="background:rgba(255,255,255,0.07);border-radius:3px;height:6px;overflow:hidden;">
+                        <div style="background:${color};width:${pct}%;height:100%;border-radius:3px;transition:width 0.6s ease;"></div>
                     </div>
                 </div>`;
             });
@@ -508,15 +513,15 @@ function populateModal(data) {
             const cProb = consensus ? (typeof consensus === 'object' ? (consensus.probability ?? 0) : 0) : 0;
             const cColor = cProb >= 0.7 ? '#ef4444' : cProb >= 0.4 ? '#f59e0b' : '#3b82f6';
             pEl.innerHTML = bars.join('') + (consensus != null ? `
-                <div style="margin-top:0.85rem;padding-top:0.85rem;border-top:1px solid var(--border-subtle);">
-                    <div style="display:flex;justify-content:space-between;font-size:0.92rem;margin-bottom:0.35rem;">
-                        <span style="font-weight:600;color:var(--text-primary)">Consensus Signal</span>
+                <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border-subtle);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem;">
+                        <span style="font-weight:600;color:var(--text-primary)">Consensus</span>
                         <span style="color:${cColor};font-weight:700">${(cProb * 100).toFixed(1)}%</span>
                     </div>
-                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden;">
-                        <div style="background:${cColor};width:${(cProb*100).toFixed(1)}%;height:100%;border-radius:4px;"></div>
+                    <div style="background:rgba(255,255,255,0.07);border-radius:3px;height:6px;overflow:hidden;">
+                        <div style="background:${cColor};width:${(cProb*100).toFixed(1)}%;height:100%;border-radius:3px;"></div>
                     </div>
-                    <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.5rem;">Mean of 3 models — reflects document evidence pattern, not a legal determination.</p>
+                    <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.35rem;line-height:1.4;">Mean of 3 models — document evidence pattern, not a legal determination.</p>
                 </div>` : '');
         } else {
             pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No ML signal data available for this individual.</p>';
@@ -603,7 +608,7 @@ function populateModal(data) {
                             </div>
                             ${docSummary ? `<p style="font-size:0.76rem;color:var(--text-primary);margin:0.2rem 0 0.3rem;line-height:1.5;">${docSummary}</p>` : ''}
                             ${truncQuote ? `<p class="citation-snippet">"${truncQuote}"</p>` : ''}
-                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Document &rarr;</a>` : ''}
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">Search on JMail${efta ? ` (${efta})` : ''} &rarr;</a>` : ''}
                         </div>`;
                 }).join('');
             } else {
