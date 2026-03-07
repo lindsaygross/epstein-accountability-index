@@ -202,12 +202,34 @@ function initNetworkGraph() {
         .attr('stroke', d => LEVEL_COLORS[d.level] || '#475569')
         .attr('stroke-width', 2);
 
-    node.append('image')
+    // Add a default person silhouette circle as fallback for missing images
+    node.append('circle')
+        .attr('r', d => d.radius * 0.55)
+        .attr('fill', '#334155')
+        .attr('class', 'node-fallback-icon');
+
+    // Person silhouette SVG path (head + shoulders)
+    node.append('path')
+        .attr('d', d => {
+            const s = d.radius * 0.45;
+            return `M0,${-s*0.3} a${s*0.35},${s*0.35} 0 1,0 0.001,0 M${-s*0.6},${s*0.7} a${s*0.75},${s*0.6} 0 0,1 ${s*1.2},0`;
+        })
+        .attr('fill', '#64748b')
+        .attr('stroke', 'none')
+        .attr('class', 'node-fallback-icon');
+
+    // Map node id to clip-path index
+    const nodeIdToIdx = {};
+    nodes.forEach((d, i) => { nodeIdToIdx[d.id] = i; });
+
+    node.filter(d => d.image_url && d.image_url !== '/static/images/people/placeholder.png')
+        .append('image')
         .attr('href', d => d.image_url)
         .attr('x', d => -d.radius + 1.5).attr('y', d => -d.radius + 1.5)
         .attr('width', d => (d.radius - 1.5) * 2).attr('height', d => (d.radius - 1.5) * 2)
-        .attr('clip-path', (d, i) => `url(#nc-${i})`)
-        .attr('preserveAspectRatio', 'xMidYMid slice');
+        .attr('clip-path', d => `url(#nc-${nodeIdToIdx[d.id]})`)
+        .attr('preserveAspectRatio', 'xMidYMid slice')
+        .on('error', function() { d3.select(this).remove(); });
 
     const label = g.append('g').selectAll('text').data(nodes).join('text')
         .text(d => d.id)
@@ -434,10 +456,10 @@ function populateModal(data) {
     const cEl = document.getElementById('modal-consequence');
     const cColor = data.badge?.color === 'hard' ? '#ef4444' : data.badge?.color === 'soft' ? '#f59e0b' : '#475569';
     cEl.innerHTML = `
-        <div style="margin-bottom:0.5rem;">
-            <span style="font-size:0.82rem;padding:0.25rem 0.7rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};">${data.badge?.label || 'Unknown'}</span>
+        <div style="margin-bottom:0.6rem;">
+            <span style="font-size:0.92rem;padding:0.3rem 0.8rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};font-weight:500;">${data.badge?.label || 'Unknown'}</span>
         </div>
-        <p style="font-size:0.85rem;color:#94a3b8;line-height:1.65;">${data.consequence_description || 'No information available'}</p>`;
+        <p style="font-size:0.92rem;color:#94a3b8;line-height:1.7;">${data.consequence_description || 'No information available'}</p>`;
 
     // NLP Features — prefer ev_data fields (doc_mentions, keyword_cooccurrence, flights, connections, in_black_book)
     const fEl = document.getElementById('modal-features');
@@ -472,12 +494,12 @@ function populateModal(data) {
                 const prob = typeof pred === 'object' ? (pred.probability ?? 0) : 0;
                 const pct = (prob * 100).toFixed(1);
                 const color = prob >= 0.7 ? '#ef4444' : prob >= 0.4 ? '#f59e0b' : '#3b82f6';
-                return `<div style="margin-bottom:0.75rem;">
-                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.25rem;">
+                return `<div style="margin-bottom:0.85rem;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.88rem;margin-bottom:0.3rem;">
                         <span style="color:var(--text-secondary)">${mLabels[m]}</span>
                         <span style="color:${color};font-weight:600">${pct}%</span>
                     </div>
-                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:6px;overflow:hidden;">
+                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden;">
                         <div style="background:${color};width:${pct}%;height:100%;border-radius:4px;transition:width 0.6s ease;"></div>
                     </div>
                 </div>`;
@@ -486,15 +508,15 @@ function populateModal(data) {
             const cProb = consensus ? (typeof consensus === 'object' ? (consensus.probability ?? 0) : 0) : 0;
             const cColor = cProb >= 0.7 ? '#ef4444' : cProb >= 0.4 ? '#f59e0b' : '#3b82f6';
             pEl.innerHTML = bars.join('') + (consensus != null ? `
-                <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color);">
-                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.3rem;">
+                <div style="margin-top:0.85rem;padding-top:0.85rem;border-top:1px solid var(--border-subtle);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.92rem;margin-bottom:0.35rem;">
                         <span style="font-weight:600;color:var(--text-primary)">Consensus Signal</span>
                         <span style="color:${cColor};font-weight:700">${(cProb * 100).toFixed(1)}%</span>
                     </div>
                     <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden;">
                         <div style="background:${cColor};width:${(cProb*100).toFixed(1)}%;height:100%;border-radius:4px;"></div>
                     </div>
-                    <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.4rem;">Mean of 3 models — reflects document evidence pattern, not a legal determination.</p>
+                    <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.5rem;">Mean of 3 models — reflects document evidence pattern, not a legal determination.</p>
                 </div>` : '');
         } else {
             pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No ML signal data available for this individual.</p>';
@@ -581,7 +603,7 @@ function populateModal(data) {
                             </div>
                             ${docSummary ? `<p style="font-size:0.76rem;color:var(--text-primary);margin:0.2rem 0 0.3rem;line-height:1.5;">${docSummary}</p>` : ''}
                             ${truncQuote ? `<p class="citation-snippet">"${truncQuote}"</p>` : ''}
-                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View DOJ Document &rarr;</a>` : ''}
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Document &rarr;</a>` : ''}
                         </div>`;
                 }).join('');
             } else {

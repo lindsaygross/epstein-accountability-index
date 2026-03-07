@@ -1182,8 +1182,8 @@ def _get_summary_citations(name: str) -> list:
         if efta_id:
             seen_efta.add(efta_id)
 
-        # Build DOJ URL
-        url = _efta_to_doj_url(efta_id) if efta_id else ''
+        # Build document URL — use jmail.world viewer (always accessible; justice.gov links are dead)
+        url = f"https://jmail.world/drive/documents/{efta_id}" if efta_id else ''
 
         # Determine source label
         source_label = {
