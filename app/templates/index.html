@@ -19,10 +19,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- GSAP 3.12.2 + ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -40,6 +36,9 @@
             <li><a href="#analysis" class="nav-dot" aria-label="Analysis"><span class="dot"></span><span class="nav-tooltip">Analysis</span></a></li>
         </ul>
     </nav>
+
+    <!-- ABOUT LINK -->
+    <a href="/about" class="about-link" title="About / Disclaimer / Ethics">About</a>
 
     <!-- THEME TOGGLE -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
@@ -306,6 +305,27 @@
     <footer class="site-footer">
         <p>Data sourced from publicly released DOJ/EFTA documents. Built with Python, Flask, scikit-learn, SentenceTransformers, ChromaDB, D3.js, and Plotly.</p>
     </footer>
+
+    <!-- CONTENT WARNING GATE -->
+    <div id="content-gate" class="content-gate">
+        <div class="gate-inner">
+            <div class="gate-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+            </div>
+            <h2 class="gate-title">Content Warning</h2>
+            <p class="gate-body">This site contains AI-generated analysis of publicly released court documents related to the Jeffrey Epstein case. Some content describes allegations of sexual abuse, trafficking, and exploitation of minors. This material may be disturbing.</p>
+            <p class="gate-secondary">This tool is for research and informational purposes only. It does not constitute legal advice or imply guilt of any named individual.</p>
+            <label class="gate-checkbox-label">
+                <input type="checkbox" id="gate-age-check" class="gate-checkbox">
+                <span>I confirm I am 18 years or older</span>
+            </label>
+            <button id="gate-continue" class="gate-btn" disabled>I Understand, Continue</button>
+            <a href="/about" class="gate-about-link">Learn more about this project &rarr;</a>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

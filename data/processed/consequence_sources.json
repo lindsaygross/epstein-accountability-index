@@ -1,0 +1,76 @@
+{
+  "Jeffrey Epstein": [
+    {"title": "Jeffrey Epstein indicted on sex trafficking charges", "url": "https://www.justice.gov/usao-sdny/pr/jeffrey-epstein-charged-sex-trafficking-conspiracy", "source": "DOJ"},
+    {"title": "Epstein found dead in jail cell", "url": "https://www.nytimes.com/2019/08/10/nyregion/jeffrey-epstein-suicide.html", "source": "NYT"},
+    {"title": "2008 Florida plea deal for solicitation of prostitution", "url": "https://www.miamiherald.com/news/local/article220097825.html", "source": "Miami Herald"}
+  ],
+  "Ghislaine Maxwell": [
+    {"title": "Ghislaine Maxwell sentenced to 20 years for sex trafficking", "url": "https://www.justice.gov/usao-sdny/pr/ghislaine-maxwell-sentenced-20-years-prison-sex-trafficking-minor", "source": "DOJ"},
+    {"title": "Maxwell convicted on five of six counts", "url": "https://www.nytimes.com/2021/12/29/nyregion/ghislaine-maxwell-verdict.html", "source": "NYT"}
+  ],
+  "Jean-Luc Brunel": [
+    {"title": "Jean-Luc Brunel found dead in Paris jail cell", "url": "https://www.bbc.com/news/world-europe-60390702", "source": "BBC"},
+    {"title": "Brunel charged with rape of minors and sex trafficking", "url": "https://www.theguardian.com/us-news/2020/dec/16/jean-luc-brunel-arrested-paris-epstein", "source": "Guardian"}
+  ],
+  "Prince Andrew": [
+    {"title": "Prince Andrew settles sexual abuse lawsuit with Virginia Giuffre", "url": "https://www.bbc.com/news/uk-60393843", "source": "BBC"},
+    {"title": "Andrew stripped of military titles and royal patronages", "url": "https://www.theguardian.com/uk-news/2022/jan/13/prince-andrew-stripped-military-affiliations-patronages", "source": "Guardian"}
+  ],
+  "Donald Trump": [
+    {"title": "No criminal charges filed related to Epstein; served as 45th and 47th President", "url": "https://www.reuters.com/article/factcheck-trump-epstein-idUSL1N2Y61GS", "source": "Reuters"},
+    {"title": "2016 lawsuit alleging rape of 13-year-old dropped before election", "url": "https://www.theguardian.com/us-news/2016/nov/04/donald-trump-teenage-rape-accusations-lawsuit-dropped", "source": "Guardian"},
+    {"title": "FBI complaint reports on Trump-Epstein allegations in released DOJ files", "url": "https://www.justice.gov/epstein", "source": "DOJ"}
+  ],
+  "Bill Clinton": [
+    {"title": "No charges filed; Clinton denied close relationship with Epstein", "url": "https://www.nytimes.com/2019/07/09/nyregion/bill-clinton-jeffrey-epstein.html", "source": "NYT"},
+    {"title": "Flight logs show Clinton flew on Epstein's plane 26 times", "url": "https://www.foxnews.com/us/flight-logs-show-bill-clinton-flew-on-sex-offenders-jet-much-more-than-previously-known", "source": "Fox News"}
+  ],
+  "Alan Dershowitz": [
+    {"title": "Dershowitz accused by Virginia Giuffre; denied allegations", "url": "https://www.newyorker.com/magazine/2019/08/05/alan-dershowitz-devils-advocate", "source": "New Yorker"},
+    {"title": "Giuffre later recanted accusations against Dershowitz", "url": "https://apnews.com/article/virginia-giuffre-alan-dershowitz-epstein-recant-aa47e4c91c76a5a7eb6e40bee82361fb", "source": "AP"}
+  ],
+  "Leon Black": [
+    {"title": "Leon Black paid Epstein $158 million for advice; stepped down as Apollo CEO", "url": "https://www.nytimes.com/2021/01/25/business/leon-black-jeffrey-epstein.html", "source": "NYT"},
+    {"title": "No criminal charges; settled civil lawsuit", "url": "https://www.reuters.com/business/finance/apollo-global-managements-leon-black-sued-by-woman-who-alleged-rape-2021-10-01/", "source": "Reuters"}
+  ],
+  "Les Wexner": [
+    {"title": "Wexner severed ties with Epstein in 2007; said Epstein misappropriated funds", "url": "https://www.nytimes.com/2019/08/07/business/les-wexner-epstein.html", "source": "NYT"},
+    {"title": "No charges filed against Wexner", "url": "https://www.wsj.com/articles/l-brands-ceo-les-wexner-likely-to-step-down-11580777765", "source": "WSJ"}
+  ],
+  "Kevin Spacey": [
+    {"title": "Spacey acquitted of sexual assault charges in UK", "url": "https://www.bbc.com/news/uk-66293620", "source": "BBC"},
+    {"title": "Found not liable in civil sexual abuse case", "url": "https://www.nytimes.com/2022/10/20/nyregion/kevin-spacey-trial-verdict.html", "source": "NYT"}
+  ],
+  "Harvey Weinstein": [
+    {"title": "Weinstein convicted of rape in New York", "url": "https://www.nytimes.com/2020/02/24/nyregion/harvey-weinstein-verdict.html", "source": "NYT"},
+    {"title": "Sentenced to 23 years in New York, 16 years in Los Angeles", "url": "https://www.reuters.com/legal/weinstein-convicted-los-angeles-rape-trial-2022-12-19/", "source": "Reuters"}
+  ],
+  "Bill Cosby": [
+    {"title": "Cosby convicted of sexual assault; conviction later overturned", "url": "https://www.nytimes.com/2021/06/30/arts/television/bill-cosby-release-prison.html", "source": "NYT"}
+  ],
+  "R. Kelly": [
+    {"title": "R. Kelly convicted of racketeering and sex trafficking", "url": "https://www.justice.gov/usao-edny/pr/r-kelly-convicted-racketeering-and-sex-trafficking", "source": "DOJ"},
+    {"title": "Sentenced to 30 years in prison", "url": "https://www.nytimes.com/2022/06/29/arts/music/r-kelly-sentencing.html", "source": "NYT"}
+  ],
+  "Ehud Barak": [
+    {"title": "No charges; Barak acknowledged visiting Epstein's residences", "url": "https://www.thedailybeast.com/jeffrey-epstein-accuser-says-she-was-forced-to-have-sex-with-ehud-barak", "source": "Daily Beast"}
+  ],
+  "Woody Allen": [
+    {"title": "No charges related to Epstein; separate sexual abuse allegations denied", "url": "https://www.nytimes.com/2021/02/21/arts/television/allen-v-farrow-review.html", "source": "NYT"}
+  ],
+  "Bill Richardson": [
+    {"title": "Richardson denied Giuffre's allegations; died in 2023", "url": "https://apnews.com/article/bill-richardson-dies-former-new-mexico-governor-1ac3e9c80e01b6e4be6c89ad86e3e3f2", "source": "AP"}
+  ],
+  "Sarah Kellen": [
+    {"title": "Named as co-conspirator but received immunity in 2008 plea deal", "url": "https://www.miamiherald.com/news/local/article221897990.html", "source": "Miami Herald"}
+  ],
+  "Lesley Groff": [
+    {"title": "Named as co-conspirator; received immunity in 2008 plea deal", "url": "https://www.miamiherald.com/news/local/article221897990.html", "source": "Miami Herald"}
+  ],
+  "Virginia Giuffre": [
+    {"title": "Primary accuser; settled civil suits against Maxwell, Prince Andrew", "url": "https://www.bbc.com/news/world-us-canada-60393843", "source": "BBC"}
+  ],
+  "George Mitchell": [
+    {"title": "Mitchell denied Giuffre's allegations", "url": "https://www.nytimes.com/2019/08/09/us/politics/george-mitchell-jeffrey-epstein.html", "source": "NYT"}
+  ]
+}

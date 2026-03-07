@@ -1,0 +1,187 @@
+{
+  "Donald Trump": {
+    "DOJ Document": 5,
+    "News Report": 1,
+    "Financial Records": 1
+  },
+  "Hillary Clinton": {
+    "Correspondence": 4,
+    "News Report": 3,
+    "DOJ Document": 2,
+    "Court Filing": 1
+  },
+  "Kash Patel": {
+    "News Report": 2,
+    "DOJ Document": 2
+  },
+  "Ghislaine Maxwell": {
+    "Correspondence": 4,
+    "Deposition": 2,
+    "DOJ Document": 1,
+    "FBI Complaint": 1,
+    "Law Enforcement": 1
+  },
+  "Leon Black": {
+    "Correspondence": 6,
+    "DOJ Document": 1,
+    "FBI Complaint": 1
+  },
+  "Les Wexner": {
+    "Correspondence": 6,
+    "Financial Records": 1
+  },
+  "Rupert Murdoch": {
+    "Correspondence": 7
+  },
+  "Jes Staley": {
+    "Correspondence": 8
+  },
+  "Bill Gates": {
+    "Correspondence": 8,
+    "DOJ Document": 2
+  },
+  "Jeff Bezos": {
+    "Correspondence": 10
+  },
+  "Howard Lutnick": {
+    "Correspondence": 5,
+    "DOJ Document": 3
+  },
+  "Larry Summers": {
+    "Correspondence": 9,
+    "DOJ Document": 1
+  },
+  "Karyna Shuliak": {
+    "DOJ Document": 3,
+    "Correspondence": 3,
+    "Financial Records": 1
+  },
+  "Oren, Alon, and Tal Alexander": {
+    "Correspondence": 1,
+    "News Report": 1
+  },
+  "9/11": {
+    "Correspondence": 6,
+    "News Report": 2
+  },
+  "RFK": {
+    "News Report": 1,
+    "DOJ Document": 1
+  },
+  "Pregnant": {
+    "DOJ Document": 4,
+    "Correspondence": 2,
+    "Court Filing": 1
+  },
+  "Paolo Zampolli": {
+    "DOJ Document": 1
+  },
+  "Bill O'Reilly": {
+    "DOJ Document": 1
+  },
+  "Oprah": {
+    "DOJ Document": 1,
+    "Correspondence": 1
+  },
+  "Tom Hanks": {
+    "DOJ Document": 1
+  },
+  "Sultan Bin Sulayem": {
+    "Correspondence": 8
+  },
+  "Prince Andrew": {
+    "Correspondence": 4,
+    "DOJ Document": 2,
+    "News Report": 2,
+    "FBI Complaint": 1
+  },
+  "Bill Clinton": {
+    "Correspondence": 5,
+    "DOJ Document": 3,
+    "News Report": 1,
+    "FBI Complaint": 1
+  },
+  "Pam Bondi": {
+    "News Report": 3,
+    "Correspondence": 1
+  },
+  "Peggy Siegal": {
+    "Correspondence": 6
+  },
+  "Bill Richardson": {
+    "Deposition": 2
+  },
+  "Dangene and Jennie Enterprise": {
+    "Correspondence": 6
+  },
+  "Beef Jerky": {
+    "Correspondence": 8
+  },
+  "Glenn Dubin": {
+    "DOJ Document": 6,
+    "Correspondence": 2
+  },
+  "Michael Wolff": {
+    "Correspondence": 5,
+    "DOJ Document": 2,
+    "Court Filing": 1
+  },
+  "Elon Musk": {
+    "Correspondence": 9
+  },
+  "Ehud Barak": {
+    "Correspondence": 9,
+    "DOJ Document": 1
+  },
+  "Peter Mandelson": {
+    "Correspondence": 8
+  },
+  "Steve Bannon": {
+    "FBI Complaint": 1
+  },
+  "Qatar": {
+    "Correspondence": 5,
+    "FBI Complaint": 1,
+    "DOJ Document": 1
+  },
+  "Sarah Ferguson": {
+    "DOJ Document": 2
+  },
+  "Drugs": {
+    "Correspondence": 7,
+    "DOJ Document": 2
+  },
+  "Mark Zuckerberg": {
+    "Correspondence": 5
+  },
+  "Francis Derby": {
+    "Correspondence": 8
+  },
+  "Cream Cheese": {
+    "Correspondence": 1
+  },
+  "Casey Wasserman": {
+    "FBI Complaint": 2
+  },
+  "Leon Botstein": {
+    "Correspondence": 5,
+    "DOJ Document": 2,
+    "Flight Records": 1
+  },
+  "Peter Attia": {
+    "Correspondence": 6
+  },
+  "Jess Ting": {
+    "DOJ Document": 3
+  },
+  "Chuck Schumer": {
+    "Correspondence": 1
+  },
+  "Barack Obama": {
+    "Correspondence": 4,
+    "News Report": 1
+  },
+  "Benjamin Netanyahu": {
+    "Correspondence": 1
+  }
+}

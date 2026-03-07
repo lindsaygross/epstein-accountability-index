@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | The Impunity Index</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .about-page {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+        .about-page h1 {
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            margin-bottom: 0.5rem;
+        }
+        .about-page .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+        .about-section {
+            margin-bottom: 3rem;
+        }
+        .about-section h2 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .about-section p, .about-section li {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+        }
+        .about-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .about-section ul li {
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        .about-section ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+        }
+        .disclaimer-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-left: 3px solid var(--accent-amber);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+        .disclaimer-card strong {
+            color: var(--accent-amber);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .disclaimer-card p {
+            margin-bottom: 0;
+            font-size: 0.85rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        .back-link:hover { opacity: 0.8; }
+        .pipeline-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.6rem;
+        }
+        .pipeline-step strong {
+            color: var(--text-accent);
+            font-size: 0.88rem;
+        }
+        .ack-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        .ack-link:hover { text-decoration: underline; }
+        .ethics-highlight {
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem;
+            margin-top: 1rem;
+        }
+        .ethics-highlight p {
+            color: var(--text-primary);
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="about-page">
+        <a href="/" class="back-link">&larr; Back to Dashboard</a>
+
+        <h1>About the Impunity Index</h1>
+        <p class="subtitle">An NLP-powered research tool analyzing publicly released Epstein case documents to surface patterns of evidence density versus legal accountability.</p>
+
+        <!-- Section 1: What is the Impunity Index? -->
+        <div class="about-section">
+            <h2>What is the Impunity Index?</h2>
+            <p>The Impunity Index is an NLP-powered tool that analyzes publicly available Epstein court documents and government records to surface patterns of evidence density versus legal accountability.</p>
+            <p>Each individual in the dataset receives an <strong style="color:var(--text-accent)">Evidence Index</strong> (0&ndash;10) based on how frequently and severely they appear across the document corpus. This is multiplied by a <strong style="color:var(--text-accent)">Consequence Modifier</strong> based on whether they faced legal consequences, producing a final <strong style="color:var(--text-accent)">Impunity Index</strong> score.</p>
+            <p>The goal is simple: make it easier to see who had the most evidence against them and whether anything happened as a result. The gap between evidence and consequences is what we call impunity.</p>
+        </div>
+
+        <!-- Section 2: How it works -->
+        <div class="about-section">
+            <h2>How It Works</h2>
+            <div class="pipeline-step">
+                <strong>1. Document Ingestion</strong>
+                <p>We process over 1.4 million pages from DOJ/EFTA releases, court filings, depositions, and publicly available Epstein case documents. Text is extracted programmatically from PDFs and organized into a searchable corpus.</p>
+            </div>
+            <div class="pipeline-step">
+                <strong>2. Entity Extraction</strong>
+                <p>Named Entity Recognition (spaCy) identifies mentions of individuals across the document corpus. Each person is linked to the specific documents where they appear, along with contextual information about the nature of each mention.</p>
+            </div>
+            <div class="pipeline-step">
+                <strong>3. Classification</strong>
+                <p>Three model families produce independent evidence signals: Logistic Regression on tabular NLP features, Random Forest with TF-IDF text features, and Sentence Transformers (all-MiniLM-L6-v2) combined with Support Vector Classification for semantic analysis. Legal-BERT was evaluated but failed due to insufficient training data &mdash; that failure is documented as a finding.</p>
+            </div>
+            <div class="pipeline-step">
+                <strong>4. Scoring</strong>
+                <p>The Evidence Index combines six features using log-scaled, percentile-capped normalization: email/EFTA document count, DOJ corpus mentions, keyword co-occurrence with incriminating terms, flight log entries, person-to-person connections, and black book presence. The ML Evidence Signals shown on each profile represent consensus across three model families, not a single model&rsquo;s output.</p>
+            </div>
+            <div class="pipeline-step">
+                <strong>5. Semantic Relevance</strong>
+                <p>Documents are scored for relevance using semantic similarity (sentence-transformer embeddings), not just keyword matching. A document containing detailed allegations scores higher than a passing name mention. Document summaries shown on profiles are extractive (first sentences of the source document) and should be verified against original source documents.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Data Sources -->
+        <div class="about-section">
+            <h2>Data Sources</h2>
+            <ul>
+                <li>Court filings from <em>Giuffre v. Maxwell</em> and related cases</li>
+                <li>Department of Justice released documents (<a href="https://www.justice.gov/epstein" class="ack-link" target="_blank">justice.gov/epstein</a>)</li>
+                <li>Federal court records and unsealed depositions</li>
+                <li>Published investigative reporting from verified news sources</li>
+                <li>Publicly available flight logs and contact records</li>
+            </ul>
+        </div>
+
+        <!-- Section 4: Important Disclaimers -->
+        <div class="about-section">
+            <h2>Important Disclaimers</h2>
+            <div class="disclaimer-card">
+                <strong>Inclusion does not imply guilt</strong>
+                <p>Many individuals referenced in the Epstein files appeared as witnesses, were mentioned in passing, or had legitimate professional relationships. Being named in a document does not indicate involvement in criminal activity.</p>
+            </div>
+            <div class="disclaimer-card">
+                <strong>AI-generated analysis</strong>
+                <p>Summaries, scores, and classifications are produced by machine learning models and may contain errors or misinterpretations. Always refer to the original source documents for authoritative information. The Impunity Index is a research tool, not a factual determination.</p>
+            </div>
+            <div class="disclaimer-card">
+                <strong>Not legal advice</strong>
+                <p>This site is for informational and academic purposes only and does not constitute legal advice or official legal analysis.</p>
+            </div>
+            <div class="disclaimer-card">
+                <strong>Data limitations</strong>
+                <p>All text was extracted programmatically from PDFs. Handwritten documents, image-embedded text, and certain file formats may not be fully captured. The dataset is not comprehensive &mdash; it represents the publicly released portion of Epstein case files.</p>
+            </div>
+            <div class="disclaimer-card">
+                <strong>Model inconsistencies</strong>
+                <p>Multiple models were used across the pipeline. While we use consensus scoring to mitigate this, scores are not perfect and should be interpreted as directional indicators, not precise measurements.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Inspiration and Acknowledgments -->
+        <div class="about-section">
+            <h2>Inspiration &amp; Acknowledgments</h2>
+            <p>This project was built for Duke AIPI by <strong style="color:var(--text-accent)">Lindsay Gross</strong>, <strong style="color:var(--text-accent)">Shreya Mendi</strong>, and <strong style="color:var(--text-accent)">Andrew Jin</strong>.</p>
+            <p>We built on the shoulders of others who believed this information should be accessible to the public:</p>
+            <ul>
+                <li><a href="https://epsteinoverview.com" class="ack-link" target="_blank">Epstein Overview</a> &mdash; for pioneering the approach of making Epstein files accessible and searchable with AI-generated analysis, and for their transparent methodology</li>
+                <li><a href="https://jmail.world" class="ack-link" target="_blank">JMail World</a> &mdash; for their work organizing and surfacing Epstein-related documents</li>
+                <li>Open-source contributors: <a href="https://github.com/Surebob/epstein-files-downloader" class="ack-link" target="_blank">epstein-files-downloader</a>, <a href="https://github.com/yung-megafone/Epstein-Files" class="ack-link" target="_blank">Epstein-Files</a>, <a href="https://github.com/dBrogle/EpsteinProcessor" class="ack-link" target="_blank">EpsteinProcessor</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 6: Ethics Statement -->
+        <div class="about-section">
+            <h2>Ethics Statement</h2>
+            <div class="ethics-highlight">
+                <p>Our goal is accountability transparency, not accusation.</p>
+                <p>We believe the public has a right to understand patterns in publicly released legal documents. These are court records, government filings, and depositions that have already been made public through legal proceedings and FOIA requests. We are not revealing private information &mdash; we are making existing public information more accessible and analyzable.</p>
+                <p>We designed the scoring methodology to be evidence-based and reproducible, not sensationalized. Every score traces back to specific document features that can be independently verified. We chose log-scaled, percentile-capped normalization specifically to avoid arbitrary score inflation.</p>
+                <p>We welcome scrutiny of our methodology and corrections to our data. If you find an error in our analysis or believe a score is miscalibrated, we want to know. The code is open-source and the methodology is documented.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>Data sourced from publicly released DOJ/EFTA documents. Built with Python, Flask, scikit-learn, SentenceTransformers, D3.js, and Plotly.</p>
+    </footer>
+</body>
+</html>

@@ -511,6 +511,16 @@ function populateModal(data) {
         connEl.innerHTML = '<p style="color:#475569;font-size:0.82rem;">No co-occurrence connections found.</p>';
     }
 
+    // Topic distribution badge row (if available)
+    const fEl2 = document.getElementById('modal-features');
+    if (fEl2 && data.topic_distribution && Object.keys(data.topic_distribution).length) {
+        const topicHtml = Object.entries(data.topic_distribution)
+            .sort((a, b) => b[1] - a[1])
+            .map(([topic, count]) => `<span style="display:inline-block;padding:0.15rem 0.5rem;margin:0.15rem;border-radius:10px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);font-size:0.68rem;color:var(--text-secondary);">${topic} <strong style="color:var(--text-accent)">${count}</strong></span>`)
+            .join('');
+        fEl2.innerHTML += `<div style="grid-column:1/-1;margin-top:0.5rem;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-bottom:0.3rem;font-weight:600;">Document Topics</div>${topicHtml}</div>`;
+    }
+
     // Score reasoning + Citations from ChromaDB
     const summarySection = document.getElementById('modal-summary-section');
     const citationsEl = document.getElementById('modal-citations');
@@ -528,24 +538,25 @@ function populateModal(data) {
 
     citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">Loading citations...</p>';
 
+    // Load document citations
     fetch(`/api/person/${encodeURIComponent(data.name)}/citations`)
         .then(r => r.json())
         .then(result => {
             if (result.citations && result.citations.length) {
                 const sourceLabel = { doj_pdf: 'DOJ/EFTA Document', jmail_court: 'Court Record', jmail_doj: 'Epstein Emails (EFTA)', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press', doj_pdf_text: 'DOJ Document' };
 
-                // Deduplicate: same URL or very similar quote start (first 80 chars)
+                // Deduplicate: same EFTA ID or URL or very similar quote start
+                const seenEfta = new Set();
                 const seenUrls = new Set();
-                const seenQuoteStarts = new Set();
                 const deduplicated = result.citations.filter(c => {
+                    const efta = c.efta_id || '';
                     const url = c.url || '';
-                    const quoteStart = (c.quote || '').slice(0, 80).toLowerCase().replace(/\s+/g, ' ').trim();
+                    if (efta && seenEfta.has(efta)) return false;
                     if (url && seenUrls.has(url)) return false;
-                    if (quoteStart && seenQuoteStarts.has(quoteStart)) return false;
+                    if (efta) seenEfta.add(efta);
                     if (url) seenUrls.add(url);
-                    if (quoteStart) seenQuoteStarts.add(quoteStart);
                     return true;
-                }).slice(0, 6);
+                }).slice(0, 8);
 
                 if (!deduplicated.length) {
                     citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No document citations found in corpus.</p>';
@@ -553,19 +564,24 @@ function populateModal(data) {
                 }
 
                 citationsEl.innerHTML = deduplicated.map(c => {
-                    const label = sourceLabel[c.source] || c.source || 'Document';
+                    const label = typeof c.source === 'string' ? (sourceLabel[c.source] || c.source || 'Document') : 'Document';
                     const efta = c.efta_id || '';
                     const url = c.url || '';
-                    // Clean up quote — remove stray newlines and markup
+                    const topic = c.topic || '';
+                    const docSummary = c.doc_summary || '';
                     const quote = (c.quote || '').replace(/\\n/g, ' ').replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+                    const truncQuote = quote.length > 200 ? quote.slice(0, 200) + '...' : quote;
+                    const topicBadge = topic ? `<span style="font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:8px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--accent-cyan);text-transform:uppercase;letter-spacing:0.04em;">${topic}</span>` : '';
                     return `
                         <div class="citation-item">
                             <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap;">
                                 <span class="citation-type">${label}</span>
                                 ${efta ? `<span class="citation-id">${efta}</span>` : ''}
+                                ${topicBadge}
                             </div>
-                            <p class="citation-snippet">"${quote}"</p>
-                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Source Document &rarr;</a>` : ''}
+                            ${docSummary ? `<p style="font-size:0.76rem;color:var(--text-primary);margin:0.2rem 0 0.3rem;line-height:1.5;">${docSummary}</p>` : ''}
+                            ${truncQuote ? `<p class="citation-snippet">"${truncQuote}"</p>` : ''}
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View DOJ Document &rarr;</a>` : ''}
                         </div>`;
                 }).join('');
             } else {
@@ -575,6 +591,25 @@ function populateModal(data) {
         .catch(() => {
             citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">Citations unavailable.</p>';
         });
+
+    // Load consequence source links
+    fetch(`/api/person/${encodeURIComponent(data.name)}/consequence-sources`)
+        .then(r => r.json())
+        .then(result => {
+            if (result.sources && result.sources.length) {
+                const sourcesHtml = result.sources.map(s =>
+                    `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="citation-link" style="display:block;margin-bottom:0.3rem;">${s.title} <small style="opacity:0.6">(${s.source})</small> &rarr;</a>`
+                ).join('');
+                const cEl = document.getElementById('modal-consequence');
+                if (cEl) {
+                    cEl.innerHTML += `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--border-subtle);">
+                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-bottom:0.4rem;font-weight:600;">Sources</div>
+                        ${sourcesHtml}
+                    </div>`;
+                }
+            }
+        })
+        .catch(() => {});
 
     modal.removeAttribute('hidden');
     modal.classList.add('active');
@@ -1172,7 +1207,36 @@ function setupThemeToggle() {
     });
 }
 
+/* ============================================================
+   CONTENT WARNING GATE
+   ============================================================ */
+
+function setupContentGate() {
+    const gate = document.getElementById('content-gate');
+    if (!gate) return;
+
+    // Check if user already acknowledged in this session
+    if (sessionStorage.getItem('content-gate-acknowledged')) {
+        gate.classList.add('dismissed');
+        return;
+    }
+
+    const checkbox = document.getElementById('gate-age-check');
+    const btn = document.getElementById('gate-continue');
+    if (!checkbox || !btn) return;
+
+    checkbox.addEventListener('change', () => {
+        btn.disabled = !checkbox.checked;
+    });
+
+    btn.addEventListener('click', () => {
+        sessionStorage.setItem('content-gate-acknowledged', 'true');
+        gate.classList.add('dismissed');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    setupContentGate();
     setupThemeToggle();
     setupPeopleControls();
     setupModal();

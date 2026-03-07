@@ -493,6 +493,79 @@ body {
     font-size: 0.75rem; color: #475569;
 }
 
+/* ABOUT LINK */
+.about-link {
+    position: fixed; top: 20px; right: 70px; z-index: 200;
+    padding: 0.35rem 0.8rem; border-radius: 20px;
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    color: var(--text-secondary); font-family: var(--font-body);
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    transition: var(--transition);
+}
+.about-link:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+/* CONTENT WARNING GATE */
+.content-gate {
+    position: fixed; inset: 0; z-index: 10000;
+    background: var(--bg-primary);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+}
+.content-gate.dismissed { display: none; }
+.gate-inner {
+    max-width: 520px; text-align: center;
+}
+.gate-icon {
+    margin-bottom: 1.5rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.gate-title {
+    font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700;
+    color: var(--text-accent); margin-bottom: 1.2rem;
+}
+.gate-body {
+    font-size: 0.92rem; color: var(--text-secondary); line-height: 1.8;
+    margin-bottom: 1rem;
+}
+.gate-secondary {
+    font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
+    margin-bottom: 1.5rem; opacity: 0.8;
+}
+.gate-checkbox-label {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    font-size: 0.85rem; color: var(--text-primary); margin-bottom: 1.5rem;
+    cursor: pointer;
+}
+.gate-checkbox {
+    width: 16px; height: 16px; accent-color: var(--accent-amber);
+    cursor: pointer;
+}
+.gate-btn {
+    display: inline-block; padding: 0.75rem 2rem;
+    background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3);
+    color: var(--accent-amber); border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 0.88rem; font-weight: 500;
+    cursor: pointer; transition: var(--transition);
+    letter-spacing: 0.02em;
+}
+.gate-btn:disabled {
+    opacity: 0.4; cursor: not-allowed;
+}
+.gate-btn:not(:disabled):hover {
+    background: rgba(245, 158, 11, 0.25); border-color: var(--accent-amber);
+    transform: translateY(-1px);
+}
+.gate-about-link {
+    display: block; margin-top: 1.2rem;
+    font-size: 0.78rem; color: var(--accent-cyan);
+    text-decoration: none; transition: var(--transition);
+}
+.gate-about-link:hover { text-decoration: underline; }
+
 /* PLOTLY OVERRIDES */
 .js-plotly-plot .plotly .modebar { background: transparent !important; }
 .js-plotly-plot .plotly .modebar-btn path { fill: var(--text-secondary) !important; }
