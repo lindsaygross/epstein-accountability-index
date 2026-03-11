@@ -149,13 +149,6 @@ function initNetworkGraph() {
     const connectedNames = new Set();
     allLinks.forEach(l => { connectedNames.add(l.source); connectedNames.add(l.target); });
 
-    // Also include top non-connected people (by impunity) so we don't lose key figures
-    const topUnconnected = STATE.people
-        .filter(p => !connectedNames.has(p.name) && p.impunity_index >= 1.0)
-        .sort((a, b) => b.impunity_index - a.impunity_index)
-        .slice(0, 50);
-    topUnconnected.forEach(p => connectedNames.add(p.name));
-
     const nodes = STATE.people
         .filter(p => connectedNames.has(p.name))
         .map(p => ({
@@ -433,6 +426,15 @@ function populateModal(data) {
     badge.textContent = data.level;
     badge.style.color = LEVEL_COLORS[data.level] || '#475569';
 
+    // Bio line under name — nationality + description
+    const bioEl = document.getElementById('modal-bio');
+    if (bioEl) {
+        const parts = [];
+        if (data.nationality && data.nationality !== 'Unknown') parts.push(data.nationality);
+        if (data.consequence_description) parts.push(data.consequence_description);
+        bioEl.textContent = parts.join(' · ');
+    }
+
     createModalGauge(data.impunity_index);
 
     // Show internal score breakdown
@@ -455,27 +457,23 @@ function populateModal(data) {
 
     const cEl = document.getElementById('modal-consequence');
     const cColor = data.badge?.color === 'hard' ? '#ef4444' : data.badge?.color === 'soft' ? '#f59e0b' : '#475569';
-    cEl.innerHTML = `
-        <div style="margin-bottom:0.5rem;">
-            <span style="font-size:0.85rem;padding:0.25rem 0.7rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};font-weight:500;">${data.badge?.label || 'Unknown'}</span>
-        </div>
-        <p style="font-size:0.85rem;color:#94a3b8;line-height:1.65;">${data.consequence_description || 'No information available'}</p>`;
+    cEl.innerHTML = `<span style="font-size:0.85rem;padding:0.3rem 0.8rem;border-radius:4px;background:rgba(255,255,255,0.05);border:1px solid ${cColor}33;color:${cColor};font-weight:600;">${data.badge?.label || 'Unknown'}</span>`;
 
     // NLP Features — prefer ev_data fields (doc_mentions, keyword_cooccurrence, flights, connections, in_black_book)
     const fEl = document.getElementById('modal-features');
     if (fEl) {
         const ev = {
-            emailDocs: data.jmail_doc_count || 0,
             docMentions: data.doc_mentions || (data.features && data.features.total_mentions) || 0,
             cooccurrence: data.keyword_cooccurrence || (data.features && data.features.cooccurrence_score) || 0,
             flights: data.flights || 0,
+            connections: Array.isArray(data.connections) ? data.connections.length : (data.connections || 0),
             blackBook: data.in_black_book ? 'Yes' : 'No',
         };
         fEl.innerHTML = `
-            <div class="feature-item"><div class="feature-label">Epstein Emails</div><div class="feature-value">${ev.emailDocs.toLocaleString()}</div></div>
-            <div class="feature-item"><div class="feature-label">DOJ Mentions</div><div class="feature-value">${ev.docMentions.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">EFTA Docs</div><div class="feature-value">${ev.docMentions.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Co-occurrence</div><div class="feature-value">${ev.cooccurrence.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Flight Legs</div><div class="feature-value">${ev.flights.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">Connections</div><div class="feature-value">${ev.connections.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Black Book</div><div class="feature-value">${ev.blackBook}</div></div>`;
     }
 
@@ -545,7 +543,7 @@ function populateModal(data) {
             .sort((a, b) => b[1] - a[1])
             .map(([topic, count]) => `<span style="display:inline-block;padding:0.15rem 0.5rem;margin:0.15rem;border-radius:10px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);font-size:0.68rem;color:var(--text-secondary);">${topic} <strong style="color:var(--text-accent)">${count}</strong></span>`)
             .join('');
-        fEl2.innerHTML += `<div style="grid-column:1/-1;margin-top:0.5rem;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-bottom:0.3rem;font-weight:600;">Document Topics</div>${topicHtml}</div>`;
+        fEl2.innerHTML += `<div style="margin-top:0.5rem;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-bottom:0.3rem;font-weight:600;">Document Topics</div>${topicHtml}</div>`;
     }
 
     // Score reasoning + Citations from ChromaDB
@@ -570,7 +568,7 @@ function populateModal(data) {
         .then(r => r.json())
         .then(result => {
             if (result.citations && result.citations.length) {
-                const sourceLabel = { doj_pdf: 'DOJ/EFTA Document', jmail_court: 'Court Record', jmail_doj: 'Epstein Emails (EFTA)', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press', doj_pdf_text: 'DOJ Document' };
+                const sourceLabel = { doj_pdf: 'DOJ/EFTA Document', jmail_court: 'Court Record', jmail_doj: 'DOJ/EFTA Document', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press', doj_pdf_text: 'DOJ Document' };
 
                 // Deduplicate: same EFTA ID or URL or very similar quote start
                 const seenEfta = new Set();
@@ -608,7 +606,7 @@ function populateModal(data) {
                             </div>
                             ${docSummary ? `<p style="font-size:0.76rem;color:var(--text-primary);margin:0.2rem 0 0.3rem;line-height:1.5;">${docSummary}</p>` : ''}
                             ${truncQuote ? `<p class="citation-snippet">"${truncQuote}"</p>` : ''}
-                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">Search on JMail${efta ? ` (${efta})` : ''} &rarr;</a>` : ''}
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View DOJ Document${efta ? ` (${efta})` : ''} &rarr;</a>` : ''}
                         </div>`;
                 }).join('');
             } else {

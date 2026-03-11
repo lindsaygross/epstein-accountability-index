@@ -450,26 +450,27 @@ body {
 .score-breakdown .breakdown-explain {
     margin-top: 0.35rem; font-size: 0.78rem; color: var(--accent-blue); text-align: center;
 }
-.modal-body-content { overflow: hidden; }
-.modal-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.modal-body-content { overflow: visible; }
+.modal-columns { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; margin-bottom: 1.5rem; align-items: start; }
 .modal-section-title {
     font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
     color: var(--text-secondary); margin-bottom: 0.7rem; font-weight: 600;
 }
 .modal-gauge-wrapper { margin-bottom: 1rem; }
 .modal-consequence-wrapper { margin-bottom: 1.2rem; }
+.modal-col-right { width: 160px; flex-shrink: 0; }
 .modal-features-wrapper, .modal-predictions-wrapper { margin-bottom: 1rem; }
-.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.features-grid { display: flex; flex-direction: column; gap: 5px; }
 .feature-item {
-    background: var(--bg-surface); border-radius: 6px; padding: 0.6rem 0.75rem;
+    background: var(--bg-surface); border-radius: 6px;
+    padding: 0.4rem 0.65rem;
     border: 1px solid var(--border-subtle);
 }
 .feature-item .feature-label {
-    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--text-secondary); margin-bottom: 0.15rem;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-secondary); margin-bottom: 0.1rem;
 }
-.feature-item .feature-value { font-size: 1.1rem; font-weight: 600; color: var(--text-accent); }
+.feature-item .feature-value { font-size: 1rem; font-weight: 700; color: var(--text-accent); line-height: 1.2; }
 .predictions-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 .predictions-table th {
     padding: 0.5rem 0; text-align: left; color: var(--text-secondary);

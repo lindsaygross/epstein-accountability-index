@@ -1,6 +1,6 @@
 # The Impunity Index
 
-**Live App:** *(update after deploy)*
+**Live App:** https://impunity-index-306286460556.us-central1.run.app/
 **Author:** Lindsay Gross | Duke AIPI Graduate ML Course
 
 An NLP-driven investigation into the Epstein document corpus. We extract machine learning features from **1,413,024 DOJ/EFTA documents** across 5 dataset releases, train classifiers on 66 hand-labeled individuals, and compute an **Impunity Index** — a corpus-derived metric that quantifies the gap between documentary evidence and real-world consequences — across all **1,264 individuals** named in the public record.
@@ -298,7 +298,7 @@ The Impunity Index is suitable for **investigative journalism, academic research
 - Academic researchers: accountability gaps, elite network analysis, NLP-assisted legal review
 - Civil society organizations: monitoring case outcomes over time
 
-**Deployment:** Containerized on Google Cloud Run. Cost at minimum viable scale (4 GB RAM, 2 CPU, 1 always-on instance): ~$34/month — well within the $50 GCP free credit.
+**Deployment:** Containerized on Google Cloud Run (live at https://impunity-index-306286460556.us-central1.run.app/). Cost at minimum viable scale (4 GB RAM, 2 CPU, 1 always-on instance): ~$34/month — well within the $300 GCP free credit.
 
 **Limitations for commercial use:** F1=0.65 on a 14-person test set is insufficient for consequential decisions without human review. Individual scores should be treated as evidence signals, not conclusions — this is made explicit throughout the app interface.
 

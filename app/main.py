@@ -985,6 +985,8 @@ def predict_consequence() -> Any:
     })
 
 
+
+
 @app.route('/api/person/<path:name>/citations')
 def get_person_citations(name: str) -> Any:
     """
@@ -1059,20 +1061,37 @@ def get_person_citations(name: str) -> Any:
             doc_lower = doc.lower()
             name_found = name_parts and any(part in doc_lower for part in name_parts)
 
-            # Build citation URL — prefer jmail.world viewer (always accessible)
+            # Build citation URL — link directly to DOJ PDF
             raw_url = meta.get("url", "")
             efta_id_raw = meta.get("efta_id", "") or meta.get("doc_id", "")
-            # Strip .pdf suffix if present
             efta_clean = str(efta_id_raw).replace(".pdf", "").strip() if efta_id_raw else ""
-            if efta_clean:
-                doc_url = f"https://jmail.world/drive"
-            elif raw_url and "jmail.world" in raw_url:
-                doc_url = raw_url
+            dataset = meta.get("dataset", "")
+
+            # Map dataset code to DOJ dataset number
+            ds_map = {"ds8": "8", "ds9": "9", "ds10": "10", "ds11": "11", "ds12": "12"}
+            ds_num = ds_map.get(dataset, "")
+            if not ds_num and dataset.isdigit():
+                ds_num = dataset
+
+            if efta_clean and ds_num:
+                doc_url = f"https://www.justice.gov/epstein/files/DataSet%20{ds_num}/{efta_clean}.pdf"
             elif raw_url and "justice.gov" in raw_url:
-                # Extract EFTA ID from DOJ URL and remap to jmail.world
-                import re as _re
-                m = _re.search(r'(EFTA\d+)', raw_url)
-                doc_url = f"https://jmail.world/drive" if m else raw_url
+                # Already a DOJ URL — use as-is
+                doc_url = raw_url.replace(".pdf.pdf", ".pdf")  # guard double extension
+            elif efta_clean:
+                # Fallback: try to infer dataset from EFTA ID range
+                # Dataset 8 IDs: EFTA00000001–EFTA00099999 (approx)
+                # Dataset 10+: EFTA01000000+ (approx)
+                try:
+                    efta_num = int(efta_clean.replace("EFTA", ""))
+                    if efta_num < 100000:
+                        doc_url = f"https://www.justice.gov/epstein/files/DataSet%208/{efta_clean}.pdf"
+                    elif efta_num < 1500000:
+                        doc_url = f"https://www.justice.gov/epstein/files/DataSet%2010/{efta_clean}.pdf"
+                    else:
+                        doc_url = f"https://www.justice.gov/epstein/files/DataSet%2011/{efta_clean}.pdf"
+                except ValueError:
+                    doc_url = raw_url
             else:
                 doc_url = raw_url
 
@@ -1172,8 +1191,21 @@ def _get_summary_citations(name: str) -> list:
         if efta_id:
             seen_efta.add(efta_id)
 
-        # Build document URL — link to jmail.world drive (search by EFTA ID)
-        url = f"https://jmail.world/drive" if efta_id else ''
+        # Build document URL — link directly to DOJ PDF
+        # Infer dataset number from EFTA ID range (Dataset 8: <100k, 10: 1M-1.5M, 11: 1.5M+)
+        if efta_id:
+            try:
+                efta_num = int(efta_id.replace("EFTA", ""))
+                if efta_num < 100000:
+                    url = f"https://www.justice.gov/epstein/files/DataSet%208/{efta_id}.pdf"
+                elif efta_num < 1500000:
+                    url = f"https://www.justice.gov/epstein/files/DataSet%2010/{efta_id}.pdf"
+                else:
+                    url = f"https://www.justice.gov/epstein/files/DataSet%2011/{efta_id}.pdf"
+            except ValueError:
+                url = ''
+        else:
+            url = ''
 
         # Determine source label
         source_label = {
