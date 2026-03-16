@@ -1,0 +1,166 @@
+{
+  "Ghislaine Maxwell|Leon Black": {
+    "people": [
+      "Ghislaine Maxwell",
+      "Leon Black"
+    ],
+    "document_count": 4,
+    "documents": [
+      "EFTA01361573",
+      "EFTA01837768",
+      "EFTA01779615",
+      "EFTA01799294"
+    ]
+  },
+  "Ghislaine Maxwell|Les Wexner": {
+    "people": [
+      "Ghislaine Maxwell",
+      "Les Wexner"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA01837768",
+      "EFTA01779615",
+      "EFTA01805194"
+    ]
+  },
+  "Ghislaine Maxwell|Rupert Murdoch": {
+    "people": [
+      "Ghislaine Maxwell",
+      "Rupert Murdoch"
+    ],
+    "document_count": 4,
+    "documents": [
+      "EFTA01837768",
+      "EFTA01779615",
+      "EFTA01805194",
+      "EFTA01799294"
+    ]
+  },
+  "Leon Black|Les Wexner": {
+    "people": [
+      "Leon Black",
+      "Les Wexner"
+    ],
+    "document_count": 5,
+    "documents": [
+      "EFTA01837768",
+      "EFTA01779615",
+      "EFTA01648955",
+      "EFTA01804451",
+      "EFTA01779470"
+    ]
+  },
+  "Leon Black|Rupert Murdoch": {
+    "people": [
+      "Leon Black",
+      "Rupert Murdoch"
+    ],
+    "document_count": 4,
+    "documents": [
+      "EFTA01837768",
+      "EFTA01779615",
+      "EFTA01799294",
+      "EFTA01804451"
+    ]
+  },
+  "Les Wexner|Rupert Murdoch": {
+    "people": [
+      "Les Wexner",
+      "Rupert Murdoch"
+    ],
+    "document_count": 4,
+    "documents": [
+      "EFTA01837768",
+      "EFTA01779615",
+      "EFTA01805194",
+      "EFTA01804451"
+    ]
+  },
+  "Howard Lutnick|Jes Staley": {
+    "people": [
+      "Howard Lutnick",
+      "Jes Staley"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA01648955",
+      "EFTA01648951",
+      "EFTA01648946"
+    ]
+  },
+  "Bill Clinton|Prince Andrew": {
+    "people": [
+      "Bill Clinton",
+      "Prince Andrew"
+    ],
+    "document_count": 5,
+    "documents": [
+      "EFTA01380215",
+      "EFTA01364147",
+      "EFTA01359212",
+      "EFTA01649088",
+      "EFTA01377878"
+    ]
+  },
+  "Glenn Dubin|Howard Lutnick": {
+    "people": [
+      "Glenn Dubin",
+      "Howard Lutnick"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA02189766",
+      "EFTA01733746",
+      "EFTA00307010"
+    ]
+  },
+  "Howard Lutnick|Michael Wolff": {
+    "people": [
+      "Howard Lutnick",
+      "Michael Wolff"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA02189766",
+      "EFTA01733746",
+      "EFTA01733743"
+    ]
+  },
+  "Elon Musk|Jeff Bezos": {
+    "people": [
+      "Elon Musk",
+      "Jeff Bezos"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA01777165",
+      "EFTA01764323",
+      "EFTA01867561"
+    ]
+  },
+  "Elon Musk|Mark Zuckerberg": {
+    "people": [
+      "Elon Musk",
+      "Mark Zuckerberg"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA01867561",
+      "EFTA01864784",
+      "EFTA01866406"
+    ]
+  },
+  "Beef Jerky|Francis Derby": {
+    "people": [
+      "Beef Jerky",
+      "Francis Derby"
+    ],
+    "document_count": 3,
+    "documents": [
+      "EFTA02162684",
+      "EFTA02162493",
+      "EFTA02162755"
+    ]
+  }
+}

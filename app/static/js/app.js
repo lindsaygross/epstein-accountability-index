@@ -202,12 +202,34 @@ function initNetworkGraph() {
         .attr('stroke', d => LEVEL_COLORS[d.level] || '#475569')
         .attr('stroke-width', 2);
 
-    node.append('image')
+    // Add a default person silhouette circle as fallback for missing images
+    node.append('circle')
+        .attr('r', d => d.radius * 0.55)
+        .attr('fill', '#334155')
+        .attr('class', 'node-fallback-icon');
+
+    // Person silhouette SVG path (head + shoulders)
+    node.append('path')
+        .attr('d', d => {
+            const s = d.radius * 0.45;
+            return `M0,${-s*0.3} a${s*0.35},${s*0.35} 0 1,0 0.001,0 M${-s*0.6},${s*0.7} a${s*0.75},${s*0.6} 0 0,1 ${s*1.2},0`;
+        })
+        .attr('fill', '#64748b')
+        .attr('stroke', 'none')
+        .attr('class', 'node-fallback-icon');
+
+    // Map node id to clip-path index
+    const nodeIdToIdx = {};
+    nodes.forEach((d, i) => { nodeIdToIdx[d.id] = i; });
+
+    node.filter(d => d.image_url && d.image_url !== '/static/images/people/placeholder.png')
+        .append('image')
         .attr('href', d => d.image_url)
         .attr('x', d => -d.radius + 1.5).attr('y', d => -d.radius + 1.5)
         .attr('width', d => (d.radius - 1.5) * 2).attr('height', d => (d.radius - 1.5) * 2)
-        .attr('clip-path', (d, i) => `url(#nc-${i})`)
-        .attr('preserveAspectRatio', 'xMidYMid slice');
+        .attr('clip-path', d => `url(#nc-${nodeIdToIdx[d.id]})`)
+        .attr('preserveAspectRatio', 'xMidYMid slice')
+        .on('error', function() { d3.select(this).remove(); });
 
     const label = g.append('g').selectAll('text').data(nodes).join('text')
         .text(d => d.id)
@@ -435,7 +457,7 @@ function populateModal(data) {
     const cColor = data.badge?.color === 'hard' ? '#ef4444' : data.badge?.color === 'soft' ? '#f59e0b' : '#475569';
     cEl.innerHTML = `
         <div style="margin-bottom:0.5rem;">
-            <span style="font-size:0.82rem;padding:0.25rem 0.7rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};">${data.badge?.label || 'Unknown'}</span>
+            <span style="font-size:0.85rem;padding:0.25rem 0.7rem;border-radius:4px;background:rgba(255,255,255,0.05);color:${cColor};font-weight:500;">${data.badge?.label || 'Unknown'}</span>
         </div>
         <p style="font-size:0.85rem;color:#94a3b8;line-height:1.65;">${data.consequence_description || 'No information available'}</p>`;
 
@@ -452,7 +474,7 @@ function populateModal(data) {
         fEl.innerHTML = `
             <div class="feature-item"><div class="feature-label">Epstein Emails</div><div class="feature-value">${ev.emailDocs.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">DOJ Mentions</div><div class="feature-value">${ev.docMentions.toLocaleString()}</div></div>
-            <div class="feature-item"><div class="feature-label">Keyword Co-occ.</div><div class="feature-value">${ev.cooccurrence.toLocaleString()}</div></div>
+            <div class="feature-item"><div class="feature-label">Co-occurrence</div><div class="feature-value">${ev.cooccurrence.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Flight Legs</div><div class="feature-value">${ev.flights.toLocaleString()}</div></div>
             <div class="feature-item"><div class="feature-label">Black Book</div><div class="feature-value">${ev.blackBook}</div></div>`;
     }
@@ -467,18 +489,23 @@ function populateModal(data) {
             sentence_transformer_svc: 'ST + SVC (Semantic)',
         };
         if (data.predictions && Object.keys(data.predictions).length) {
+            const mShortLabels = {
+                logistic_regression: 'Log. Regression',
+                random_forest_tfidf: 'RF + TF-IDF',
+                sentence_transformer_svc: 'ST + SVC',
+            };
             const bars = mOrder.filter(m => data.predictions[m] != null).map(m => {
                 const pred = data.predictions[m];
                 const prob = typeof pred === 'object' ? (pred.probability ?? 0) : 0;
                 const pct = (prob * 100).toFixed(1);
                 const color = prob >= 0.7 ? '#ef4444' : prob >= 0.4 ? '#f59e0b' : '#3b82f6';
-                return `<div style="margin-bottom:0.75rem;">
-                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.25rem;">
-                        <span style="color:var(--text-secondary)">${mLabels[m]}</span>
+                return `<div style="margin-bottom:0.6rem;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.2rem;">
+                        <span style="color:var(--text-secondary)">${mShortLabels[m]}</span>
                         <span style="color:${color};font-weight:600">${pct}%</span>
                     </div>
-                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:6px;overflow:hidden;">
-                        <div style="background:${color};width:${pct}%;height:100%;border-radius:4px;transition:width 0.6s ease;"></div>
+                    <div style="background:rgba(255,255,255,0.07);border-radius:3px;height:6px;overflow:hidden;">
+                        <div style="background:${color};width:${pct}%;height:100%;border-radius:3px;transition:width 0.6s ease;"></div>
                     </div>
                 </div>`;
             });
@@ -486,15 +513,15 @@ function populateModal(data) {
             const cProb = consensus ? (typeof consensus === 'object' ? (consensus.probability ?? 0) : 0) : 0;
             const cColor = cProb >= 0.7 ? '#ef4444' : cProb >= 0.4 ? '#f59e0b' : '#3b82f6';
             pEl.innerHTML = bars.join('') + (consensus != null ? `
-                <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color);">
-                    <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.3rem;">
-                        <span style="font-weight:600;color:var(--text-primary)">Consensus Signal</span>
+                <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border-subtle);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem;">
+                        <span style="font-weight:600;color:var(--text-primary)">Consensus</span>
                         <span style="color:${cColor};font-weight:700">${(cProb * 100).toFixed(1)}%</span>
                     </div>
-                    <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden;">
-                        <div style="background:${cColor};width:${(cProb*100).toFixed(1)}%;height:100%;border-radius:4px;"></div>
+                    <div style="background:rgba(255,255,255,0.07);border-radius:3px;height:6px;overflow:hidden;">
+                        <div style="background:${cColor};width:${(cProb*100).toFixed(1)}%;height:100%;border-radius:3px;"></div>
                     </div>
-                    <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.4rem;">Mean of 3 models — reflects document evidence pattern, not a legal determination.</p>
+                    <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.35rem;line-height:1.4;">Mean of 3 models — document evidence pattern, not a legal determination.</p>
                 </div>` : '');
         } else {
             pEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No ML signal data available for this individual.</p>';
@@ -509,6 +536,16 @@ function populateModal(data) {
         }).join('');
     } else {
         connEl.innerHTML = '<p style="color:#475569;font-size:0.82rem;">No co-occurrence connections found.</p>';
+    }
+
+    // Topic distribution badge row (if available)
+    const fEl2 = document.getElementById('modal-features');
+    if (fEl2 && data.topic_distribution && Object.keys(data.topic_distribution).length) {
+        const topicHtml = Object.entries(data.topic_distribution)
+            .sort((a, b) => b[1] - a[1])
+            .map(([topic, count]) => `<span style="display:inline-block;padding:0.15rem 0.5rem;margin:0.15rem;border-radius:10px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);font-size:0.68rem;color:var(--text-secondary);">${topic} <strong style="color:var(--text-accent)">${count}</strong></span>`)
+            .join('');
+        fEl2.innerHTML += `<div style="grid-column:1/-1;margin-top:0.5rem;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-bottom:0.3rem;font-weight:600;">Document Topics</div>${topicHtml}</div>`;
     }
 
     // Score reasoning + Citations from ChromaDB
@@ -528,24 +565,25 @@ function populateModal(data) {
 
     citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">Loading citations...</p>';
 
+    // Load document citations
     fetch(`/api/person/${encodeURIComponent(data.name)}/citations`)
         .then(r => r.json())
         .then(result => {
             if (result.citations && result.citations.length) {
                 const sourceLabel = { doj_pdf: 'DOJ/EFTA Document', jmail_court: 'Court Record', jmail_doj: 'Epstein Emails (EFTA)', court: 'Court Filing', wikipedia: 'Wikipedia', doj_press: 'DOJ Press', doj_pdf_text: 'DOJ Document' };
 
-                // Deduplicate: same URL or very similar quote start (first 80 chars)
+                // Deduplicate: same EFTA ID or URL or very similar quote start
+                const seenEfta = new Set();
                 const seenUrls = new Set();
-                const seenQuoteStarts = new Set();
                 const deduplicated = result.citations.filter(c => {
+                    const efta = c.efta_id || '';
                     const url = c.url || '';
-                    const quoteStart = (c.quote || '').slice(0, 80).toLowerCase().replace(/\s+/g, ' ').trim();
+                    if (efta && seenEfta.has(efta)) return false;
                     if (url && seenUrls.has(url)) return false;
-                    if (quoteStart && seenQuoteStarts.has(quoteStart)) return false;
+                    if (efta) seenEfta.add(efta);
                     if (url) seenUrls.add(url);
-                    if (quoteStart) seenQuoteStarts.add(quoteStart);
                     return true;
-                }).slice(0, 6);
+                }).slice(0, 8);
 
                 if (!deduplicated.length) {
                     citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">No document citations found in corpus.</p>';
@@ -553,19 +591,24 @@ function populateModal(data) {
                 }
 
                 citationsEl.innerHTML = deduplicated.map(c => {
-                    const label = sourceLabel[c.source] || c.source || 'Document';
+                    const label = typeof c.source === 'string' ? (sourceLabel[c.source] || c.source || 'Document') : 'Document';
                     const efta = c.efta_id || '';
                     const url = c.url || '';
-                    // Clean up quote — remove stray newlines and markup
+                    const topic = c.topic || '';
+                    const docSummary = c.doc_summary || '';
                     const quote = (c.quote || '').replace(/\\n/g, ' ').replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+                    const truncQuote = quote.length > 200 ? quote.slice(0, 200) + '...' : quote;
+                    const topicBadge = topic ? `<span style="font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:8px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--accent-cyan);text-transform:uppercase;letter-spacing:0.04em;">${topic}</span>` : '';
                     return `
                         <div class="citation-item">
                             <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap;">
                                 <span class="citation-type">${label}</span>
                                 ${efta ? `<span class="citation-id">${efta}</span>` : ''}
+                                ${topicBadge}
                             </div>
-                            <p class="citation-snippet">"${quote}"</p>
-                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">View Source Document &rarr;</a>` : ''}
+                            ${docSummary ? `<p style="font-size:0.76rem;color:var(--text-primary);margin:0.2rem 0 0.3rem;line-height:1.5;">${docSummary}</p>` : ''}
+                            ${truncQuote ? `<p class="citation-snippet">"${truncQuote}"</p>` : ''}
+                            ${url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">Search on JMail${efta ? ` (${efta})` : ''} &rarr;</a>` : ''}
                         </div>`;
                 }).join('');
             } else {
@@ -575,6 +618,25 @@ function populateModal(data) {
         .catch(() => {
             citationsEl.innerHTML = '<p style="color:var(--text-secondary);font-size:0.82rem;">Citations unavailable.</p>';
         });
+
+    // Load consequence source links
+    fetch(`/api/person/${encodeURIComponent(data.name)}/consequence-sources`)
+        .then(r => r.json())
+        .then(result => {
+            if (result.sources && result.sources.length) {
+                const sourcesHtml = result.sources.map(s =>
+                    `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="citation-link" style="display:block;margin-bottom:0.3rem;">${s.title} <small style="opacity:0.6">(${s.source})</small> &rarr;</a>`
+                ).join('');
+                const cEl = document.getElementById('modal-consequence');
+                if (cEl) {
+                    cEl.innerHTML += `<div style="margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid var(--border-subtle);">
+                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-bottom:0.4rem;font-weight:600;">Sources</div>
+                        ${sourcesHtml}
+                    </div>`;
+                }
+            }
+        })
+        .catch(() => {});
 
     modal.removeAttribute('hidden');
     modal.classList.add('active');
@@ -1172,7 +1234,36 @@ function setupThemeToggle() {
     });
 }
 
+/* ============================================================
+   CONTENT WARNING GATE
+   ============================================================ */
+
+function setupContentGate() {
+    const gate = document.getElementById('content-gate');
+    if (!gate) return;
+
+    // Check if user already acknowledged in this session
+    if (sessionStorage.getItem('content-gate-acknowledged')) {
+        gate.classList.add('dismissed');
+        return;
+    }
+
+    const checkbox = document.getElementById('gate-age-check');
+    const btn = document.getElementById('gate-continue');
+    if (!checkbox || !btn) return;
+
+    checkbox.addEventListener('change', () => {
+        btn.disabled = !checkbox.checked;
+    });
+
+    btn.addEventListener('click', () => {
+        sessionStorage.setItem('content-gate-acknowledged', 'true');
+        gate.classList.add('dismissed');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    setupContentGate();
     setupThemeToggle();
     setupPeopleControls();
     setupModal();

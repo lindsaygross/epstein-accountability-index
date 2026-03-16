@@ -1,0 +1,812 @@
+[
+  {
+    "name": "Ghislaine Maxwell",
+    "raw_features": {
+      "jmail_doc_count": 94,
+      "doc_mentions": 39,
+      "keyword_cooccurrence": 292,
+      "flights": 413,
+      "connections": 123,
+      "in_black_book": true
+    },
+    "evidence_index": 10.0,
+    "consequence_tier": 2,
+    "consequence_modifier": 0.7,
+    "impunity_index": 7.0,
+    "model_scores": {
+      "consequence_tier": 2.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 1.0,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.7752,
+      "sentence_transformer_svc_pred": 1.0,
+      "random_forest_tfidf_prob": 0.4738,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.7496,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Lesley Groff",
+    "raw_features": {
+      "jmail_doc_count": 1376,
+      "doc_mentions": 96,
+      "keyword_cooccurrence": 175,
+      "flights": 92,
+      "connections": 36,
+      "in_black_book": true
+    },
+    "evidence_index": 10.0,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 1.0,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.5355,
+      "sentence_transformer_svc_pred": 1.0,
+      "random_forest_tfidf_prob": 0.3853,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.6403,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Alan Dershowitz",
+    "raw_features": {
+      "jmail_doc_count": 56,
+      "doc_mentions": 15,
+      "keyword_cooccurrence": 91,
+      "flights": 33,
+      "connections": 12,
+      "in_black_book": true
+    },
+    "evidence_index": 9.65,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 9.65,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.9527,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2765,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4071,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5454,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Jeffrey Epstein",
+    "raw_features": {
+      "jmail_doc_count": 2810,
+      "doc_mentions": 562,
+      "keyword_cooccurrence": 2581,
+      "flights": 553,
+      "connections": 119,
+      "in_black_book": false
+    },
+    "evidence_index": 9.5,
+    "consequence_tier": 2,
+    "consequence_modifier": 0.7,
+    "impunity_index": 6.65,
+    "model_scores": {
+      "consequence_tier": 2.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 1.0,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.9848,
+      "sentence_transformer_svc_pred": 1.0,
+      "random_forest_tfidf_prob": 0.4491,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.8113,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Prince Andrew",
+    "raw_features": {
+      "jmail_doc_count": 46,
+      "doc_mentions": 40,
+      "keyword_cooccurrence": 275,
+      "flights": 26,
+      "connections": 13,
+      "in_black_book": true
+    },
+    "evidence_index": 9.5,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 9.5,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.9999,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.712,
+      "sentence_transformer_svc_pred": 1.0,
+      "random_forest_tfidf_prob": 0.4966,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.7362,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Bill Clinton",
+    "raw_features": {
+      "jmail_doc_count": 31,
+      "doc_mentions": 33,
+      "keyword_cooccurrence": 95,
+      "flights": 38,
+      "connections": 11,
+      "in_black_book": true
+    },
+    "evidence_index": 9.42,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9889,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2542,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4286,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5572,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Darren Indyke",
+    "raw_features": {
+      "jmail_doc_count": 620,
+      "doc_mentions": 19,
+      "keyword_cooccurrence": 25,
+      "flights": 18,
+      "connections": 11,
+      "in_black_book": true
+    },
+    "evidence_index": 9.4,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.7955,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.0417,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3033,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.3801,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Larry Visoski",
+    "raw_features": {
+      "jmail_doc_count": 76,
+      "doc_mentions": 13,
+      "keyword_cooccurrence": 16,
+      "flights": 281,
+      "connections": 19,
+      "in_black_book": true
+    },
+    "evidence_index": 9.34,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.0855,
+      "logistic_regression_pred": 0.0,
+      "sentence_transformer_svc_prob": 0.0085,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.383,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.159,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Ehud Barak",
+    "raw_features": {
+      "jmail_doc_count": 100,
+      "doc_mentions": 50,
+      "keyword_cooccurrence": 63,
+      "flights": 15,
+      "connections": 6,
+      "in_black_book": true
+    },
+    "evidence_index": 9.34,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9931,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2573,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3855,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5453,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Leon Black",
+    "raw_features": {
+      "jmail_doc_count": 470,
+      "doc_mentions": 34,
+      "keyword_cooccurrence": 47,
+      "flights": 9,
+      "connections": 5,
+      "in_black_book": true
+    },
+    "evidence_index": 9.09,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 9.09,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.931,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.1851,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4818,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5326,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Virginia Giuffre",
+    "raw_features": {
+      "jmail_doc_count": 40,
+      "doc_mentions": 13,
+      "keyword_cooccurrence": 91,
+      "flights": 48,
+      "connections": 12,
+      "in_black_book": false
+    },
+    "evidence_index": 9.04,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 9.04,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.9337,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.3458,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3349,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5382,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Larry Summers",
+    "raw_features": {
+      "jmail_doc_count": 93,
+      "doc_mentions": 29,
+      "keyword_cooccurrence": 48,
+      "flights": 5,
+      "connections": 5,
+      "in_black_book": true
+    },
+    "evidence_index": 8.88,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9443,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2251,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4376,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5356,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Jes Staley",
+    "raw_features": {
+      "jmail_doc_count": 69,
+      "doc_mentions": 40,
+      "keyword_cooccurrence": 94,
+      "flights": 6,
+      "connections": 4,
+      "in_black_book": true
+    },
+    "evidence_index": 8.75,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 8.75,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.9898,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.4991,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4839,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.6576,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Woody Allen",
+    "raw_features": {
+      "jmail_doc_count": 300,
+      "doc_mentions": 22,
+      "keyword_cooccurrence": 20,
+      "flights": 9,
+      "connections": 3,
+      "in_black_book": true
+    },
+    "evidence_index": 8.58,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.7212,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.0857,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3224,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.3764,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Jean-Luc Brunel",
+    "raw_features": {
+      "jmail_doc_count": 74,
+      "doc_mentions": 6,
+      "keyword_cooccurrence": 20,
+      "flights": 21,
+      "connections": 12,
+      "in_black_book": true
+    },
+    "evidence_index": 8.53,
+    "consequence_tier": 2,
+    "consequence_modifier": 0.7,
+    "impunity_index": 5.97,
+    "model_scores": {
+      "consequence_tier": 2.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.737,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.1711,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3693,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.4258,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Sarah Kellen",
+    "raw_features": {
+      "jmail_doc_count": 120,
+      "doc_mentions": 7,
+      "keyword_cooccurrence": 7,
+      "flights": 364,
+      "connections": 74,
+      "in_black_book": true
+    },
+    "evidence_index": 8.38,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9775,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.0649,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3485,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.4636,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Les Wexner",
+    "raw_features": {
+      "jmail_doc_count": 45,
+      "doc_mentions": 7,
+      "keyword_cooccurrence": 26,
+      "flights": 15,
+      "connections": 6,
+      "in_black_book": true
+    },
+    "evidence_index": 8.26,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 8.26,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.6126,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2367,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4318,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.427,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Donald Trump",
+    "raw_features": {
+      "jmail_doc_count": 14,
+      "doc_mentions": 42,
+      "keyword_cooccurrence": 110,
+      "flights": 3,
+      "connections": 14,
+      "in_black_book": true
+    },
+    "evidence_index": 8.24,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 10.0,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9988,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.5308,
+      "sentence_transformer_svc_pred": 1.0,
+      "random_forest_tfidf_prob": 0.4411,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.6569,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Bill Gates",
+    "raw_features": {
+      "jmail_doc_count": 51,
+      "doc_mentions": 29,
+      "keyword_cooccurrence": 30,
+      "flights": 1,
+      "connections": 8,
+      "in_black_book": false
+    },
+    "evidence_index": 7.76,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 7.76,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.9599,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2333,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4872,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5601,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Peggy Siegal",
+    "raw_features": {
+      "jmail_doc_count": 29,
+      "doc_mentions": 37,
+      "keyword_cooccurrence": 78,
+      "flights": 1,
+      "connections": 2,
+      "in_black_book": true
+    },
+    "evidence_index": 7.68,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 7.68,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.9791,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.3069,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3997,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5619,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Peter Mandelson",
+    "raw_features": {
+      "jmail_doc_count": 8,
+      "doc_mentions": 39,
+      "keyword_cooccurrence": 53,
+      "flights": 2,
+      "connections": 4,
+      "in_black_book": true
+    },
+    "evidence_index": 7.51,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 9.76,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9794,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.1855,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4383,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5344,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "Richard Kahn",
+    "raw_features": {
+      "jmail_doc_count": 489,
+      "doc_mentions": 32,
+      "keyword_cooccurrence": 94,
+      "flights": 0,
+      "connections": 0,
+      "in_black_book": true
+    },
+    "evidence_index": 7.5,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 9.75,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9374,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.0722,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3457,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.4518,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Glenn Dubin",
+    "raw_features": {
+      "jmail_doc_count": 5,
+      "doc_mentions": 11,
+      "keyword_cooccurrence": 17,
+      "flights": 15,
+      "connections": 5,
+      "in_black_book": true
+    },
+    "evidence_index": 7.39,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 7.39,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.6348,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2487,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4366,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.44,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Bill Richardson",
+    "raw_features": {
+      "jmail_doc_count": 17,
+      "doc_mentions": 9,
+      "keyword_cooccurrence": 13,
+      "flights": 6,
+      "connections": 8,
+      "in_black_book": true
+    },
+    "evidence_index": 7.35,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 9.55,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.7143,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.072,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3787,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.3883,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Boris Nikolic",
+    "raw_features": {
+      "jmail_doc_count": 100,
+      "doc_mentions": 12,
+      "keyword_cooccurrence": 25,
+      "flights": 0,
+      "connections": 3,
+      "in_black_book": false
+    },
+    "evidence_index": 7.18,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 9.33,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.6733,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.1568,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3807,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.4036,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Peter Thiel",
+    "raw_features": {
+      "jmail_doc_count": 43,
+      "doc_mentions": 41,
+      "keyword_cooccurrence": 57,
+      "flights": 0,
+      "connections": 0,
+      "in_black_book": true
+    },
+    "evidence_index": 7.16,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 9.31,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.9704,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.2225,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.3684,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.5205,
+      "consensus_label": 1.0
+    }
+  },
+  {
+    "name": "John Brockman",
+    "raw_features": {
+      "jmail_doc_count": 34,
+      "doc_mentions": 15,
+      "keyword_cooccurrence": 34,
+      "flights": 0,
+      "connections": 0,
+      "in_black_book": true
+    },
+    "evidence_index": 7.06,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 9.18,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.6707,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.1029,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.355,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.3762,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Michael Wolff",
+    "raw_features": {
+      "jmail_doc_count": 116,
+      "doc_mentions": 18,
+      "keyword_cooccurrence": 13,
+      "flights": 0,
+      "connections": 0,
+      "in_black_book": true
+    },
+    "evidence_index": 6.86,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 8.92,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.6112,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.0787,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4235,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.3711,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Reid Hoffman",
+    "raw_features": {
+      "jmail_doc_count": 63,
+      "doc_mentions": 19,
+      "keyword_cooccurrence": 24,
+      "flights": 0,
+      "connections": 1,
+      "in_black_book": false
+    },
+    "evidence_index": 6.85,
+    "consequence_tier": 0,
+    "consequence_modifier": 1.3,
+    "impunity_index": 8.9,
+    "model_scores": {
+      "consequence_tier": 0.0,
+      "has_consequence": 0.0,
+      "logistic_regression_prob": 0.7453,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.095,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.4031,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.4145,
+      "consensus_label": 0.0
+    }
+  },
+  {
+    "name": "Joi Ito",
+    "raw_features": {
+      "jmail_doc_count": 133,
+      "doc_mentions": 13,
+      "keyword_cooccurrence": 12,
+      "flights": 1,
+      "connections": 1,
+      "in_black_book": false
+    },
+    "evidence_index": 6.78,
+    "consequence_tier": 1,
+    "consequence_modifier": 1.0,
+    "impunity_index": 6.78,
+    "model_scores": {
+      "consequence_tier": 1.0,
+      "has_consequence": 1.0,
+      "logistic_regression_prob": 0.5452,
+      "logistic_regression_pred": 1.0,
+      "sentence_transformer_svc_prob": 0.1195,
+      "sentence_transformer_svc_pred": 0.0,
+      "random_forest_tfidf_prob": 0.386,
+      "random_forest_tfidf_pred": 0.0,
+      "consensus_prob": 0.3502,
+      "consensus_label": 0.0
+    }
+  }
+]
