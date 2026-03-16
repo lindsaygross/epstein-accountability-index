@@ -80,11 +80,11 @@ async function loadAllData() {
         createMetricsBarChart();
         createConfusionMatrices();
         createAblationChart();
-        createExperimentChart();
+        try { createExperimentChart(); } catch(e) { console.warn('Experiment chart:', e); }
         renderLimitations();
-        createScatterPlot();
-        createGeoMap();
-        createSemanticSpace();
+        try { createScatterPlot(); } catch(e) { console.warn('Scatter plot:', e); }
+        try { createGeoMap(); } catch(e) { console.warn('Geo map:', e); }
+        try { createSemanticSpace(); } catch(e) { console.warn('Semantic space:', e); }
 
     } catch (err) {
         console.error('Failed to load data:', err);
@@ -882,6 +882,7 @@ function createAblationChart() {
 
 function createExperimentChart() {
     if (!STATE.experimentResults.length) return;
+    if (!document.getElementById('experimentChart')) return;
     const data = STATE.experimentResults;
 
     const colors = data.map(d =>
@@ -1086,7 +1087,10 @@ function createSemanticSpace() {
     fetch('/api/semantic-space')
         .then(r => r.json())
         .then(points => {
-            if (!Array.isArray(points) || !points.length) return;
+            if (!Array.isArray(points) || !points.length) {
+                el.innerHTML = '<p style="text-align:center;padding:4rem;color:var(--text-secondary);font-size:0.85rem;">Semantic embeddings not yet computed for this environment. Available on the deployed version.</p>';
+                return;
+            }
 
             const theme = getPlotlyTheme();
             const isLight = document.documentElement.dataset.theme === 'light';
