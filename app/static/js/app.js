@@ -448,11 +448,11 @@ function populateModal(data) {
         const modifierLabel = data.consequence_tier === 0 ? '×1.3 (no consequence)' : data.consequence_tier === 1 ? '×1.0 (soft consequence)' : '×0.7 (convicted)';
         breakdownEl.innerHTML = `
             <div class="breakdown-row">
-                <span class="breakdown-label">Evidence Index</span>
+                <span class="breakdown-label modal-tooltip-wrap">Evidence Index <span class="modal-info-icon">&#9432;<span class="modal-info-tooltip">A 0-10 score measuring how often and how prominently this person appears across the document corpus. Based on EFTA document count, DOJ mentions, keyword co-occurrence, flight logs, connections, and black book presence.</span></span></span>
                 <span class="breakdown-value">${(data.evidence_index || 0).toFixed(1)}</span>
             </div>
             <div class="breakdown-row">
-                <span class="breakdown-label">Consequence Modifier</span>
+                <span class="breakdown-label modal-tooltip-wrap">Consequence Modifier <span class="modal-info-icon">&#9432;<span class="modal-info-tooltip">Adjusts the score based on real-world legal outcomes. No consequence: x1.3 (increases impunity). Soft consequence (resigned, sued): x1.0 (neutral). Hard consequence (convicted, imprisoned): x0.7 (reduces impunity).</span></span></span>
                 <span class="breakdown-value">${modifierLabel}</span>
             </div>
             <div class="breakdown-formula">${(data.evidence_index || 0).toFixed(1)} × ${modifier} = <strong>${(data.impunity_index || 0).toFixed(1)}</strong></div>
