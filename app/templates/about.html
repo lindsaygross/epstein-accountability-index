@@ -1,3 +1,10 @@
+<!--
+  Project: The Impunity Index
+  Authors: Lindsay Gross, Shreya Mendi, Andrew Jin
+  Advisor: Brinnae Bent, PhD
+  Claude chat: https://claude.ai/chat/f8744002-3279-48ab-9d9a-8efa1fdb1af1
+  Built with Claude AI assistance
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,6 +126,11 @@
             color: var(--text-primary);
             font-size: 0.88rem;
         }
+        @media (max-width: 600px) {
+            .score-comparison-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -128,12 +140,57 @@
         <h1>About the Impunity Index</h1>
         <p class="subtitle">An NLP-powered research tool analyzing publicly released Epstein case documents to surface patterns of evidence density versus legal accountability.</p>
 
+        <!-- Section: Why We Created This -->
+        <div class="about-section">
+            <h2>Why We Created This</h2>
+            <p>Plenty of incredible work has been done mapping who shows up in the Epstein files. Journalists, researchers, and open-source communities have built searchable archives, entity graphs, and document indexes. But nobody had built a way for people to actually measure the gap between evidence and accountability. That is what the Impunity Index does.</p>
+            <p>It takes the documentary footprint of every named individual in the corpus and cross-references it against whether they ever faced real consequences. The result is a single, corpus-derived metric that quantifies impunity: high evidence plus low accountability equals a high impunity score. We built this because the data was public but the pattern was not visible. We wanted to make it visible.</p>
+        </div>
+
         <!-- Section 1: What is the Impunity Index? -->
         <div class="about-section">
             <h2>What is the Impunity Index?</h2>
             <p>The Impunity Index is an NLP-powered tool that analyzes publicly available Epstein court documents and government records to surface patterns of evidence density versus legal accountability.</p>
             <p>Each individual in the dataset receives an <strong style="color:var(--text-accent)">Evidence Index</strong> (0&ndash;10) based on how frequently and severely they appear across the document corpus. This is multiplied by a <strong style="color:var(--text-accent)">Consequence Modifier</strong> based on whether they faced legal consequences, producing a final <strong style="color:var(--text-accent)">Impunity Index</strong> score.</p>
             <p>The goal is simple: make it easier to see who had the most evidence against them and whether anything happened as a result. The gap between evidence and consequences is what we call impunity.</p>
+        </div>
+
+        <!-- Section: Understanding the Score -->
+        <div class="about-section">
+            <h2>How to Read the Impunity Index</h2>
+            <p>The Impunity Index does not measure guilt. It measures the gap between documentary evidence and legal accountability. A high score means the evidence outpaced the consequences. Here is how that works in practice.</p>
+
+            <div class="score-comparison-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.5rem;">
+                <!-- Epstein card -->
+                <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:1.3rem;border-left:3px solid var(--color-high);">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.6rem;">
+                        <strong style="color:var(--text-accent);font-size:1rem;">Jeffrey Epstein</strong>
+                        <span style="font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:var(--color-high);">6.7</span>
+                    </div>
+                    <div style="margin-bottom:0.8rem;">
+                        <span style="display:inline-block;font-size:0.65rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:3px;background:rgba(239,68,68,0.12);color:var(--color-critical);">Evidence: 9.5 / 10</span>
+                        <span style="display:inline-block;font-size:0.65rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:3px;background:rgba(239,68,68,0.12);color:var(--accent-red);margin-left:0.3rem;">Tier 2: Convicted</span>
+                    </div>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;margin:0;">Epstein has one of the highest evidence footprints in the entire corpus. But he was arrested, charged, and died in federal custody. The conviction modifier (x0.7) pulls his score down significantly. His score is not zero because the evidence density is extremely high, but the consequence meaningfully reduces his impunity.</p>
+                </div>
+
+                <!-- Clinton card -->
+                <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:1.3rem;border-left:3px solid var(--color-critical);">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.6rem;">
+                        <strong style="color:var(--text-accent);font-size:1rem;">Bill Clinton</strong>
+                        <span style="font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:var(--color-critical);">10.0</span>
+                    </div>
+                    <div style="margin-bottom:0.8rem;">
+                        <span style="display:inline-block;font-size:0.65rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:3px;background:rgba(239,68,68,0.12);color:var(--color-critical);">Evidence: 9.4 / 10</span>
+                        <span style="display:inline-block;font-size:0.65rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:3px;background:rgba(71,85,105,0.15);color:var(--text-secondary);margin-left:0.3rem;">Tier 0: No consequence</span>
+                    </div>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7;margin:0;">Clinton appears frequently in the documents with significant evidence signals: 26+ documented flight legs, black book entry, and high keyword co-occurrence. He has faced no criminal charges or legal consequences related to the Epstein case. With no consequence modifier reduction, his raw evidence score translates almost directly into impunity.</p>
+                </div>
+            </div>
+
+            <p style="margin-top:1.2rem;font-size:0.88rem;color:var(--text-secondary);text-align:center;line-height:1.7;">
+                It is counterintuitive that Epstein's score is lower than some of his associates. That is exactly the point. <strong style="color:var(--text-accent);">The Impunity Index measures the gap, not the guilt. A high score means the evidence outpaced the consequences.</strong>
+            </p>
         </div>
 
         <!-- Section 2: How it works -->
@@ -171,6 +228,10 @@
                 <li>Published investigative reporting from verified news sources</li>
                 <li>Publicly available flight logs and contact records</li>
             </ul>
+            <div class="disclaimer-card" style="margin-top:1rem;">
+                <strong>Note on document links</strong>
+                <p>Some document links in the app may not resolve. Our DOJ document reference numbers (EFTA numbers) are accurate and can be used to look up the original documents on the <a href="https://www.justice.gov/epstein" class="ack-link" target="_blank">DOJ Epstein files page</a>.</p>
+            </div>
         </div>
 
         <!-- Section 4: Important Disclaimers -->

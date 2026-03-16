@@ -1,3 +1,10 @@
+<!--
+  Project: The Impunity Index
+  Authors: Lindsay Gross, Shreya Mendi, Andrew Jin
+  Advisor: Brinnae Bent, PhD
+  Claude chat: https://claude.ai/chat/f8744002-3279-48ab-9d9a-8efa1fdb1af1
+  Built with Claude AI assistance
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -220,17 +227,10 @@
             </div>
 
             <div class="tab-content" id="tab-stress">
-                <div class="stress-grid">
-                    <div class="stress-panel">
-                        <h4>Feature Ablation Study</h4>
-                        <p class="panel-desc">How much does each feature contribute? Bars show F1 score when each feature is removed. Dashed line = full model baseline.</p>
-                        <div id="ablationChart" class="chart-container"></div>
-                    </div>
-                    <div class="stress-panel">
-                        <h4>Power Tier Analysis</h4>
-                        <p class="panel-desc">Correlation between impunity index and consequences, segmented by score tier. Tests whether high-profile individuals are protected from justice.</p>
-                        <div id="experimentChart" class="chart-container"></div>
-                    </div>
+                <div class="stress-panel">
+                    <h4>Feature Ablation Study</h4>
+                    <p class="panel-desc">How much does each feature contribute? Bars show F1 score when each feature is removed. Dashed line = full model baseline.</p>
+                    <div id="ablationChart" class="chart-container"></div>
                 </div>
             </div>
 
@@ -271,7 +271,7 @@
                 <div class="modal-columns">
                     <div class="modal-col-left">
                         <div class="modal-gauge-wrapper">
-                            <h3 class="modal-section-title">Impunity Index</h3>
+                            <h3 class="modal-section-title modal-tooltip-wrap">Impunity Index <span class="modal-info-icon">&#9432;<span class="modal-info-tooltip">A high Impunity Score means strong documentary evidence of involvement but little to no legal consequence. A low score means they were held accountable relative to their evidence footprint.</span></span></h3>
                             <div id="modal-gauge"></div>
                             <div id="modal-score-breakdown" class="score-breakdown"></div>
                         </div>
@@ -315,6 +315,7 @@
 
     <footer class="site-footer">
         <p>Data sourced from publicly released DOJ/EFTA documents. Built with Python, Flask, scikit-learn, SentenceTransformers, ChromaDB, D3.js, and Plotly.</p>
+        <p><a href="https://github.com/lindsaygross/epstein-accountability-index" style="color:var(--accent-cyan);text-decoration:none;" target="_blank">View on GitHub</a></p>
     </footer>
 
     <!-- CONTENT WARNING GATE -->

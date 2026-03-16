@@ -1,4 +1,8 @@
-// Attribution: Scaffolded with AI assistance (Claude, Anthropic)
+// Project: The Impunity Index
+// Authors: Lindsay Gross, Shreya Mendi, Andrew Jin
+// Advisor: Brinnae Bent, PhD
+// Claude chat: https://claude.ai/chat/f8744002-3279-48ab-9d9a-8efa1fdb1af1
+// Built with Claude AI assistance
 
 /**
  * The Impunity Index — Main Application JavaScript
@@ -76,11 +80,11 @@ async function loadAllData() {
         createMetricsBarChart();
         createConfusionMatrices();
         createAblationChart();
-        createExperimentChart();
+        try { createExperimentChart(); } catch(e) { console.warn('Experiment chart:', e); }
         renderLimitations();
-        createScatterPlot();
-        createGeoMap();
-        createSemanticSpace();
+        try { createScatterPlot(); } catch(e) { console.warn('Scatter plot:', e); }
+        try { createGeoMap(); } catch(e) { console.warn('Geo map:', e); }
+        try { createSemanticSpace(); } catch(e) { console.warn('Semantic space:', e); }
 
     } catch (err) {
         console.error('Failed to load data:', err);
@@ -444,11 +448,11 @@ function populateModal(data) {
         const modifierLabel = data.consequence_tier === 0 ? '×1.3 (no consequence)' : data.consequence_tier === 1 ? '×1.0 (soft consequence)' : '×0.7 (convicted)';
         breakdownEl.innerHTML = `
             <div class="breakdown-row">
-                <span class="breakdown-label">Evidence Index</span>
+                <span class="breakdown-label modal-tooltip-wrap">Evidence Index <span class="modal-info-icon">&#9432;<span class="modal-info-tooltip">A 0-10 score measuring how often and how prominently this person appears across the document corpus. Based on EFTA document count, DOJ mentions, keyword co-occurrence, flight logs, connections, and black book presence.</span></span></span>
                 <span class="breakdown-value">${(data.evidence_index || 0).toFixed(1)}</span>
             </div>
             <div class="breakdown-row">
-                <span class="breakdown-label">Consequence Modifier</span>
+                <span class="breakdown-label modal-tooltip-wrap">Consequence Modifier <span class="modal-info-icon">&#9432;<span class="modal-info-tooltip">Adjusts the score based on real-world legal outcomes. No consequence: x1.3 (increases impunity). Soft consequence (resigned, sued): x1.0 (neutral). Hard consequence (convicted, imprisoned): x0.7 (reduces impunity).</span></span></span>
                 <span class="breakdown-value">${modifierLabel}</span>
             </div>
             <div class="breakdown-formula">${(data.evidence_index || 0).toFixed(1)} × ${modifier} = <strong>${(data.impunity_index || 0).toFixed(1)}</strong></div>
@@ -878,6 +882,7 @@ function createAblationChart() {
 
 function createExperimentChart() {
     if (!STATE.experimentResults.length) return;
+    if (!document.getElementById('experimentChart')) return;
     const data = STATE.experimentResults;
 
     const colors = data.map(d =>
@@ -1082,7 +1087,10 @@ function createSemanticSpace() {
     fetch('/api/semantic-space')
         .then(r => r.json())
         .then(points => {
-            if (!Array.isArray(points) || !points.length) return;
+            if (!Array.isArray(points) || !points.length) {
+                el.innerHTML = '<p style="text-align:center;padding:4rem;color:var(--text-secondary);font-size:0.85rem;">Semantic embeddings not yet computed for this environment. Available on the deployed version.</p>';
+                return;
+            }
 
             const theme = getPlotlyTheme();
             const isLight = document.documentElement.dataset.theme === 'light';

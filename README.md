@@ -1,9 +1,18 @@
 # The Impunity Index
 
 **Live App:** https://impunity-index-306286460556.us-central1.run.app/
-**Author:** Lindsay Gross | Duke AIPI Graduate ML Course
+**Authors:** Lindsay Gross, Shreya Mendi, Andrew Jin | Duke AIPI Graduate ML Course
+**Advisor:** Brinnae Bent, PhD
 
-An NLP-driven investigation into the Epstein document corpus. We extract machine learning features from **1,413,024 DOJ/EFTA documents** across 5 dataset releases, train classifiers on 66 hand-labeled individuals, and compute an **Impunity Index** — a corpus-derived metric that quantifies the gap between documentary evidence and real-world consequences — across all **1,264 individuals** named in the public record.
+An NLP-driven investigation into the Epstein document corpus. We extract machine learning features from **1,413,024 DOJ/EFTA documents** across 5 dataset releases, train classifiers on 66 hand-labeled individuals, and compute an **Impunity Index** -- a corpus-derived metric that quantifies the gap between documentary evidence and real-world consequences -- across all **1,264 individuals** named in the public record.
+
+---
+
+## Why We Created This
+
+Plenty of incredible work has been done mapping who shows up in the Epstein files. Journalists, researchers, and open-source communities have built searchable archives, entity graphs, and document indexes. But nobody had built a way to actually measure the gap between evidence and accountability. That is what the Impunity Index does. It takes the documentary footprint of every named individual in the corpus and cross-references it against whether they ever faced real consequences. The result is a single, corpus-derived metric that quantifies impunity: high evidence plus low accountability equals a high impunity score.
+
+We built this because the data was public but the pattern was not visible. We wanted to make it visible.
 
 ---
 
@@ -37,6 +46,10 @@ Central hypothesis: high-power individuals show weaker evidence→consequence co
 - Tier 1 — Soft consequence (resigned, sued, reputational damage): **12 people (18.2%)**
 - Tier 2 — Hard consequence (arrested, convicted, imprisoned): **3 people (4.5%)**
 - Imbalance ratio: **3.4:1**
+
+### Notes on Document Links
+
+Some document links in the app may not resolve. Our DOJ document reference numbers (EFTA numbers) are accurate and can be used to look up the original documents on the [DOJ Epstein files page](https://www.justice.gov/epstein).
 
 ---
 
@@ -161,12 +174,11 @@ All features min-max normalized across the full corpus. Sentiment is inverted (m
 
 | Individual | Evidence Index | Tier | Impunity Index | Level |
 |-----------|---------------|------|----------------|-------|
-| Jeffrey Epstein | 10.0 | 2 (Convicted) | 7.0 | High |
-| Ghislaine Maxwell | 6.5 | 2 (Convicted) | 4.6 | Moderate |
-| Donald Trump | 4.5 | 0 (None) | 5.8 | High |
-| Bill Clinton | 4.5 | 0 (None) | 5.9 | High |
-| Prince Andrew | 4.9 | 1 (Soft) | 4.8 | Moderate |
-| Leon Black | 5.0 | 1 (Soft) | 5.0 | Moderate |
+| Jeffrey Epstein | 9.5 | 2 (Convicted) | 6.7 | High |
+| Ghislaine Maxwell | 10.0 | 2 (Convicted) | 7.0 | High |
+| Bill Clinton | 9.4 | 0 (None) | 10.0 | Critical |
+| Donald Trump | 8.2 | 0 (None) | 10.0 | Critical |
+| Prince Andrew | 9.5 | 1 (Soft) | 9.5 | Critical |
 
 ### Impunity Levels
 
@@ -420,6 +432,16 @@ gcloud run deploy impunity-index \
 
 Educational use only — Duke AIPI Graduate ML Course
 
+## Authors
+
+- **Lindsay Gross** -- Co-author
+- **Shreya Mendi** -- Co-author
+- **Andrew Jin** -- Co-author
+- **Advisor:** Brinnae Bent, PhD
+
+Built for Duke AIPI. Built with Claude AI assistance.
+
 ## Attribution
 
-Scaffolded with AI assistance (Claude, Anthropic)
+Scaffolded with AI assistance (Claude, Anthropic).
+Claude chat: https://claude.ai/chat/f8744002-3279-48ab-9d9a-8efa1fdb1af1
