@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY app/requirements.txt ./app/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir \
-        torch==2.1.0 --index-url https://download.pytorch.org/whl/cpu && \
+        torch==2.3.0 --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r app/requirements.txt
 
 # Pre-download sentence-transformer model weights at build time
