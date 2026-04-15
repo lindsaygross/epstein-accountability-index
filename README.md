@@ -4,8 +4,14 @@
 
 
 **White Paper**: https://docs.google.com/document/d/1wkXUOo-BXnn0kI2f1_4g1x1zsEUOykprVHxX1lAG3O8/edit?usp=sharing
+
+
 **Authors:** Lindsay Gross, Shreya Mendi, Andrew Jin | Duke AIPI Graduate ML Course
+
+
 **Advisor:** Brinnae Bent, PhD
+
+
 
 An NLP-driven investigation into the Epstein document corpus. We extract machine learning features from **1,413,024 DOJ/EFTA documents** across 5 dataset releases, train classifiers on 66 hand-labeled individuals, and compute an **Impunity Index** -- a corpus-derived metric that quantifies the gap between documentary evidence and real-world consequences -- across all **1,264 individuals** named in the public record.
 
