@@ -1,6 +1,7 @@
 # The Impunity Index
 
 **Live App:** https://impunity-index-306286460556.us-central1.run.app/
+**White Paper**: https://docs.google.com/document/d/1wkXUOo-BXnn0kI2f1_4g1x1zsEUOykprVHxX1lAG3O8/edit?usp=sharing
 **Authors:** Lindsay Gross, Shreya Mendi, Andrew Jin | Duke AIPI Graduate ML Course
 **Advisor:** Brinnae Bent, PhD
 
