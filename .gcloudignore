@@ -1,0 +1,22 @@
+# Files excluded from `gcloud run deploy --source .` uploads.
+# Without this file, gcloud falls back to .gitignore, which excludes
+# models/*.pkl and would silently ship the app with no trained models.
+# Finer-grained image exclusions live in .dockerignore.
+
+.gcloudignore
+.git
+.gitignore
+.claude/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.Rhistory
+
+# Training-only inputs (not needed to serve the app)
+notebooks/
+data/raw/
+data/jmail_cache/
+models/legal_bert/
+models/distilbert/

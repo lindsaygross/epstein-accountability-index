@@ -24,8 +24,6 @@ models/legal_bert/
 models/distilbert/
 models/*.pt
 models/*.pth
-models/logistic_regression.pkl
-models/stsvc.pkl
 
 # Dev/local config
 .env

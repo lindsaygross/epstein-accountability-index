@@ -43,9 +43,10 @@ COPY models/ ./models/
 COPY data/processed/ ./data/processed/
 COPY data/outputs/ ./data/outputs/
 
-# Copy ChromaDB vector store (citations endpoint)
-# If chroma_db/ is large, you can remove this line and citations will return empty
-COPY chroma_db/ ./chroma_db/
+# ChromaDB vector store (citations endpoint) is not copied: chroma_db/ is
+# gitignored and must be rebuilt from the full corpus (scripts/download_jmail.py).
+# Without it, /api/citations returns an empty list. To re-enable, rebuild it and add:
+# COPY chroma_db/ ./chroma_db/
 
 # Expose port (Cloud Run injects PORT env var)
 EXPOSE 8080
