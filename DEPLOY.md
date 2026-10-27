@@ -26,14 +26,24 @@ gcloud run deploy impunity-index \
   --cpu 2 \
   --timeout 300 \
   --concurrency 10 \
-  --min-instances 1 \
+  --min-instances 0 \
   --max-instances 3 \
   --port 8080
 ```
 
 `--source .` uses Cloud Build to build the Docker image automatically from your `Dockerfile`. No local Docker needed.
 
-`--min-instances 1` keeps one instance warm so there's no cold start when the grader visits.
+`--min-instances 0` scales to zero when idle (near-free, ~15s cold start). Use `--min-instances 1` only when you need instant loads, e.g. a grading week (~$34/month).
+
+**Models must exist locally before deploying.** `models/*.pkl` is gitignored, so a fresh clone has none. Retrain them inside the production image so the pickles match the serving scikit-learn version:
+
+```bash
+docker build -t impunity-index:local .
+docker run --rm -v "$PWD":/work -w /work impunity-index:local python -c \
+  "from scripts.model import ModelTrainer; ModelTrainer().train_all_models()"
+```
+
+This writes `models/*.pkl` without touching `data/outputs/` (only the `evaluate_all_models()` step rewrites published metrics).
 
 ---
 

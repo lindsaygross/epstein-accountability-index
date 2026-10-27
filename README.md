@@ -1,6 +1,6 @@
 # The Impunity Index
 
-**Live App:** https://impunity-index-306286460556.us-central1.run.app/
+**Live App:** https://impunity-index-1052042386711.us-central1.run.app/ (first load can take ~15 seconds while the server wakes up)
 
 
 **White Paper**: https://docs.google.com/document/d/1wkXUOo-BXnn0kI2f1_4g1x1zsEUOykprVHxX1lAG3O8/edit?usp=sharing
@@ -322,7 +322,7 @@ The Impunity Index is suitable for **investigative journalism, academic research
 - Academic researchers: accountability gaps, elite network analysis, NLP-assisted legal review
 - Civil society organizations: monitoring case outcomes over time
 
-**Deployment:** Containerized on Google Cloud Run (live at https://impunity-index-306286460556.us-central1.run.app/). Cost at minimum viable scale (4 GB RAM, 2 CPU, 1 always-on instance): ~$34/month — well within the $300 GCP free credit.
+**Deployment:** Containerized on Google Cloud Run (live at https://impunity-index-1052042386711.us-central1.run.app/). Runs on 4 GB RAM and 2 CPU with scale-to-zero, so it costs near nothing while idle at the price of a ~15 second cold start. An always-on instance would run ~$34/month.
 
 **Limitations for commercial use:** F1=0.65 on a 14-person test set is insufficient for consequential decisions without human review. Individual scores should be treated as evidence signals, not conclusions — this is made explicit throughout the app interface.
 
