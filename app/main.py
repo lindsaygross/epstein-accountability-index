@@ -755,21 +755,29 @@ def get_semantic_space() -> Any:
     emb_path = base_path / "data" / "processed" / "person_embeddings.npy"
     names_path = base_path / "data" / "processed" / "person_embedding_names.json"
 
+    tsne_cache = base_path / "data" / "processed" / "tsne_coords.json"
+
     if not emb_path.exists():
-        return jsonify({'error': 'Embeddings not built yet'}), 404
+        # Raw embeddings are gitignored (large); serve the committed t-SNE cache
+        if not tsne_cache.exists():
+            return jsonify({'error': 'Embeddings not built yet'}), 404
+        with open(tsne_cache) as f:
+            cached = json.load(f)
+        emb_filtered = None
+    else:
+        embeddings = np.load(str(emb_path))
+        with open(names_path) as f:
+            names = json.load(f)
 
-    embeddings = np.load(str(emb_path))
-    with open(names_path) as f:
-        names = json.load(f)
-
-    # Filter to people with non-zero embeddings
-    nonzero_mask = embeddings.sum(axis=1) != 0
-    emb_filtered = embeddings[nonzero_mask]
-    names_filtered = [n for n, m in zip(names, nonzero_mask) if m]
+        # Filter to people with non-zero embeddings
+        nonzero_mask = embeddings.sum(axis=1) != 0
+        emb_filtered = embeddings[nonzero_mask]
+        names_filtered = [n for n, m in zip(names, nonzero_mask) if m]
 
     # t-SNE (cache result to avoid recomputing on every request)
-    tsne_cache = base_path / "data" / "processed" / "tsne_coords.json"
-    if tsne_cache.exists():
+    if emb_filtered is None:
+        pass  # cache already loaded above
+    elif tsne_cache.exists():
         with open(tsne_cache) as f:
             cached = json.load(f)
         if len(cached.get('names', [])) == len(names_filtered):
